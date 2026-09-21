@@ -101,7 +101,6 @@ function QuickInfo() {
       <div className="info-grid">
         <figure className="profile-figure">
           <img src="/assets/profile.jpg" alt="个人形象照" />
-          <figcaption>SELF PORTRAIT / 2026</figcaption>
         </figure>
         <div className="info-content">
           <div className="info-headline"><span>ABOUT ME</span><strong>27</strong></div>
@@ -133,7 +132,6 @@ function SelectedWorks() {
     <section className="selected-works" id="work">
       <div className="selected-top"><span>02</span><span>SELECTED WORKS｜精选项目</span><span>SCROLL / 03</span></div>
       <div className="selected-content">
-        <p className="eyebrow">A SMALL EDITION OF PROJECTS</p>
         <h2>精选<br /><em>项目</em></h2>
         <p className="selected-english">Selected Works</p>
         <div className="work-index">
@@ -207,7 +205,7 @@ function YuelongCase() {
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">两栋房子<br />之间</p><p className="small-english">DESIGNING THE IN-BETWEEN</p></div><div><MetaList items={[
         ['项目类型｜TYPE', '双别墅合并花园'], ['项目时间｜YEAR', '2025'], ['项目面积｜AREA', '约1600㎡'], ['项目状态｜STATUS', <>施工进行中<br /><i>Under Construction</i></>],
       ]} /><div className="role-block"><span>我的角色｜MY ROLE</span>{tags(['主创设计', '方案深化', '视觉表达', '植物设计', '施工跟进', '客户沟通'])}</div></div></div></Screen>
-      <Screen number="02" label="PROJECT BACKGROUND｜项目背景"><div className="copy-layout"><p className="screen-title">两栋相邻的房子，需要一个怎样的花园？</p><div className="body-copy"><p>业主先后购入两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋偏向接待、聚会与会所式使用，另一栋则主要服务家庭日常起居。</p><p>与此同时，建筑气质偏现代海派 / 现代法式，业主本人却更偏爱安静、自然的日式庭院。</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同功能与风格自然过渡？</Quote></div></div></Screen>
+      <Screen number="02" label="PROJECT BACKGROUND｜项目背景"><div className="copy-layout"><p className="screen-title">两栋相邻的房子，需要一个怎样的花园？</p><div className="body-copy"><p>业主先后购入两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋偏向接待、聚会与会所式使用，另一栋则主要服务家庭日常起居。</p><p>与此同时，建筑气质偏现代海派 / 现代法式，业主本人却更偏爱安静、自然的日式庭院。</p><p>真正需要解决的是：</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同功能与风格自然过渡？</Quote></div></div></Screen>
       <Screen number="03" label="THREE GARDENS｜三个花园，一套系统"><div className="garden-layout"><p className="screen-title">三个花园，一套系统</p><div className="garden-list"><div><b>01 入户花园｜Arrival Garden</b><span>承担到达、行车、停车与建筑展示。</span></div><div><b>02 主花园｜Main Garden</b><span>位于两栋建筑之间，以大草坪为核心，是主要公共生活空间。</span></div><div><b>03 休闲花园｜Leisure Garden</b><span>位于起居建筑南侧，对应挑空客厅落地玻璃，以镜面水景、植物和沿河空间形成更安静的日常停留场景。</span></div></div><p className="sequence-line">到达 → 进入 → 停留 → 生活</p></div></Screen>
       <Screen number="04" label="ARRIVAL & PARKING"><div className="copy-layout arrival-layout"><p className="screen-title">让车进入花园，但不让车主导花园</p><div className="body-copy"><p className="accent-label">ARRIVAL &amp; PARKING</p><p>两栋建筑之间的连接空间同时需要承担进入、到达、停车、转向和通行。</p><p>设计将停车功能直接整合进入户花园：</p><p>车辆停留时，这里完成停车与上下客；<br />车辆离开后，它又重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p></div></div></Screen>
       <Screen number="05" label="INSIDE & OUTSIDE"><div className="copy-layout inside-layout"><p className="screen-title">室内与室外之间</p><div className="body-copy"><p className="accent-label">INSIDE &amp; OUTSIDE</p><p>起居建筑南侧的大面积落地玻璃直接面向休闲花园。</p><p>镜面水景贴近建筑展开，让人在客厅中就能感知花园；走出室内后，空间又自然过渡到休闲停留与沿河步行。</p><p>地下层采光井则被进一步转化为可使用的半户外休闲空间：</p><p className="bilingual-line">Lightwell → Semi-outdoor Lounge<br />采光井 → 半户外休闲空间</p></div></div></Screen>
@@ -224,7 +222,7 @@ function HowIWork() {
 
 function OutsideSection() {
   const categories = [['Street Photography｜街头摄影', '城市、建筑、人和偶然出现的瞬间。'], ['Landscape Photography｜风光摄影', '自然、天气、植物、动物与安静的空间关系。'], ['Interior Photography｜室内摄影', '室内空间、生活细节、光线与物件。'], ['Film Photography｜胶片摄影', '以胶片记录旅行、日常和更缓慢的观察。']]
-  return <section className="outside-section texture-section" id="outside"><div className="outside-intro"><span>07 / OUTSIDE OF WORK</span><h2>工作<br /><em>之外</em></h2><Quote>工作之外，我也很喜欢观察、动手和创造一些具体的东西。</Quote></div><div className="outside-body"><div className="photo-side-label"><span>PHOTOGRAPHY｜摄影</span><div>STREET<br />LANDSCAPE<br />INTERIOR<br />FILM</div></div><div className="photo-notes">{categories.map(([title, text], index) => <article className={`photo-note note-${index + 1}`} key={title}><div className="note-surface"><span>PHOTO NOTE / 0{index + 1}</span><i /></div><h3>{title}</h3><p>{text}</p></article>)}</div><div className="outside-practice"><div><span>CRAFT｜手作</span><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></div><div><span>FLORAL｜插花</span><Quote>植物、颜色、比例和一点点偶然。</Quote></div><div><span>ROOM MAKEOVER｜房间改造</span><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote><p className="before-after">BEFORE → AFTER</p></div></div></div></section>
+  return <section className="outside-section texture-section" id="outside"><div className="outside-intro"><span>07 / OUTSIDE OF WORK</span><h2>工作<br /><em>之外</em></h2><Quote>工作之外，我也很喜欢观察、动手和创造一些具体的东西。</Quote></div><div className="outside-body"><div className="photo-side-label"><span>PHOTOGRAPHY｜摄影</span><div>STREET<br />LANDSCAPE<br />INTERIOR<br />FILM</div></div><div className="photo-notes">{categories.map(([title, text], index) => <article className={`photo-note note-${index + 1}`} key={title}><div className="note-surface"><i /></div><h3>{title}</h3><p>{text}</p></article>)}</div><div className="outside-practice"><div><span>CRAFT｜手作</span><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></div><div><span>FLORAL｜插花</span><Quote>植物、颜色、比例和一点点偶然。</Quote></div><div><span>ROOM MAKEOVER｜房间改造</span><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote><p className="before-after">BEFORE → AFTER</p></div></div></div></section>
 }
 
 function ExperienceSection() {
@@ -236,7 +234,7 @@ function AboutSection() {
 }
 
 function ContactSection() {
-  return <footer className="contact-section texture-section" id="contact"><div className="contact-top"><span>10 / CONTACT</span><span>LET'S MAKE SOMETHING REAL</span></div><h2>Say<br /><em>Hello.</em></h2><div className="contact-details"><div><span>Email</span><a href="mailto:1062672214@qq.com">1062672214@qq.com</a></div><div><span>Phone / WeChat</span><a href="tel:17326083215">17326083215</a></div><div><span>STATUS</span><strong>Available for opportunities｜目前开放工作机会</strong></div></div><div className="footer-line"><span>PANPAN / PORTFOLIO</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+  return <footer className="contact-section texture-section" id="contact"><div className="contact-top"><span>10 / CONTACT</span></div><h2>Say<br /><em>Hello.</em></h2><div className="contact-details"><div><span>Email</span><a href="mailto:1062672214@qq.com">1062672214@qq.com</a></div><div><span>Phone / WeChat</span><a href="tel:17326083215">17326083215</a></div><div><span>STATUS</span><strong>Available for opportunities｜目前开放工作机会</strong></div></div><div className="footer-line"><span>PANPAN / PORTFOLIO</span><a href="#top">BACK TO TOP ↑</a></div></footer>
 }
 
 function App() {
