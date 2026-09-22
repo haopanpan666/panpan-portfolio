@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import '@fontsource-variable/bodoni-moda'
 import '@fontsource-variable/inter'
 import '@fontsource-variable/playfair-display'
 import './styles.css'
 
+gsap.registerPlugin(ScrollTrigger)
+
 const navItems = [
   ['STORIES', '/#work'],
   ['THINK', '/#think'],
   ['IDEAS', '/cases/small-ideas'],
-  ['DELIVERY', '/#delivery'],
+  ['DELIVERY', '/cases/binrongfu'],
   ['OUTSIDE', '/#outside'],
   ['EXPERIENCE', '/#experience'],
   ['ABOUT', '/#about'],
@@ -138,7 +142,7 @@ function QuickInfo() {
 function SelectedWorks() {
   return (
     <section className="selected-works" id="work">
-      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>SCROLL / 05</span></div>
+      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>SCROLL / 06</span></div>
       <div className="selected-content selected-content-wide">
         <p className="selected-english" lang="en">Selected Stories</p>
         <h2>精选<em>案例</em></h2>
@@ -146,8 +150,9 @@ function SelectedWorks() {
           <Link className="selected-story" to="/cases/yangming-hot-spring"><span>01</span><strong>余姚阳明温泉山庄</strong><b>一个让人慢下来的地方</b><small>A Place to Slow Down</small><i>Destination Planning · Experience Planning · Concept Development</i></Link>
           <Link className="selected-story" to="/cases/yuelongwan"><span>02</span><strong>余姚悦龙湾</strong><b>两栋房子之间</b><small>Designing the In-Between</small><i>Spatial System · Residential Landscape · Integration</i></Link>
           <Link className="selected-story" to="/cases/qidu-huaqiao-garden"><span>03</span><strong>温州七都华侨花园</strong><b>生活的艺术家</b><small>The Art of Living</small><i>Art &amp; Lifestyle · Level Design · Landscape Experience</i></Link>
-          <Link className="selected-story" to="/cases/daye-fragrance-exhibition"><span>04</span><strong>湖北大冶芳香产业文化展馆</strong><b>让无形的香气被感知</b><small>Making the Invisible Perceptible</small><i>Cultural Tourism · Exhibition · Sensory Experience</i></Link>
-          <Link className="selected-story" to="/cases/small-ideas"><span>05</span><strong>设计笔记</strong><b>方案中的小想法</b><small>Small Ideas</small><i>Design Notes · Everyday Observation · 03 Stories</i></Link>
+          <Link className="selected-story" to="/cases/binrongfu"><span>04</span><strong>杭州滨融府</strong><b>两个露台，两种生活</b><small>Two Terraces, Two Ways of Living</small><i>Built &amp; Delivery · Roof Terrace · Full-process Design</i></Link>
+          <Link className="selected-story" to="/cases/daye-fragrance-exhibition"><span>05</span><strong>湖北大冶芳香产业文化展馆</strong><b>让无形的香气被感知</b><small>Making the Invisible Perceptible</small><i>Cultural Tourism · Exhibition · Sensory Experience</i></Link>
+          <Link className="selected-story" to="/cases/small-ideas"><span>06</span><strong>设计笔记</strong><b>方案中的小想法</b><small>Small Ideas</small><i>Design Notes · Everyday Observation · 03 Stories</i></Link>
         </div>
       </div>
     </section>
@@ -194,15 +199,17 @@ function YangmingCase() {
 function BinrongCase() {
   return (
     <section className="case-section texture-section" id="binrongfu">
-      <ProjectIntro number="02" name="杭州滨融府" title="从方案到现场" english="From Idea to Reality" summary="在两个与室内生活紧密相连的屋顶露台中，协调不同的使用场景与审美偏好，并在施工阶段面对荷载、设备等真实条件持续调整，最终完成落地。" tags={['全流程设计 Full-process Design', '客户沟通 Client Communication', '落地执行 Project Delivery']} />
-      <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">从方案<br />到现场</p><p className="small-english">FROM IDEA TO REALITY</p></div><div><MetaList items={[
-        ['项目类型｜TYPE', '高端大平层双露台花园'], ['项目时间｜YEAR', '2024'], ['项目面积｜AREA', '约140㎡'], ['项目状态｜STATUS', <>已交付<br /><i>Completed</i></>],
-      ]} /><div className="role-block"><span>我的角色｜MY ROLE</span>{tags(['主创设计', '方案深化', '视觉表达', '植物设计', '施工跟进', '客户沟通'])}</div></div></div></Screen>
-      <Screen number="02" label="TWO TERRACES｜两个露台，两种生活场景"><div className="terrace-grid"><div><p className="accent-label">EAST TERRACE｜东露台</p><h3>东露台对应客厅，是一个面积较小、较为狭长的 L 形空间。</h3><p>沿墙设置与景墙结合的立体叠水水景，并加入盆景展示台、景石以及灌木球与杂木风格植物，让有限进深仍拥有丰富层次。</p><p>折叠式小吧台减少了固定家具对空间的占用，需要时展开，可以成为独处、吹风与品酒的位置。</p></div><div><p className="accent-label">WEST TERRACE｜西露台</p><h3>西露台对应茶室，面积更大，承担喝茶、朋友小聚与日常休闲。</h3><p>竹篱、植物、阳伞与沙发卡座共同组织出更完整的户外会客空间。</p></div></div></Screen>
-      <Screen number="03" label="PRIVACY AS EXPERIENCE"><div className="copy-layout privacy-layout"><p className="screen-title">PRIVACY AS EXPERIENCE</p><div className="body-copy"><p>高层住宅露台与周边建筑距离较近，邻里之间容易产生直接对视。</p><p>因此，我们通过不同尺度的植物、竹篱、景墙与景观构筑形成多层次遮挡，同时尽量保留露台自身的开放感。</p><Quote>私密性的目的，是让业主真正愿意坐下来，并长时间使用这个空间。</Quote></div></div></Screen>
-      <Screen number="04" label="LOAD LIMITATION"><div className="load-layout"><p className="screen-title">LOAD LIMITATION</p><div><p>屋顶露台能够承受的荷载有限，原有覆土、景石和植物配置都需要重新核算。</p><p>针对现场条件，我们进行了三项调整：</p><ul className="editorial-list"><li><strong>景石轻量化</strong>：部分景石内部掏空，只保留外部造型壳体。</li><li><strong>减少覆土</strong>：缩小覆土范围，并降低部分区域覆土高度。</li><li><strong>调整植物配置</strong>：根据新的种植条件重新调整植物种类与组合。</li></ul></div></div></Screen>
-      <Screen number="05" label="EXHAUST OUTLET"><div className="copy-layout exhaust-layout"><p className="screen-title">EXHAUST<br />OUTLET</p><div className="body-copy"><p>现场存在一个体量明显的建筑主烟道排风口。</p><p>设备无法移动，却直接暴露在主要景观区域中。</p><p>因此方案重新组织了排风口周围的景观关系，通过景墙、水景、植物与构造进行隐蔽化处理，在保证设备正常工作的前提下，降低它对主要视线的影响。</p></div></div></Screen>
-      <Screen number="06" label="FROM RENDER TO REALITY" className="closing-screen"><div className="render-layout"><div><p className="screen-title">FROM RENDER<br />TO REALITY</p><Quote>执行力，是让一个想法经历真实条件之后，仍然能够成立。</Quote></div><div><p>这个项目从前期客户沟通、方案设计、效果表达和植物设计，一直延续到施工阶段的现场调整与最终交付。</p><p>现场出现变化时，我们根据实际条件修改设计，再继续推进下一步。</p><p>最终完成的空间，也成为检验这些判断最直接的结果。</p><p className="process-line">需求 → 方案 → 深化 → 现场 → 调整 → 落地</p></div></div></Screen>
+      <ProjectIntro number="04" name="杭州滨融府" title="两个露台，两种生活" english="Two Terraces, Two Ways of Living" summary="在两个与室内生活紧密相连的屋顶露台中，分别回应独处与相聚的日常场景，并在施工阶段面对荷载、设备、材料与植物条件持续调整，最终完成落地。" tags={['Built & Delivery', 'Roof Terrace', 'Full-process Design']} />
+      <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">两个露台<br />两种生活</p><p className="small-english">TWO TERRACES, TWO WAYS OF LIVING</p></div><div><MetaList items={[
+        ['项目名称｜PROJECT', '杭州滨融府'], ['项目类型｜TYPE', '高端住宅屋顶露台 / 私宅花园'], ['项目时间｜YEAR', '2024'], ['项目面积｜AREA', '约140㎡'], ['项目状态｜STATUS', <>已交付<br /><i>Completed</i></>],
+      ]} /><div className="role-block"><span>我的角色｜ROLE</span><p>主创设计 / 方案深化 / 视觉表达 / 植物设计 / 施工跟进 / 客户沟通</p></div></div></div></Screen>
+      <Screen number="02" label="TWO TERRACES｜两个露台，两种生活场景"><div className="terrace-grid"><div><p className="accent-label">EAST｜东侧</p><h3>两个露台，对应两种生活场景。</h3><p>东侧露台连接客厅，空间狭长、呈 L 形，更安静，也更接近一个人的日常。</p><p>西侧露台连接茶室，面积更大，承担喝茶、聊天与聚会，更开放，也更适合共同停留。</p></div><div><p className="accent-label">WEST｜西侧</p><h3>从不同的室内空间出发，建立不同的花园关系。</h3><p>两个露台没有被处理成同一种花园，而是分别回应窗景、停留、私密与相聚。</p><Quote>两个露台从不同的室内空间出发，也对应两种不同的生活状态。</Quote></div></div></Screen>
+      <Screen number="03" label="EAST TERRACE｜东侧露台"><div className="copy-layout"><div><p className="accent-label">EAST TERRACE</p><p className="screen-title">一个人的窗外风景</p></div><div className="body-copy"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></div></div></Screen>
+      <Screen number="04" label="WEST TERRACE｜西侧露台"><div className="copy-layout"><div><p className="accent-label">WEST TERRACE</p><p className="screen-title">更适合相聚的一侧</p></div><div className="body-copy"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></div></div></Screen>
+      <Screen number="05" label="LOAD LIMIT｜现实限制"><div className="load-layout"><div><p className="accent-label">PROBLEM / ADJUSTMENT</p><p className="screen-title">屋顶花园首先要解决重量</p></div><div className="body-copy"><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></div></div></Screen>
+      <Screen number="06" label="SITE ADJUSTMENT｜现场调整"><div className="copy-layout exhaust-layout"><div><p className="accent-label">SITE ADJUSTMENT</p><p className="screen-title">一个不能移动的排风口</p></div><div className="body-copy"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续工作。</Quote></div></div></Screen>
+      <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="closing-screen"><div className="render-layout"><div><p className="screen-title">需求<br />→ 方案<br />→ 深化<br />→ 现场<br />→ 调整<br />→ 落地</p></div><div className="body-copy"><p>滨融府最适合被展示的，并不只是完成后的效果，更重要的是一个方案经历真实条件后的完整过程。</p><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></div></div></Screen>
+      <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力，是让一个想法经历真实条件之后，仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
     </section>
   )
 }
@@ -253,7 +260,7 @@ function QiduCase() {
 function DayeCase() {
   return (
     <section className="case-section texture-section daye-case" id="daye">
-      <ProjectIntro number="04" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} />
+      <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">看不见的香气</p><p className="small-english">MAKING THE INVISIBLE PERCEPTIBLE</p></div><div><MetaList items={[
         ['项目名称｜PROJECT', '湖北大冶芳香产业文化展馆'], ['项目类型｜TYPE', '产业文化展馆 / 文旅展陈空间'], ['项目时间｜YEAR', '2022'], ['项目状态｜STATUS', <>概念方案 / 未建成<br /><i>Concept Proposal / Unbuilt</i></>], ['我的角色｜ROLE', '方案设计 / 效果呈现'],
       ]} /></div></div><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></Screen>
@@ -275,16 +282,12 @@ const smallIdeaStories = [
 ]
 
 function SmallIdeasCase() {
-  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 05</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片素材待补充`}><span>{story.number}</span><small>图片素材待补充</small></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
-}
-
-function DeliveryIndex() {
-  return <section className="delivery-index texture-section" id="delivery"><div className="delivery-heading"><span>05 / BUILT / DELIVERY</span><h2>从方案 <em>到落地</em></h2><p>From Drawing to Reality</p></div><div className="delivery-intro"><div>{tags(['Render → Site → Adjustment → Built', '施工', '调整', '落地'])}</div></div><div className="delivery-project-line"><span>杭州滨融府</span><strong>From Idea to Reality</strong></div></section>
+  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片素材待补充`}><span>{story.number}</span><small>图片素材待补充</small></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
 }
 
 function HowIWork() {
   const steps = [['01 OBSERVE｜观察', '先理解人、场景和真实需求。'], ['02 DEFINE｜定义', '找到真正需要解决的问题。'], ['03 CONCEPT｜构思', '建立一个能够统领项目的核心想法。'], ['04 ORGANIZE｜组织', '把想法转成具体内容、空间、动线和体验。'], ['05 DELIVER｜落地', '面对现场与现实限制持续调整，把方案推进完成。']]
-  return <section className="work-method texture-section" id="think"><div className="method-heading"><span>03 / HOW I THINK</span><h2>我如何 <em>思考</em></h2><p>How I Think</p></div><div className="steps-grid">{steps.map(([title, text]) => <div key={title}><b>{title}</b><span>{text}</span></div>)}</div><div className="method-emphasis"><span>Concept → Experience → Execution</span><strong>想法 → 体验 → 落地</strong></div></section>
+  return <section className="work-method texture-section" id="think"><div className="method-heading"><span>03 / HOW I THINK</span><h2>我如何 <em>思考</em></h2></div><div className="steps-grid">{steps.map(([title, text]) => <div key={title}><b>{title}</b><span>{text}</span></div>)}</div></section>
 }
 
 const photographyGroups = [
@@ -297,19 +300,32 @@ const photographyGroups = [
 const craftSlots = ['4 / 5', '1 / 1', '3 / 2', '2 / 3', '4 / 3', '4 / 5']
 const roomSlots = ['3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '4 / 5']
 
-function GalleryPlaceholder({ label, ratio }) {
-  return <div className="gallery-placeholder" style={{ aspectRatio: ratio }}><span>{label}</span><small>图片素材待补充</small></div>
+const makeGalleryItems = (ratios, prefix) => ratios.map((ratio, index) => ({
+  id: `${prefix}-${index}`,
+  label: `${prefix} / ${String(index + 1).padStart(2, '0')}`,
+  ratio,
+}))
+
+const galleryCatalog = [
+  ...photographyGroups.flatMap((group) => makeGalleryItems(group.ratios, group.label)),
+  ...makeGalleryItems(craftSlots, 'CRAFT'),
+  ...makeGalleryItems(roomSlots, 'DETAIL'),
+]
+
+function GalleryPlaceholder({ item, onPreview }) {
+  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} onClick={() => onPreview?.(item)}><span>{item.label}</span><small>点击查看完整图幅</small></button>
 }
 
-function MasonryGrid({ ratios, prefix }) {
-  return <div className="masonry-grid">{ratios.map((ratio, index) => <GalleryPlaceholder key={`${prefix}-${index}`} label={`${prefix} / ${String(index + 1).padStart(2, '0')}`} ratio={ratio} />)}</div>
+function MasonryGrid({ ratios, prefix, onPreview }) {
+  const items = makeGalleryItems(ratios, prefix)
+  return <div className="masonry-grid">{items.map((item) => <GalleryPlaceholder key={item.id} item={item} onPreview={onPreview} />)}</div>
 }
 
 function OutsideCover() {
-  return <section className="outside-cover texture-section" id="outside"><div className="outside-cover-index">06 / OUTSIDE OF WORK</div><div className="outside-cover-copy"><p lang="en">Outside of Work</p><h2>项目之外</h2><Quote>观察、摄影、手作，以及让房间慢慢变成更喜欢的样子。</Quote></div></section>
+  return <section className="outside-cover texture-section" id="outside"><div className="outside-cover-index">04 / OUTSIDE OF WORK</div><div className="outside-cover-copy"><p lang="en">Outside of Work</p><h2>项目之外</h2><Quote>观察、摄影、手作，以及让房间慢慢变成更喜欢的样子。</Quote></div></section>
 }
 
-function PhotographySection() {
+function PhotographySection({ onPreview }) {
   const [activeCategory, setActiveCategory] = useState('street')
 
   useEffect(() => {
@@ -323,11 +339,11 @@ function PhotographySection() {
     return () => observer.disconnect()
   }, [])
 
-  return <section className="outside-gallery-section texture-section" id="photography"><aside className="outside-gallery-heading"><span>OUTSIDE 01</span><h2>摄影</h2><p>Photography</p><nav aria-label="摄影分类">{photographyGroups.map((group) => <a className={activeCategory === group.id ? 'is-active' : ''} href={`#photo-${group.id}`} key={group.id}>{group.label}</a>)}</nav></aside><div className="outside-gallery-stream">{photographyGroups.map((group) => <section className="photo-category" id={`photo-${group.id}`} data-photo-category={group.id} key={group.id}><header><h3>{group.title}</h3><p>{group.text}</p></header><MasonryGrid ratios={group.ratios} prefix={group.label} /></section>)}</div></section>
+  return <section className="outside-gallery-section texture-section" id="photography"><aside className="outside-gallery-heading"><span>OUTSIDE 01</span><h2>摄影</h2><p>Photography</p><nav aria-label="摄影分类">{photographyGroups.map((group) => <a className={activeCategory === group.id ? 'is-active' : ''} href={`#photo-${group.id}`} key={group.id}>{group.label}</a>)}</nav></aside><div className="outside-gallery-stream">{photographyGroups.map((group) => <section className="photo-category" id={`photo-${group.id}`} data-photo-category={group.id} key={group.id}><header><h3>{group.title}</h3><p>{group.text}</p></header><MasonryGrid ratios={group.ratios} prefix={group.label} onPreview={onPreview} /></section>)}</div></section>
 }
 
-function CraftSection() {
-  return <section className="outside-gallery-section texture-section" id="craft"><aside className="outside-gallery-heading"><span>OUTSIDE 02</span><h2>手作</h2><p>Craft</p><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={craftSlots} prefix="CRAFT" /></div></section>
+function CraftSection({ onPreview }) {
+  return <section className="outside-gallery-section texture-section" id="craft"><aside className="outside-gallery-heading"><span>OUTSIDE 02</span><h2>手作</h2><p>Craft</p><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={craftSlots} prefix="CRAFT" onPreview={onPreview} /></div></section>
 }
 
 function BeforeAfterComparison() {
@@ -353,24 +369,64 @@ function BeforeAfterComparison() {
   return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`After ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><span>BEFORE</span><small>图片素材待补充</small></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 ${100 - reveal}% 0 0)` }}><span>AFTER</span><small>图片素材待补充</small></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
 }
 
-function RoomMakeoverSection() {
-  return <section className="outside-gallery-section texture-section" id="room-makeover"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>房间改造</h2><p lang="en">Room Makeover</p><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote></aside><div className="outside-gallery-stream room-gallery-stream"><BeforeAfterComparison /><p className="before-after">BEFORE → AFTER</p><MasonryGrid ratios={roomSlots} prefix="DETAIL" /></div></section>
+function RoomMakeoverSection({ onPreview }) {
+  return <section className="outside-gallery-section texture-section" id="room-makeover"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>房间改造</h2><p lang="en">Room Makeover</p><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote></aside><div className="outside-gallery-stream room-gallery-stream"><BeforeAfterComparison /><p className="before-after">BEFORE → AFTER</p><MasonryGrid ratios={roomSlots} prefix="DETAIL" onPreview={onPreview} /></div></section>
+}
+
+function GalleryLightbox({ item, index, count, onClose, onMove }) {
+  const [wheelLocked, setWheelLocked] = useState(false)
+
+  useEffect(() => {
+    if (!item) return undefined
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose()
+      if (event.key === 'ArrowDown' || event.key === 'ArrowRight') onMove(1)
+      if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') onMove(-1)
+    }
+    document.body.classList.add('lightbox-open')
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.classList.remove('lightbox-open')
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose, onMove])
+
+  if (!item) return null
+
+  const handleWheel = (event) => {
+    event.preventDefault()
+    if (wheelLocked || Math.abs(event.deltaY) < 12) return
+    setWheelLocked(true)
+    onMove(event.deltaY > 0 ? 1 : -1)
+    window.setTimeout(() => setWheelLocked(false), 520)
+  }
+
+  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><div className="gallery-lightbox-placeholder" style={{ aspectRatio: item.ratio }}><span>{item.label}</span><small>图片素材待补充</small></div></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
 }
 
 function OutsideSection() {
-  return <><OutsideCover /><PhotographySection /><CraftSection /><RoomMakeoverSection /></>
+  const [previewId, setPreviewId] = useState(null)
+  const previewIndex = galleryCatalog.findIndex((item) => item.id === previewId)
+  const preview = previewIndex >= 0 ? galleryCatalog[previewIndex] : null
+  const openPreview = (item) => setPreviewId(item.id)
+  const movePreview = (direction) => {
+    if (previewIndex < 0) return
+    const nextIndex = (previewIndex + direction + galleryCatalog.length) % galleryCatalog.length
+    setPreviewId(galleryCatalog[nextIndex].id)
+  }
+  return <><OutsideCover /><PhotographySection onPreview={openPreview} /><CraftSection onPreview={openPreview} /><RoomMakeoverSection onPreview={openPreview} /><GalleryLightbox item={preview} index={previewIndex} count={galleryCatalog.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></>
 }
 
 function ExperienceSection() {
-  return <section className="experience-section texture-section" id="experience"><div className="experience-heading"><span>08 / EXPERIENCE</span><h2>工作经历</h2></div><div className="timeline"><article><div className="timeline-date">2021.08 — 2023.03</div><h3>中国美术学院风景建筑设计研究院</h3><p className="timeline-sub">参与项目类型：</p><div className="inline-list">展馆 · 美术馆 · 口袋公园 · 公共空间 · 文旅相关空间</div><p className="timeline-sub">重点能力：</p>{tags(['空间设计', '视觉表达', '公共体验'])}</article><article><div className="timeline-date">2023.03 — 2026.03</div><h3>米人工作室<br /><small>浙江华坤建筑设计院</small></h3><p>参与项目从高端私宅延伸到大型度假酒店、市政公园，并逐渐承担主创设计与项目推进职责。</p><p className="timeline-sub">重点能力：</p>{tags(['主创设计', '客户沟通', '方案汇报', '施工跟进', '落地交付'])}</article><article className="now-entry"><div className="timeline-date">NOW｜现在</div><h3>希望进入文旅内容与运营现场</h3><Quote>我希望把过去在空间项目中积累的体验策划、视觉表达、客户沟通与落地能力，带进更加开放的文旅场景中。</Quote></article></div></section>
+  return <section className="experience-section texture-section" id="experience"><div className="experience-heading"><span>05 / EXPERIENCE</span><h2>工作经历</h2></div><div className="timeline"><article><div className="timeline-date">2021.08 — 2023.03</div><h3>中国美术学院风景建筑设计研究院</h3><p className="timeline-sub">参与项目类型：</p><div className="inline-list">展馆 · 美术馆 · 口袋公园 · 公共空间 · 文旅相关空间</div><p className="timeline-sub">重点能力：</p>{tags(['空间设计', '视觉表达', '公共体验'])}</article><article><div className="timeline-date">2023.03 — 2026.03</div><h3>米人工作室<br /><small>浙江华坤建筑设计院</small></h3><p>参与项目从高端私宅延伸到大型度假酒店、市政公园，并逐渐承担主创设计与项目推进职责。</p><p className="timeline-sub">重点能力：</p>{tags(['主创设计', '客户沟通', '方案汇报', '施工跟进', '落地交付'])}</article><article className="now-entry"><div className="timeline-date">NOW｜现在</div><h3>希望进入文旅内容与运营现场</h3><Quote>我希望把过去在空间项目中积累的体验策划、视觉表达、客户沟通与落地能力，带进更加开放的文旅场景中。</Quote></article></div></section>
 }
 
 function AboutSection() {
-  return <section className="about-section texture-section" id="about"><div className="about-label">09 / ABOUT</div><div className="about-content"><p>我喜欢从人的真实行为和感受开始思考，也喜欢把一个模糊的念头逐渐整理成可以被看见、参与和使用的东西。</p><p>过去几年，我主要通过空间做这件事。接下来，我希望尝试活动、内容与运营，让一个想法不只停留在方案里，而是真正在现场发生。</p></div></section>
+  return <section className="about-section texture-section" id="about"><div className="about-label">06 / ABOUT</div><div className="about-content"><p>我喜欢从人的真实行为和感受开始思考，也喜欢把一个模糊的念头逐渐整理成可以被看见、参与和使用的东西。</p><p>过去几年，我主要通过空间做这件事。接下来，我希望尝试活动、内容与运营，让一个想法不只停留在方案里，而是真正在现场发生。</p></div></section>
 }
 
 function ContactSection() {
-  return <footer className="contact-section texture-section" id="contact"><div className="contact-top"><span>10 / CONTACT</span></div><h2>Say <em>Hello.</em></h2><div className="contact-details"><div><span>Email</span><a href="mailto:1062672214@qq.com">1062672214@qq.com</a></div><div><span>Phone / WeChat</span><a href="tel:17326083215">17326083215</a></div><div><span>STATUS</span><strong>Available for opportunities｜目前开放工作机会</strong></div></div><div className="footer-line"><span>PANPAN / PORTFOLIO</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+  return <footer className="contact-section texture-section" id="contact"><div className="contact-top"><span>07 / CONTACT</span></div><h2>Say <em>Hello.</em></h2><div className="contact-details"><div><span>Email</span><a href="mailto:1062672214@qq.com">1062672214@qq.com</a></div><div><span>Phone / WeChat</span><a href="tel:17326083215">17326083215</a></div><div><span>STATUS</span><strong>Available for opportunities｜目前开放工作机会</strong></div></div><div className="footer-line"><span>PANPAN / PORTFOLIO</span><a href="#top">BACK TO TOP ↑</a></div></footer>
 }
 
 const pageTitles = {
@@ -409,11 +465,36 @@ function CasePage({ theme, children, next }) {
 }
 
 function HomePage() {
-  return <main className="site-shell"><Hero /><QuickInfo /><SelectedWorks /><HowIWork /><DeliveryIndex /><OutsideSection /><ExperienceSection /><AboutSection /><ContactSection /></main>
+  return <main className="site-shell"><Hero /><QuickInfo /><SelectedWorks /><HowIWork /><OutsideSection /><ExperienceSection /><AboutSection /><ContactSection /></main>
 }
 
 function NotFound() {
   return <main className="not-found texture-section"><span>404</span><h1>页面没有找到</h1><Link className="arrow-link" to="/"><span>返回首页</span><b>↗</b></Link></main>
+}
+
+function splitTextNodes(element) {
+  const textNodes = []
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) => node.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+  })
+  let node = walker.nextNode()
+  while (node) {
+    textNodes.push(node)
+    node = walker.nextNode()
+  }
+  const chars = []
+  textNodes.forEach((textNode) => {
+    const fragment = document.createDocumentFragment()
+    textNode.nodeValue.split('').forEach((character) => {
+      const span = document.createElement('span')
+      span.className = 'scroll-float-char'
+      span.textContent = character === ' ' ? '\u00a0' : character
+      fragment.appendChild(span)
+      chars.push(span)
+    })
+    textNode.parentNode.replaceChild(fragment, textNode)
+  })
+  return chars
 }
 
 function MotionDirector() {
@@ -431,7 +512,6 @@ function MotionDirector() {
       ['.info-page', '.section-marker, .profile-figure, .info-content'],
       ['.selected-works', '.selected-top, .selected-english, .selected-content-wide h2, .selected-story'],
       ['.work-method', '.method-heading > *, .steps-grid > div, .method-emphasis > *'],
-      ['.delivery-index', '.delivery-heading > *, .delivery-intro, .delivery-project-line'],
       ['.outside-cover', '.outside-cover-index, .outside-cover-copy > *'],
       ['.outside-gallery-section', '.outside-gallery-heading > *, .photo-category header, .gallery-placeholder'],
       ['.experience-section', '.experience-heading > *, .timeline > article'],
@@ -467,6 +547,60 @@ function MotionDirector() {
     observed.forEach((section) => observer.observe(section))
     document.querySelector('.hero')?.classList.add('is-inview')
 
+    const headingOriginals = []
+    const gsapContext = gsap.context(() => {
+      document.querySelectorAll('.motion-heading').forEach((heading) => {
+        headingOriginals.push([heading, heading.innerHTML])
+        heading.classList.add('scroll-float')
+        const chars = splitTextNodes(heading)
+        gsap.fromTo(chars, {
+          willChange: 'opacity, transform',
+          opacity: 0,
+          yPercent: 120,
+          scaleY: 1.65,
+          scaleX: 0.84,
+          transformOrigin: '50% 0%',
+        }, {
+          opacity: 1,
+          yPercent: 0,
+          scaleY: 1,
+          scaleX: 1,
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.028,
+          scrollTrigger: {
+            trigger: heading,
+            start: 'top bottom-=8%',
+            end: 'top 38%',
+            scrub: 0.8,
+          },
+        })
+      })
+
+      document.querySelectorAll('.gallery-placeholder').forEach((item, index) => {
+        gsap.fromTo(item, {
+          opacity: 0,
+          y: 72,
+          scale: 0.965,
+          filter: 'blur(8px)',
+        }, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: 'blur(0px)',
+          duration: 1,
+          ease: 'power3.out',
+          delay: (index % 5) * 0.045,
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 94%',
+            end: 'top 62%',
+            scrub: 0.75,
+          },
+        })
+      })
+    })
+
     const parallaxTargets = [...document.querySelectorAll('.profile-figure img')]
     let frame = 0
     const updateParallax = () => {
@@ -489,6 +623,11 @@ function MotionDirector() {
 
     return () => {
       observer.disconnect()
+      gsapContext.revert()
+      headingOriginals.forEach(([heading, html]) => {
+        heading.innerHTML = html
+        heading.classList.remove('scroll-float')
+      })
       cancelAnimationFrame(frame)
       cancelAnimationFrame(readyFrame)
       window.removeEventListener('scroll', onScroll)
@@ -501,7 +640,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><QiduCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase /></CasePage>} /><Route path="/cases/small-ideas" element={<CasePage theme="light" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/binrongfu', label: '杭州滨融府' }}><QiduCase /></CasePage>} /><Route path="/cases/binrongfu" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase /></CasePage>} /><Route path="/cases/small-ideas" element={<CasePage theme="light" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'

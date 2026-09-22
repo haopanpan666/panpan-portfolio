@@ -1467,3 +1467,127 @@ html.motion-enabled .motion-section.is-inview .idea-card:focus-visible { transfo
   html.motion-reduced .profile-figure img,
   html.motion-reduced .gallery-placeholder { opacity: 1; transform: none; clip-path: none; transition: none; }
 }
+
+/* V6: editorial rhythm and gallery preview */
+.steps-grid div { border-bottom: 0; }
+.method-emphasis { min-height: 0; }
+
+@media (min-width: 901px) {
+  .method-heading h2 { height: 150px; }
+}
+
+html.motion-enabled .motion-item:not(.motion-heading) { transform: translate3d(0, 24px, 0); }
+html.motion-enabled .motion-section.is-inview .motion-item:not(.motion-heading) { transform: translate3d(0, 0, 0) scale(1); }
+.scroll-float { overflow: hidden; }
+.scroll-float-char { display: inline-block; will-change: transform, opacity; }
+
+.gallery-placeholder {
+  appearance: none;
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: zoom-in;
+  transition: background-color .45s var(--motion-ease), border-color .45s var(--motion-ease);
+}
+.gallery-placeholder:hover,
+.gallery-placeholder:focus-visible { background-color: rgba(232, 104, 71, .1); border-color: var(--coral); outline: none; }
+.gallery-placeholder:focus-visible { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--coral); }
+
+body.lightbox-open { overflow: hidden; }
+.gallery-lightbox {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 7vh 7vw 12vh;
+  color: var(--paper);
+  background: rgba(23, 62, 62, .92);
+  cursor: zoom-out;
+  animation: lightbox-in .45s var(--motion-ease) both;
+}
+.gallery-lightbox-stage {
+  display: grid;
+  place-items: center;
+  width: min(80vw, 1200px);
+  height: min(75vh, 920px);
+  cursor: default;
+}
+.gallery-lightbox-placeholder,
+.gallery-lightbox-image {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+.gallery-lightbox-placeholder {
+  min-width: min(42vw, 680px);
+  min-height: min(58vh, 680px);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(243, 240, 232, .42);
+  color: rgba(243, 240, 232, .7);
+  background: rgba(243, 240, 232, .06);
+}
+.gallery-lightbox-placeholder span { color: var(--paper); font-family: var(--display); font-size: clamp(34px, 4vw, 68px); }
+.gallery-lightbox-placeholder small { font-size: 13px; letter-spacing: .06em; }
+.gallery-lightbox-caption {
+  position: absolute;
+  bottom: 42px;
+  left: 7vw;
+  font-size: 13px;
+  letter-spacing: .06em;
+}
+.gallery-lightbox-caption i { margin-left: 12px; color: rgba(243, 240, 232, .56); font-style: normal; }
+.gallery-lightbox-close {
+  position: absolute;
+  top: 26px;
+  right: 7vw;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgba(243, 240, 232, .55);
+  border-radius: 50%;
+  color: var(--paper);
+  background: transparent;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease;
+}
+.gallery-lightbox-close:hover,
+.gallery-lightbox-close:focus-visible { color: var(--ink); background: var(--paper); outline: none; }
+.gallery-lightbox-controls {
+  position: absolute;
+  right: 7vw;
+  bottom: 38px;
+  display: flex;
+  gap: 8px;
+}
+.gallery-lightbox-controls button {
+  padding: 8px 12px;
+  border: 1px solid rgba(243, 240, 232, .4);
+  color: var(--paper);
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+}
+.gallery-lightbox-controls button:hover,
+.gallery-lightbox-controls button:focus-visible { background: rgba(243, 240, 232, .14); outline: none; }
+
+@keyframes lightbox-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 620px) {
+  .gallery-lightbox { padding: 7vh 5vw 15vh; }
+  .gallery-lightbox-stage { width: 90vw; height: 72vh; }
+  .gallery-lightbox-placeholder { min-width: 0; min-height: 0; width: 88vw; height: auto; }
+  .gallery-lightbox-caption { left: 5vw; bottom: 28px; }
+  .gallery-lightbox-controls { right: 5vw; bottom: 23px; }
+}
