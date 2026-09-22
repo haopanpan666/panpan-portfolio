@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource-variable/bodoni-moda": "^5.3.0",
     "@fontsource-variable/inter": "latest",
     "@fontsource-variable/playfair-display": "latest",
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-router-dom": "latest"
-  },
-  "devDependencies": {}
+    "react-router-dom": "latest",
+    "vite": "latest"
+  }
 }

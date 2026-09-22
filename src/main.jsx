@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
+import '@fontsource-variable/bodoni-moda'
 import '@fontsource-variable/inter'
 import '@fontsource-variable/playfair-display'
 import './styles.css'
@@ -175,7 +176,7 @@ function YangmingCase() {
         <div className="insight-layout"><p className="screen-title">重新看见<br />这里已经拥有的东西</p><div className="body-copy"><p>当视线从温泉区域向外打开，我们重新看见了场地中原本就存在的资源：</p><p className="bold-line">茶山、溪流、山林、温泉、茶园，以及周边文化资源。</p><p>它们并不需要被重新制造，而是需要被重新组织。</p><p>因此，我们以温泉、水乐园与明逸轩为核心，通过更开放的视线与动线，把体验向周边自然与文化环境延伸。</p><p>项目问题也从：</p><p className="question-line">“温泉和水乐园应该怎样改？”</p><p>逐渐转向：</p><p className="question-line">“这些已经存在的资源，能否共同组成一种新的度假理由？”</p></div></div>
       </Screen>
       <Screen number="04" label="CORE CONCEPT｜核心概念" className="concept-screen">
-        <div className="concept-layout"><div><p className="small-english">A PLACE TO SLOW DOWN</p></div><div><p className="concept-lead">不是用更多内容填满一段旅程，而是创造一种让人逐渐慢下来、重新感受身体与自然的状态。</p><div className="four-points"><div><b>RETURN｜回归</b><span>回到自然，也回到身体本身。</span></div><div><b>RESTORE｜恢复</b><span>暂时退出日常，重新获得能量。</span></div><div><b>CONNECT｜连接</b><span>与家人、同行者和自然重新发生关系。</span></div><div><b>SENSE｜感知</b><span>重新听见风、闻到香、看见星空和日落。</span></div></div></div></div>
+        <div className="concept-layout"><div /><div><p className="concept-lead">不是用更多内容填满一段旅程，而是创造一种让人逐渐慢下来、重新感受身体与自然的状态。</p><div className="four-points"><div><b>RETURN｜回归</b><span>回到自然，也回到身体本身。</span></div><div><b>RESTORE｜恢复</b><span>暂时退出日常，重新获得能量。</span></div><div><b>CONNECT｜连接</b><span>与家人、同行者和自然重新发生关系。</span></div><div><b>SENSE｜感知</b><span>重新听见风、闻到香、看见星空和日落。</span></div></div></div></div>
       </Screen>
       <Screen number="05" label="EXPERIENCE SYSTEM｜体验体系">
         <div className="system-layout"><p className="screen-title">从概念，变成一种完整的度假方式</p><div className="system-grid"><div><b>WATER｜水</b><span>温泉 · 私汤 · 漂浮 · 亲水</span></div><div><b>NATURE｜自然</b><span>疗愈森林 · 芳香花圃 · 茶山</span></div><div><b>NOURISH｜滋养</b><span>采摘 · 食养 · 茶咖</span></div><div><b>STAY &amp; CONNECT｜停留与连接</b><span>露营 · 观星 · 家庭 · 自然社交</span></div></div></div>
@@ -232,13 +233,13 @@ function QiduCase() {
     <section className="case-section texture-section" id="qidu">
       <ProjectIntro number="03" name="温州七都华侨花园" title="生活的艺术家" english="The Art of Living" summary="通过艺术化空间、强烈高差、下沉泳池、悬空步道和热带植物，组织一套更自由的年轻家庭生活场景。" tags={['Art & Lifestyle', 'Level Design', 'Landscape Experience']} />
       <Screen number="01" label="PROJECT INFO｜项目概览" className="overview-screen">
-        <div className="screen-columns two-col"><div><p className="display-note">生活的<br />艺术家</p><p className="small-english">THE ART OF LIVING</p></div><div><MetaList items={[
+        <div className="screen-columns two-col"><div aria-hidden="true" /><div><MetaList items={[
           ['项目类型｜TYPE', '私宅庭院 / 滨水住宅景观'], ['项目时间｜YEAR', '2026'], ['项目面积｜AREA', '约1200㎡'], ['项目状态｜STATUS', <>准备施工<br /><i>Preparing for Construction</i></>],
         ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计 Lead Design<br />方案深化 Design Development<br />视觉表达 Visualization<br />植物设计 Planting Design<br />动画表现 Animation Visualization<br />客户沟通 Client Communication</p></div></div></div>
         <div className="north-south-diagram"><span>NORTH / 北侧<br />ARRIVAL GARDEN</span><i>→</i><span>SOUTH / 南侧<br />LIVING GARDEN</span><small>总平面图放置于此项目概览中</small></div>
       </Screen>
       <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">一个年轻家庭的<br />滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
-      <Screen number="03" label="CONCEPT｜核心概念"><div className="concept-layout"><div><p className="concept-word">生活的艺术家</p><p className="small-english">THE ART OF LIVING</p></div><div className="body-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
+      <Screen number="03" label="CONCEPT｜核心概念"><div className="concept-layout"><div><p className="concept-word">“生活的艺术家”</p><p className="small-english">THE ART OF LIVING</p></div><div className="body-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
       <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园"><div className="copy-layout"><div><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是景观的一部分</p></div><div className="body-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
       <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差"><div className="copy-layout"><div><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy"><p><strong>隐私</strong><br />下沉降低外部直接视线。</p><p><strong>空间层次</strong><br />从住宅向南，空间由开放逐渐转入更有包裹感的泳池区域。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
       <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池"><div className="copy-layout pool-layout"><div><p className="screen-title">一条贴着岩壁的泳池</p><p className="accent-label">POOL &amp; ROCK WALL</p></div><div className="body-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
@@ -415,8 +416,92 @@ function NotFound() {
   return <main className="not-found texture-section"><span>404</span><h1>页面没有找到</h1><Link className="arrow-link" to="/"><span>返回首页</span><b>↗</b></Link></main>
 }
 
+function MotionDirector() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const root = document.documentElement
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    root.classList.remove('motion-ready', 'motion-reduced')
+    root.classList.add(reduced ? 'motion-reduced' : 'motion-enabled')
+    if (reduced) return undefined
+
+    const groups = [
+      ['.hero', '.hero-subtitle, .hero-main h1, .hero-english-title, .hero-copy'],
+      ['.info-page', '.section-marker, .profile-figure, .info-content'],
+      ['.selected-works', '.selected-top, .selected-english, .selected-content-wide h2, .selected-story'],
+      ['.work-method', '.method-heading > *, .steps-grid > div, .method-emphasis > *'],
+      ['.delivery-index', '.delivery-heading > *, .delivery-intro, .delivery-project-line'],
+      ['.outside-cover', '.outside-cover-index, .outside-cover-copy > *'],
+      ['.outside-gallery-section', '.outside-gallery-heading > *, .photo-category header, .gallery-placeholder'],
+      ['.experience-section', '.experience-heading > *, .timeline > article'],
+      ['.about-section', '.about-label, .about-content > p'],
+      ['.contact-section', '.contact-top, .contact-section h2, .contact-details > div, .footer-line'],
+      ['.project-intro', '.project-intro-top, .project-name, .project-intro h2, .project-english, .project-summary'],
+      ['.screen', '.screen-index, .screen-title, .display-note, .concept-word, .screen-body > *'],
+      ['.case-next', '.case-next > a'],
+      ['.small-ideas-case-hero', '.small-ideas-case-top, .small-ideas-case-english, .small-ideas-case h1, .small-ideas-case-intro'],
+      ['.idea-card-stage', '.idea-card'],
+    ]
+    const observed = []
+
+    groups.forEach(([sectionSelector, itemSelector]) => {
+      document.querySelectorAll(sectionSelector).forEach((section) => {
+        section.classList.add('motion-section')
+        section.querySelectorAll(itemSelector).forEach((item, index) => {
+          item.classList.add('motion-item')
+          item.style.setProperty('--motion-index', index)
+          if (item.matches('h1, h2, .screen-title, .display-note, .concept-word, .project-name, .selected-english, .small-ideas-case-english')) {
+            item.classList.add('motion-heading')
+          }
+        })
+        observed.push(section)
+      })
+    })
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('is-inview')
+      })
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' })
+    observed.forEach((section) => observer.observe(section))
+    document.querySelector('.hero')?.classList.add('is-inview')
+
+    const parallaxTargets = [...document.querySelectorAll('.profile-figure img')]
+    let frame = 0
+    const updateParallax = () => {
+      frame = 0
+      const midpoint = window.innerHeight * 0.5
+      parallaxTargets.forEach((element) => {
+        const rect = element.getBoundingClientRect()
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return
+        const offset = Math.max(-12, Math.min(12, (midpoint - (rect.top + rect.height / 2)) * 0.035))
+        element.style.setProperty('--parallax-y', `${offset}px`)
+      })
+    }
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(updateParallax)
+    }
+    updateParallax()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    const readyFrame = requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('motion-ready')))
+
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+      cancelAnimationFrame(readyFrame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      root.classList.remove('motion-enabled', 'motion-ready')
+    }
+  }, [pathname])
+
+  return <div className="opening-mask" aria-hidden="true" />
+}
+
 function App() {
-  return <><ScrollManager /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><QiduCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase /></CasePage>} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><QiduCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase /></CasePage>} /><Route path="/cases/small-ideas" element={<CasePage theme="light" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
