@@ -1,15 +1,17 @@
+import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
 import './styles.css'
 
 const navItems = [
-  ['STORIES', '#work'],
-  ['THINK', '#think'],
-  ['NOTES', '#notes'],
-  ['DELIVERY', '#delivery'],
-  ['OUTSIDE', '#outside'],
-  ['EXPERIENCE', '#experience'],
-  ['ABOUT', '#about'],
-  ['CONTACT', '#contact'],
+  ['STORIES', '/#work'],
+  ['THINK', '/#think'],
+  ['NOTES', '/#notes'],
+  ['DELIVERY', '/#delivery'],
+  ['OUTSIDE', '/#outside'],
+  ['EXPERIENCE', '/#experience'],
+  ['ABOUT', '/#about'],
+  ['CONTACT', '/#contact'],
 ]
 
 const tags = (items) => (
@@ -18,21 +20,22 @@ const tags = (items) => (
   </div>
 )
 
-function SiteHeader() {
+function SiteHeader({ theme = 'light' }) {
   return (
-    <header className="site-header">
-      <a className="wordmark" href="#top" aria-label="返回顶部">
+    <header className={`site-header ${theme === 'dark' ? 'is-dark' : ''}`}>
+      <Link className="wordmark" to="/" aria-label="返回首页">
         <span>PANPAN</span>
         <small>CREATIVE PLANNING / EXPERIENCE DESIGN</small>
-      </a>
+      </Link>
       <nav aria-label="页面导航">
-        {navItems.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
+        {navItems.map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}
       </nav>
     </header>
   )
 }
 
 function ArrowLink({ href, children }) {
+  if (href.startsWith('/')) return <Link className="arrow-link" to={href}><span>{children}</span><b>↗</b></Link>
   return <a className="arrow-link" href={href}><span>{children}</span><b>↗</b></a>
 }
 
@@ -137,13 +140,13 @@ function SelectedWorks() {
       <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>SCROLL / 04</span></div>
       <div className="selected-content selected-content-wide">
         <p className="eyebrow">SELECTED STORIES</p>
-        <h2>精选<br /><em>案例</em></h2>
+        <h2>精选 <em>案例</em></h2>
         <p className="selected-english">Selected Stories</p>
         <div className="selected-story-grid">
-          <a className="selected-story" href="#yangming"><span>01</span><strong>余姚阳明温泉山庄</strong><b>一个让人慢下来的地方</b><small>A Place to Slow Down</small><i>Destination Planning · Experience Planning · Concept Development</i></a>
-          <a className="selected-story" href="#yuelongwan"><span>02</span><strong>余姚悦龙湾</strong><b>两栋房子之间</b><small>Designing the In-Between</small><i>Spatial System · Residential Landscape · Integration</i></a>
-          <a className="selected-story" href="#qidu"><span>03</span><strong>温州七都华侨花园</strong><b>生活的艺术家</b><small>The Art of Living</small><i>Art &amp; Lifestyle · Level Design · Landscape Experience</i></a>
-          <a className="selected-story" href="#daye"><span>04</span><strong>湖北大冶芳香产业文化展馆</strong><b>看不见的气味，如何被感知？</b><small>Making the Invisible Perceptible</small><i>Cultural Tourism · Exhibition · Sensory Experience</i></a>
+          <Link className="selected-story" to="/cases/yangming-hot-spring"><span>01</span><strong>余姚阳明温泉山庄</strong><b>一个让人慢下来的地方</b><small>A Place to Slow Down</small><i>Destination Planning · Experience Planning · Concept Development</i></Link>
+          <Link className="selected-story" to="/cases/yuelongwan"><span>02</span><strong>余姚悦龙湾</strong><b>两栋房子之间</b><small>Designing the In-Between</small><i>Spatial System · Residential Landscape · Integration</i></Link>
+          <Link className="selected-story" to="/cases/qidu-huaqiao-garden"><span>03</span><strong>温州七都华侨花园</strong><b>生活的艺术家</b><small>The Art of Living</small><i>Art &amp; Lifestyle · Level Design · Landscape Experience</i></Link>
+          <Link className="selected-story" to="/cases/daye-fragrance-exhibition"><span>04</span><strong>湖北大冶芳香产业文化展馆</strong><b>让无形的香气被感知</b><small>Making the Invisible Perceptible</small><i>Cultural Tourism · Exhibition · Sensory Experience</i></Link>
         </div>
       </div>
       <div className="selected-orbit" aria-hidden="true"><span /></div>
@@ -266,21 +269,67 @@ function DayeCase() {
 }
 
 function SmallIdeas() {
-  return <section className="small-ideas texture-section" id="notes"><div className="small-ideas-heading"><span>04 / SMALL IDEAS I STILL LIKE</span><h2>一些我至今<br /><em>仍然喜欢的小想法</em></h2><p>这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-notes"><article><span>01 / 杭州润和山庄</span><h3>停车位旁的一扇小门</h3><p>通过一扇平时并不使用的小门，让外来车辆意识到停车会挡住出入口，从心理上减少公共停车位被占用。</p></article><article><span>02 / 温州世锦园</span><h3>为邻居准备的一把伞</h3><p>入口矮墙预留长柄伞位置，在突然下雨时可以让路过邻居临时取用。</p></article><article><span>03 / 杭州之江门</span><h3>两扇北侧入口门</h3><p>花园内部已经连通，但两户仍分别保留自己的到达仪式和轻微独立感。</p></article></div></section>
+  return <section className="small-ideas texture-section" id="notes"><div className="small-ideas-heading"><span>04 / SMALL IDEAS I STILL LIKE</span><h2>一些我至今仍然喜欢的 <em>小想法</em></h2><p>这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-notes"><article><span>01 / 杭州润和山庄</span><h3>停车位旁的一扇小门</h3><p>通过一扇平时并不使用的小门，让外来车辆意识到停车会挡住出入口，从心理上减少公共停车位被占用。</p></article><article><span>02 / 温州世锦园</span><h3>为邻居准备的一把伞</h3><p>入口矮墙预留长柄伞位置，在突然下雨时可以让路过邻居临时取用。</p></article><article><span>03 / 杭州之江门</span><h3>两扇北侧入口门</h3><p>花园内部已经连通，但两户仍分别保留自己的到达仪式和轻微独立感。</p></article></div></section>
 }
 
 function DeliveryIndex() {
-  return <section className="delivery-index texture-section" id="delivery"><div className="delivery-heading"><span>05 / BUILT / DELIVERY</span><h2>从方案<br /><em>到落地</em></h2><p>From Drawing to Reality</p></div><div className="delivery-intro"><div><p>用于明确展示施工与项目执行能力。</p>{tags(['Render → Site → Adjustment → Built', '施工', '调整', '落地'])}</div><Quote>执行力，是让一个想法经历真实条件之后，仍然能够成立。</Quote></div><ArrowLink href="#binrongfu">杭州滨融府 / From Idea to Reality</ArrowLink></section>
+  return <section className="delivery-index texture-section" id="delivery"><div className="delivery-heading"><span>05 / BUILT / DELIVERY</span><h2>从方案 <em>到落地</em></h2><p>From Drawing to Reality</p></div><div className="delivery-intro"><div><p>用于明确展示施工与项目执行能力。</p>{tags(['Render → Site → Adjustment → Built', '施工', '调整', '落地'])}</div><Quote>执行力，是让一个想法经历真实条件之后，仍然能够成立。</Quote></div><div className="delivery-project-line"><span>杭州滨融府</span><strong>From Idea to Reality</strong></div></section>
 }
 
 function HowIWork() {
   const steps = [['01 OBSERVE｜观察', '先理解人、场景和真实需求。'], ['02 DEFINE｜定义', '找到真正需要解决的问题。'], ['03 CONCEPT｜构思', '建立一个能够统领项目的核心想法。'], ['04 ORGANIZE｜组织', '把想法转成具体内容、空间、动线和体验。'], ['05 DELIVER｜落地', '面对现场与现实限制持续调整，把方案推进完成。']]
-  return <section className="work-method texture-section" id="think"><div className="method-heading"><span>03 / HOW I THINK</span><h2>我如何<br /><em>思考</em></h2><p>How I Think</p></div><div className="steps-grid">{steps.map(([title, text]) => <div key={title}><b>{title}</b><span>{text}</span></div>)}</div><div className="method-emphasis"><span>Concept → Experience → Execution</span><strong>想法 → 体验 → 落地</strong></div></section>
+  return <section className="work-method texture-section" id="think"><div className="method-heading"><span>03 / HOW I THINK</span><h2>我如何 <em>思考</em></h2><p>How I Think</p></div><div className="steps-grid">{steps.map(([title, text]) => <div key={title}><b>{title}</b><span>{text}</span></div>)}</div><div className="method-emphasis"><span>Concept → Experience → Execution</span><strong>想法 → 体验 → 落地</strong></div></section>
+}
+
+const photographyGroups = [
+  { id: 'street', label: 'STREET', title: 'Street Photography｜街头摄影', text: '城市、建筑、人和偶然出现的瞬间。', ratios: ['4 / 5', '3 / 2', '1 / 1', '2 / 3', '4 / 3'] },
+  { id: 'landscape', label: 'LANDSCAPE', title: 'Landscape Photography｜风光摄影', text: '自然、天气、植物、动物与安静的空间关系。', ratios: ['3 / 2', '4 / 5', '16 / 10', '1 / 1'] },
+  { id: 'interior', label: 'INTERIOR', title: 'Interior Photography｜室内摄影', text: '室内空间、生活细节、光线与物件。', ratios: ['4 / 5', '1 / 1', '3 / 2', '2 / 3'] },
+  { id: 'film', label: 'FILM', title: 'Film Photography｜胶片摄影', text: '以胶片记录旅行、日常和更缓慢的观察。', ratios: ['3 / 2', '2 / 3', '1 / 1', '4 / 5'] },
+]
+
+const craftSlots = ['4 / 5', '1 / 1', '3 / 2', '2 / 3', '4 / 3', '4 / 5']
+const roomSlots = ['3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '4 / 5']
+
+function GalleryPlaceholder({ label, ratio }) {
+  return <div className="gallery-placeholder" style={{ aspectRatio: ratio }}><span>{label}</span><small>图片素材待补充</small></div>
+}
+
+function MasonryGrid({ ratios, prefix }) {
+  return <div className="masonry-grid">{ratios.map((ratio, index) => <GalleryPlaceholder key={`${prefix}-${index}`} label={`${prefix} / ${String(index + 1).padStart(2, '0')}`} ratio={ratio} />)}</div>
+}
+
+function OutsideCover() {
+  return <section className="outside-cover texture-section" id="outside"><div className="outside-cover-index">06 / OUTSIDE OF WORK</div><div className="outside-cover-copy"><p>Outside of Work</p><h2>项目之外</h2><Quote>观察、摄影、手作，以及让空间慢慢变成更喜欢的样子。</Quote></div><div className="outside-cover-note">工作之外，我也很喜欢观察、动手和创造一些具体的东西。</div></section>
+}
+
+function PhotographySection() {
+  const [activeCategory, setActiveCategory] = useState('street')
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('[data-photo-category]')
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveCategory(entry.target.dataset.photoCategory)
+      })
+    }, { rootMargin: '-28% 0px -58% 0px' })
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
+  return <section className="outside-gallery-section texture-section" id="photography"><aside className="outside-gallery-heading"><span>OUTSIDE 01</span><h2>摄影</h2><p>Photography</p><nav aria-label="摄影分类">{photographyGroups.map((group) => <a className={activeCategory === group.id ? 'is-active' : ''} href={`#photo-${group.id}`} key={group.id}>{group.label}</a>)}</nav></aside><div className="outside-gallery-stream">{photographyGroups.map((group) => <section className="photo-category" id={`photo-${group.id}`} data-photo-category={group.id} key={group.id}><header><h3>{group.title}</h3><p>{group.text}</p></header><MasonryGrid ratios={group.ratios} prefix={group.label} /></section>)}</div></section>
+}
+
+function CraftSection() {
+  return <section className="outside-gallery-section texture-section" id="craft"><aside className="outside-gallery-heading"><span>OUTSIDE 02</span><h2>手作</h2><p>Craft</p><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={craftSlots} prefix="CRAFT" /></div></section>
+}
+
+function RoomMakeoverSection() {
+  return <section className="outside-gallery-section texture-section" id="room-makeover"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>房间改造</h2><p>Room Makeover</p><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote></aside><div className="outside-gallery-stream"><div className="before-after-pair"><GalleryPlaceholder label="BEFORE" ratio="3 / 2" /><GalleryPlaceholder label="AFTER" ratio="3 / 2" /></div><p className="before-after">BEFORE → AFTER</p><MasonryGrid ratios={roomSlots} prefix="DETAIL" /></div></section>
 }
 
 function OutsideSection() {
-  const categories = [['Street Photography｜街头摄影', '城市、建筑、人和偶然出现的瞬间。'], ['Landscape Photography｜风光摄影', '自然、天气、植物、动物与安静的空间关系。'], ['Interior Photography｜室内摄影', '室内空间、生活细节、光线与物件。'], ['Film Photography｜胶片摄影', '以胶片记录旅行、日常和更缓慢的观察。']]
-  return <section className="outside-section texture-section" id="outside"><div className="outside-intro"><span>07 / OUTSIDE OF WORK</span><h2>工作<br /><em>之外</em></h2><Quote>工作之外，我也很喜欢观察、动手和创造一些具体的东西。</Quote></div><div className="outside-body"><div className="photo-side-label"><span>PHOTOGRAPHY｜摄影</span><div>STREET<br />LANDSCAPE<br />INTERIOR<br />FILM</div></div><div className="photo-notes">{categories.map(([title, text], index) => <article className={`photo-note note-${index + 1}`} key={title}><div className="note-surface"><i /></div><h3>{title}</h3><p>{text}</p></article>)}</div><div className="outside-practice"><div><span>CRAFT｜手作</span><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></div><div><span>FLORAL｜插花</span><Quote>植物、颜色、比例和一点点偶然。</Quote></div><div><span>ROOM MAKEOVER｜房间改造</span><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote><p className="before-after">BEFORE → AFTER</p></div></div></div></section>
+  return <><OutsideCover /><PhotographySection /><CraftSection /><RoomMakeoverSection /></>
 }
 
 function ExperienceSection() {
@@ -292,13 +341,55 @@ function AboutSection() {
 }
 
 function ContactSection() {
-  return <footer className="contact-section texture-section" id="contact"><div className="contact-top"><span>10 / CONTACT</span></div><h2>Say<br /><em>Hello.</em></h2><div className="contact-details"><div><span>Email</span><a href="mailto:1062672214@qq.com">1062672214@qq.com</a></div><div><span>Phone / WeChat</span><a href="tel:17326083215">17326083215</a></div><div><span>STATUS</span><strong>Available for opportunities｜目前开放工作机会</strong></div></div><div className="footer-line"><span>PANPAN / PORTFOLIO</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+  return <footer className="contact-section texture-section" id="contact"><div className="contact-top"><span>10 / CONTACT</span></div><h2>Say <em>Hello.</em></h2><div className="contact-details"><div><span>Email</span><a href="mailto:1062672214@qq.com">1062672214@qq.com</a></div><div><span>Phone / WeChat</span><a href="tel:17326083215">17326083215</a></div><div><span>STATUS</span><strong>Available for opportunities｜目前开放工作机会</strong></div></div><div className="footer-line"><span>PANPAN / PORTFOLIO</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+}
+
+const pageTitles = {
+  '/': 'PANPAN｜创意策划 × 体验设计',
+  '/cases/yangming-hot-spring': '余姚阳明温泉山庄｜PANPAN',
+  '/cases/yuelongwan': '余姚悦龙湾｜PANPAN',
+  '/cases/qidu-huaqiao-garden': '温州七都华侨花园｜PANPAN',
+  '/cases/daye-fragrance-exhibition': '湖北大冶芳香产业文化展馆｜PANPAN',
+}
+
+function ScrollManager() {
+  const { pathname, hash } = useLocation()
+
+  useEffect(() => {
+    document.title = pageTitles[pathname] || 'PANPAN｜Portfolio'
+    const frame = window.requestAnimationFrame(() => {
+      if (hash) {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' })
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      }
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [pathname, hash])
+
+  return null
+}
+
+function CaseNext({ next }) {
+  return <nav className="case-next" aria-label="案例翻页"><Link to="/#work"><span>BACK TO STORIES</span><strong>返回精选案例</strong></Link><Link className="case-next-link" to={next.to}><span>NEXT CASE</span><strong>{next.label}</strong><b>↗</b></Link></nav>
+}
+
+function CasePage({ theme, children, next }) {
+  return <main className={`site-shell case-page theme-${theme}`}><SiteHeader theme={theme} />{children}<CaseNext next={next} /></main>
+}
+
+function HomePage() {
+  return <main className="site-shell"><Hero /><QuickInfo /><SelectedWorks /><HowIWork /><SmallIdeas /><DeliveryIndex /><OutsideSection /><ExperienceSection /><AboutSection /><ContactSection /></main>
+}
+
+function NotFound() {
+  return <main className="not-found texture-section"><span>404</span><h1>页面没有找到</h1><Link className="arrow-link" to="/"><span>返回首页</span><b>↗</b></Link></main>
 }
 
 function App() {
-  return <main className="site-shell"><Hero /><QuickInfo /><SelectedWorks /><YangmingCase /><YuelongCase /><QiduCase /><DayeCase /><HowIWork /><SmallIdeas /><DeliveryIndex /><BinrongCase /><OutsideSection /><ExperienceSection /><AboutSection /><ContactSection /></main>
+  return <><ScrollManager /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><QiduCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/#work', label: '返回精选案例' }}><DayeCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
 window.scrollTo(0, 0)
-createRoot(document.getElementById('root')).render(<App />)
+createRoot(document.getElementById('root')).render(<BrowserRouter><App /></BrowserRouter>)
