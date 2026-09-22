@@ -200,16 +200,16 @@ function BinrongCase() {
   return (
     <section className="case-section texture-section" id="binrongfu">
       <ProjectIntro number="04" name="杭州滨融府" title="两个露台，两种生活" english="Two Terraces, Two Ways of Living" summary="在两个与室内生活紧密相连的屋顶露台中，分别回应独处与相聚的日常场景，并在施工阶段面对荷载、设备、材料与植物条件持续调整，最终完成落地。" tags={['Built & Delivery', 'Roof Terrace', 'Full-process Design']} />
-      <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">两个露台<br />两种生活</p><p className="small-english">TWO TERRACES, TWO WAYS OF LIVING</p></div><div><MetaList items={[
+      <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">两个露台<br />两种生活</p></div><div><MetaList items={[
         ['项目名称｜PROJECT', '杭州滨融府'], ['项目类型｜TYPE', '高端住宅屋顶露台 / 私宅花园'], ['项目时间｜YEAR', '2024'], ['项目面积｜AREA', '约140㎡'], ['项目状态｜STATUS', <>已交付<br /><i>Completed</i></>],
       ]} /><div className="role-block"><span>我的角色｜ROLE</span><p>主创设计 / 方案深化 / 视觉表达 / 植物设计 / 施工跟进 / 客户沟通</p></div></div></div></Screen>
       <Screen number="02" label="TWO TERRACES｜两个露台，两种生活场景"><div className="terrace-grid"><div><p className="accent-label">EAST｜东侧</p><h3>两个露台，对应两种生活场景。</h3><p>东侧露台连接客厅，空间狭长、呈 L 形，更安静，也更接近一个人的日常。</p><p>西侧露台连接茶室，面积更大，承担喝茶、聊天与聚会，更开放，也更适合共同停留。</p></div><div><p className="accent-label">WEST｜西侧</p><h3>从不同的室内空间出发，建立不同的花园关系。</h3><p>两个露台没有被处理成同一种花园，而是分别回应窗景、停留、私密与相聚。</p><Quote>两个露台从不同的室内空间出发，也对应两种不同的生活状态。</Quote></div></div></Screen>
-      <Screen number="03" label="EAST TERRACE｜东侧露台"><div className="copy-layout"><div><p className="accent-label">EAST TERRACE</p><p className="screen-title">一个人的窗外风景</p></div><div className="body-copy"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></div></div></Screen>
-      <Screen number="04" label="WEST TERRACE｜西侧露台"><div className="copy-layout"><div><p className="accent-label">WEST TERRACE</p><p className="screen-title">更适合相聚的一侧</p></div><div className="body-copy"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></div></div></Screen>
+      <Screen number="03" label="EAST TERRACE｜东侧露台"><div className="copy-layout"><div><p className="accent-label">EAST TERRACE</p><p className="screen-title">东露台——独处</p></div><div className="body-copy"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></div></div></Screen>
+      <Screen number="04" label="WEST TERRACE｜西侧露台"><div className="copy-layout"><div><p className="accent-label">WEST TERRACE</p><p className="screen-title">西露台——聚会</p></div><div className="body-copy"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></div></div></Screen>
       <Screen number="05" label="LOAD LIMIT｜现实限制"><div className="load-layout"><div><p className="accent-label">PROBLEM / ADJUSTMENT</p><p className="screen-title">屋顶花园首先要解决重量</p></div><div className="body-copy"><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></div></div></Screen>
-      <Screen number="06" label="SITE ADJUSTMENT｜现场调整"><div className="copy-layout exhaust-layout"><div><p className="accent-label">SITE ADJUSTMENT</p><p className="screen-title">一个不能移动的排风口</p></div><div className="body-copy"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续工作。</Quote></div></div></Screen>
-      <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="closing-screen"><div className="render-layout"><div><p className="screen-title">需求<br />→ 方案<br />→ 深化<br />→ 现场<br />→ 调整<br />→ 落地</p></div><div className="body-copy"><p>滨融府最适合被展示的，并不只是完成后的效果，更重要的是一个方案经历真实条件后的完整过程。</p><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></div></div></Screen>
-      <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力，是让一个想法经历真实条件之后，仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
+      <Screen number="06" label="SITE ADJUSTMENT｜现场调整"><div className="copy-layout exhaust-layout"><div><p className="accent-label">SITE ADJUSTMENT</p><p className="screen-title">一个不能移动的排风口</p></div><div className="body-copy"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></div></div></Screen>
+      <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="closing-screen"><div className="render-layout"><div><p className="screen-title">方案<br />→ 深化<br />→ 现场<br />→ 调整<br />→ 落地</p></div><div className="body-copy"><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></div></div></Screen>
+      <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个想法经历真实条件之后，仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
     </section>
   )
 }
@@ -287,18 +287,19 @@ function SmallIdeasCase() {
 
 function HowIWork() {
   const steps = [['01 OBSERVE｜观察', '先理解人、场景和真实需求。'], ['02 DEFINE｜定义', '找到真正需要解决的问题。'], ['03 CONCEPT｜构思', '建立一个能够统领项目的核心想法。'], ['04 ORGANIZE｜组织', '把想法转成具体内容、空间、动线和体验。'], ['05 DELIVER｜落地', '面对现场与现实限制持续调整，把方案推进完成。']]
-  return <section className="work-method texture-section" id="think"><div className="method-heading"><span>03 / HOW I THINK</span><h2>我如何 <em>思考</em></h2></div><div className="steps-grid">{steps.map(([title, text]) => <div key={title}><b>{title}</b><span>{text}</span></div>)}</div></section>
+  return <section className="work-method texture-section" id="think"><div className="method-heading"><span>03 / HOW I THINK</span><h2>我的<em>思考过程</em></h2></div><div className="steps-grid">{steps.map(([title, text]) => <div key={title}><b>{title}</b><span>{text}</span></div>)}</div></section>
 }
 
 const photographyGroups = [
-  { id: 'street', label: 'STREET', title: 'Street Photography｜街头摄影', text: '城市、建筑、人和偶然出现的瞬间。', ratios: ['4 / 5', '3 / 2', '1 / 1', '2 / 3', '4 / 3'] },
-  { id: 'landscape', label: 'LANDSCAPE', title: 'Landscape Photography｜风光摄影', text: '自然、天气、植物、动物与安静的空间关系。', ratios: ['3 / 2', '4 / 5', '16 / 10', '1 / 1'] },
+  { id: 'street', label: 'STREET', title: 'Street Photography｜街头摄影', text: '城市、建筑、人和偶然出现的瞬间。', ratios: ['4 / 5', '3 / 2', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1'] },
+  { id: 'landscape', label: 'LANDSCAPE', title: 'Landscape Photography｜风光摄影', text: '自然、天气、植物、动物与安静的空间关系。', ratios: ['3 / 2', '4 / 5', '16 / 10', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '16 / 10', '2 / 3', '4 / 3', '3 / 2'] },
   { id: 'interior', label: 'INTERIOR', title: 'Interior Photography｜室内摄影', text: '室内空间、生活细节、光线与物件。', ratios: ['4 / 5', '1 / 1', '3 / 2', '2 / 3'] },
-  { id: 'film', label: 'FILM', title: 'Film Photography｜胶片摄影', text: '以胶片记录旅行、日常观察。', ratios: ['3 / 2', '2 / 3', '1 / 1', '4 / 5'] },
+  { id: 'film', label: 'FILM', title: 'Film Photography｜胶片摄影', text: '以胶片记录旅行、日常观察。', ratios: ['3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3'] },
 ]
 
-const craftSlots = ['4 / 5', '1 / 1', '3 / 2', '2 / 3', '4 / 3', '4 / 5']
-const roomSlots = ['3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '4 / 5']
+const craftSlots = ['4 / 5', '1 / 1', '3 / 2', '2 / 3', '4 / 3', '4 / 5', '3 / 2', '1 / 1']
+const ikebanaSlots = ['3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3']
+const roomSlots = ['3 / 2', '4 / 5']
 
 const makeGalleryItems = (ratios, prefix) => ratios.map((ratio, index) => ({
   id: `${prefix}-${index}`,
@@ -309,11 +310,12 @@ const makeGalleryItems = (ratios, prefix) => ratios.map((ratio, index) => ({
 const galleryCatalog = [
   ...photographyGroups.flatMap((group) => makeGalleryItems(group.ratios, group.label)),
   ...makeGalleryItems(craftSlots, 'CRAFT'),
+  ...makeGalleryItems(ikebanaSlots, 'IKEBANA'),
   ...makeGalleryItems(roomSlots, 'DETAIL'),
 ]
 
 function GalleryPlaceholder({ item, onPreview }) {
-  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} onClick={() => onPreview?.(item)}><span>{item.label}</span><small>点击查看完整图幅</small></button>
+  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} onClick={() => onPreview?.(item)}><span>{item.label}</span></button>
 }
 
 function MasonryGrid({ ratios, prefix, onPreview }) {
@@ -346,6 +348,10 @@ function CraftSection({ onPreview }) {
   return <section className="outside-gallery-section texture-section" id="craft"><aside className="outside-gallery-heading"><span>OUTSIDE 02</span><h2>手作</h2><p>Craft</p><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={craftSlots} prefix="CRAFT" onPreview={onPreview} /></div></section>
 }
 
+function IkebanaSection({ onPreview }) {
+  return <section className="outside-gallery-section texture-section" id="ikebana"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>插花</h2><p>Ikebana</p><Quote>从枝叶、容器与留白之间，观察一件作品如何慢慢形成。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={ikebanaSlots} prefix="IKEBANA" onPreview={onPreview} /></div></section>
+}
+
 function BeforeAfterComparison() {
   const [reveal, setReveal] = useState(50)
   const [dragging, setDragging] = useState(false)
@@ -370,7 +376,7 @@ function BeforeAfterComparison() {
 }
 
 function RoomMakeoverSection({ onPreview }) {
-  return <section className="outside-gallery-section texture-section" id="room-makeover"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>房间改造</h2><p lang="en">Room Makeover</p><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote></aside><div className="outside-gallery-stream room-gallery-stream"><BeforeAfterComparison /><p className="before-after">BEFORE → AFTER</p><MasonryGrid ratios={roomSlots} prefix="DETAIL" onPreview={onPreview} /></div></section>
+  return <section className="outside-gallery-section texture-section" id="room-makeover"><aside className="outside-gallery-heading"><span>OUTSIDE 04</span><h2>房间改造</h2><p lang="en">Room Makeover</p><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote></aside><div className="outside-gallery-stream room-gallery-stream"><BeforeAfterComparison /><p className="before-after">BEFORE → AFTER</p><MasonryGrid ratios={roomSlots} prefix="DETAIL" onPreview={onPreview} /></div></section>
 }
 
 function GalleryLightbox({ item, index, count, onClose, onMove }) {
@@ -414,7 +420,7 @@ function OutsideSection() {
     const nextIndex = (previewIndex + direction + galleryCatalog.length) % galleryCatalog.length
     setPreviewId(galleryCatalog[nextIndex].id)
   }
-  return <><OutsideCover /><PhotographySection onPreview={openPreview} /><CraftSection onPreview={openPreview} /><RoomMakeoverSection onPreview={openPreview} /><GalleryLightbox item={preview} index={previewIndex} count={galleryCatalog.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></>
+  return <><OutsideCover /><PhotographySection onPreview={openPreview} /><CraftSection onPreview={openPreview} /><IkebanaSection onPreview={openPreview} /><RoomMakeoverSection onPreview={openPreview} /><GalleryLightbox item={preview} index={previewIndex} count={galleryCatalog.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></>
 }
 
 function ExperienceSection() {
@@ -539,12 +545,22 @@ function MotionDirector() {
       })
     })
 
+    const bodyItems = [...document.querySelectorAll('main p, main blockquote, main li, main dt, main dd, main .idea-card-meta')]
+      .filter((item) => !item.classList.contains('motion-heading') && !item.classList.contains('motion-item'))
+    bodyItems.forEach((item, index) => {
+      item.classList.add('motion-body')
+      item.style.setProperty('--motion-index', index % 7)
+    })
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add('is-inview')
+        if (entry.isIntersecting) {
+          entry.target.classList.add(entry.target.classList.contains('motion-body') ? 'is-body-inview' : 'is-inview')
+        }
       })
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' })
     observed.forEach((section) => observer.observe(section))
+    bodyItems.forEach((item) => observer.observe(item))
     document.querySelector('.hero')?.classList.add('is-inview')
 
     const headingOriginals = []
