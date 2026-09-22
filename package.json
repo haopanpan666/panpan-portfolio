@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "latest",
+    "@fontsource-variable/playfair-display": "latest",
     "@vitejs/plugin-react": "latest",
     "vite": "latest",
     "react": "latest",

@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
+import '@fontsource-variable/inter'
+import '@fontsource-variable/playfair-display'
 import './styles.css'
 
 const navItems = [
   ['STORIES', '/#work'],
   ['THINK', '/#think'],
-  ['NOTES', '/#notes'],
+  ['IDEAS', '/cases/small-ideas'],
   ['DELIVERY', '/#delivery'],
   ['OUTSIDE', '/#outside'],
   ['EXPERIENCE', '/#experience'],
@@ -86,11 +88,10 @@ function Hero() {
       <div className="hero-stage">
         <div className="hero-watermark">Creative<br />Planning</div>
         <div className="hero-main">
-          <p className="eyebrow">Creative Planning × Experience Design</p>
+          <p className="hero-subtitle">创意策划×体验设计</p>
           <h1>PANPAN</h1>
-          <p className="hero-subtitle">Creative Planning × Experience Design 创意策划×体验设计</p>
+          <p className="hero-english-title" lang="en">Creative Planning × Experience Design</p>
           <div className="hero-copy">
-            <p>我习惯从人、场景和体验出发，把模糊的需求梳理成清晰的方案，并持续推进到真实落地。</p>
             <p>过去几年，我参与过私宅、酒店、文旅与公共空间项目，从概念、方案、客户沟通一路跟进到施工。现在，我希望把这些积累带到文旅活动策划与运营中，去创造更多真正会被人参与、感受和记住的体验。</p>
           </div>
         </div>
@@ -137,16 +138,16 @@ function QuickInfo() {
 function SelectedWorks() {
   return (
     <section className="selected-works" id="work">
-      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>SCROLL / 04</span></div>
+      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>SCROLL / 05</span></div>
       <div className="selected-content selected-content-wide">
-        <p className="eyebrow">SELECTED STORIES</p>
-        <h2>精选 <em>案例</em></h2>
-        <p className="selected-english">Selected Stories</p>
+        <p className="selected-english" lang="en">Selected Stories</p>
+        <h2>精选<em>案例</em></h2>
         <div className="selected-story-grid">
           <Link className="selected-story" to="/cases/yangming-hot-spring"><span>01</span><strong>余姚阳明温泉山庄</strong><b>一个让人慢下来的地方</b><small>A Place to Slow Down</small><i>Destination Planning · Experience Planning · Concept Development</i></Link>
           <Link className="selected-story" to="/cases/yuelongwan"><span>02</span><strong>余姚悦龙湾</strong><b>两栋房子之间</b><small>Designing the In-Between</small><i>Spatial System · Residential Landscape · Integration</i></Link>
           <Link className="selected-story" to="/cases/qidu-huaqiao-garden"><span>03</span><strong>温州七都华侨花园</strong><b>生活的艺术家</b><small>The Art of Living</small><i>Art &amp; Lifestyle · Level Design · Landscape Experience</i></Link>
           <Link className="selected-story" to="/cases/daye-fragrance-exhibition"><span>04</span><strong>湖北大冶芳香产业文化展馆</strong><b>让无形的香气被感知</b><small>Making the Invisible Perceptible</small><i>Cultural Tourism · Exhibition · Sensory Experience</i></Link>
+          <Link className="selected-story" to="/cases/small-ideas"><span>05</span><strong>设计笔记</strong><b>方案中的小想法</b><small>Small Ideas</small><i>Design Notes · Everyday Observation · 03 Stories</i></Link>
         </div>
       </div>
       <div className="selected-orbit" aria-hidden="true"><span /></div>
@@ -268,8 +269,14 @@ function DayeCase() {
   )
 }
 
-function SmallIdeas() {
-  return <section className="small-ideas texture-section" id="notes"><div className="small-ideas-heading"><span>04 / SMALL IDEAS I STILL LIKE</span><h2>一些我至今仍然喜欢的 <em>小想法</em></h2><p>这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-notes"><article><span>01 / 杭州润和山庄</span><h3>停车位旁的一扇小门</h3><p>通过一扇平时并不使用的小门，让外来车辆意识到停车会挡住出入口，从心理上减少公共停车位被占用。</p></article><article><span>02 / 温州世锦园</span><h3>为邻居准备的一把伞</h3><p>入口矮墙预留长柄伞位置，在突然下雨时可以让路过邻居临时取用。</p></article><article><span>03 / 杭州之江门</span><h3>两扇北侧入口门</h3><p>花园内部已经连通，但两户仍分别保留自己的到达仪式和轻微独立感。</p></article></div></section>
+const smallIdeaStories = [
+  { number: '01', location: '杭州润和山庄', title: '停车位旁的一扇小门', body: '通过一扇平时并不使用的小门，让外来车辆意识到停车会挡住出入口，从心理上减少公共停车位被占用。' },
+  { number: '02', location: '温州世锦园', title: '为邻居准备的一把伞', body: '入口矮墙预留长柄伞位置，在突然下雨时可以让路过邻居临时取用。' },
+  { number: '03', location: '杭州之江门', title: '两扇北侧入口门', body: '花园内部已经连通，但两户仍分别保留自己的到达仪式和轻微独立感。' },
+]
+
+function SmallIdeasCase() {
+  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 05</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片素材待补充`}><span>{story.number}</span><small>图片素材待补充</small></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
 }
 
 function DeliveryIndex() {
@@ -285,7 +292,7 @@ const photographyGroups = [
   { id: 'street', label: 'STREET', title: 'Street Photography｜街头摄影', text: '城市、建筑、人和偶然出现的瞬间。', ratios: ['4 / 5', '3 / 2', '1 / 1', '2 / 3', '4 / 3'] },
   { id: 'landscape', label: 'LANDSCAPE', title: 'Landscape Photography｜风光摄影', text: '自然、天气、植物、动物与安静的空间关系。', ratios: ['3 / 2', '4 / 5', '16 / 10', '1 / 1'] },
   { id: 'interior', label: 'INTERIOR', title: 'Interior Photography｜室内摄影', text: '室内空间、生活细节、光线与物件。', ratios: ['4 / 5', '1 / 1', '3 / 2', '2 / 3'] },
-  { id: 'film', label: 'FILM', title: 'Film Photography｜胶片摄影', text: '以胶片记录旅行、日常和更缓慢的观察。', ratios: ['3 / 2', '2 / 3', '1 / 1', '4 / 5'] },
+  { id: 'film', label: 'FILM', title: 'Film Photography｜胶片摄影', text: '以胶片记录旅行、日常观察。', ratios: ['3 / 2', '2 / 3', '1 / 1', '4 / 5'] },
 ]
 
 const craftSlots = ['4 / 5', '1 / 1', '3 / 2', '2 / 3', '4 / 3', '4 / 5']
@@ -300,7 +307,7 @@ function MasonryGrid({ ratios, prefix }) {
 }
 
 function OutsideCover() {
-  return <section className="outside-cover texture-section" id="outside"><div className="outside-cover-index">06 / OUTSIDE OF WORK</div><div className="outside-cover-copy"><p>Outside of Work</p><h2>项目之外</h2><Quote>观察、摄影、手作，以及让空间慢慢变成更喜欢的样子。</Quote></div><div className="outside-cover-note">工作之外，我也很喜欢观察、动手和创造一些具体的东西。</div></section>
+  return <section className="outside-cover texture-section" id="outside"><div className="outside-cover-index">06 / OUTSIDE OF WORK</div><div className="outside-cover-copy"><p lang="en">Outside of Work</p><h2>项目之外</h2><Quote>观察、摄影、手作，以及让房间慢慢变成更喜欢的样子。</Quote></div></section>
 }
 
 function PhotographySection() {
@@ -324,8 +331,31 @@ function CraftSection() {
   return <section className="outside-gallery-section texture-section" id="craft"><aside className="outside-gallery-heading"><span>OUTSIDE 02</span><h2>手作</h2><p>Craft</p><Quote>我很享受一个想法从材料开始，最后变成真实物件的过程。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={craftSlots} prefix="CRAFT" /></div></section>
 }
 
+function BeforeAfterComparison() {
+  const [reveal, setReveal] = useState(50)
+  const [dragging, setDragging] = useState(false)
+
+  const updateReveal = (event) => {
+    if (event.pointerType !== 'mouse' && !dragging) return
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const next = ((event.clientX - bounds.left) / bounds.width) * 100
+    setReveal(Math.min(100, Math.max(0, next)))
+  }
+
+  const handleKeyDown = (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+    if (event.key === 'Home') setReveal(0)
+    if (event.key === 'End') setReveal(100)
+    if (event.key === 'ArrowLeft') setReveal((value) => Math.max(0, value - 5))
+    if (event.key === 'ArrowRight') setReveal((value) => Math.min(100, value + 5))
+  }
+
+  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`After ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><span>BEFORE</span><small>图片素材待补充</small></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 ${100 - reveal}% 0 0)` }}><span>AFTER</span><small>图片素材待补充</small></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
+}
+
 function RoomMakeoverSection() {
-  return <section className="outside-gallery-section texture-section" id="room-makeover"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>房间改造</h2><p>Room Makeover</p><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote></aside><div className="outside-gallery-stream"><div className="before-after-pair"><GalleryPlaceholder label="BEFORE" ratio="3 / 2" /><GalleryPlaceholder label="AFTER" ratio="3 / 2" /></div><p className="before-after">BEFORE → AFTER</p><MasonryGrid ratios={roomSlots} prefix="DETAIL" /></div></section>
+  return <section className="outside-gallery-section texture-section" id="room-makeover"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>房间改造</h2><p lang="en">Room Makeover</p><Quote>从客厅开始，重新调整颜色、家具、灯光和物件之间的关系，让一个空间慢慢变成更喜欢的样子。</Quote></aside><div className="outside-gallery-stream room-gallery-stream"><BeforeAfterComparison /><p className="before-after">BEFORE → AFTER</p><MasonryGrid ratios={roomSlots} prefix="DETAIL" /></div></section>
 }
 
 function OutsideSection() {
@@ -350,6 +380,7 @@ const pageTitles = {
   '/cases/yuelongwan': '余姚悦龙湾｜PANPAN',
   '/cases/qidu-huaqiao-garden': '温州七都华侨花园｜PANPAN',
   '/cases/daye-fragrance-exhibition': '湖北大冶芳香产业文化展馆｜PANPAN',
+  '/cases/small-ideas': '方案中的小想法｜PANPAN',
 }
 
 function ScrollManager() {
@@ -379,7 +410,7 @@ function CasePage({ theme, children, next }) {
 }
 
 function HomePage() {
-  return <main className="site-shell"><Hero /><QuickInfo /><SelectedWorks /><HowIWork /><SmallIdeas /><DeliveryIndex /><OutsideSection /><ExperienceSection /><AboutSection /><ContactSection /></main>
+  return <main className="site-shell"><Hero /><QuickInfo /><SelectedWorks /><HowIWork /><DeliveryIndex /><OutsideSection /><ExperienceSection /><AboutSection /><ContactSection /></main>
 }
 
 function NotFound() {
@@ -387,7 +418,7 @@ function NotFound() {
 }
 
 function App() {
-  return <><ScrollManager /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><QiduCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/#work', label: '返回精选案例' }}><DayeCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><QiduCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase /></CasePage>} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
