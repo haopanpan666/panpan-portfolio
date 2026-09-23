@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
 import { gsap } from 'gsap'
@@ -140,28 +140,180 @@ function QuickInfo() {
 }
 
 const selectedStories = [
-  { number: '01', to: '/cases/yangming-hot-spring', name: '余姚阳明温泉山庄', title: '一个让人慢下来的地方', english: 'A Place to Slow Down', tags: 'Destination Planning · Experience Planning · Concept Development' },
-  { number: '02', to: '/cases/yuelongwan', name: '余姚悦龙湾', title: '两栋房子之间', english: 'Designing the In-Between', tags: 'Spatial System · Residential Landscape · Integration' },
-  { number: '03', to: '/cases/qidu-huaqiao-garden', name: '温州七都华侨花园', title: '生活的艺术家', english: 'The Art of Living', tags: 'Art & Lifestyle · Level Design · Landscape Experience' },
-  { number: '04', to: '/cases/binrongfu', name: '杭州滨融府', title: '两个露台，两种生活', english: 'Two Terraces, Two Ways of Living', tags: 'Built & Delivery · Roof Terrace · Full-process Design' },
-  { number: '05', to: '/cases/daye-fragrance-exhibition', name: '湖北大冶芳香产业文化展馆', title: '让无形的香气被感知', english: 'Making the Invisible Perceptible', tags: 'Cultural Tourism · Exhibition · Sensory Experience' },
-  { number: '06', to: '/cases/small-ideas', name: '设计笔记', title: '方案中的小想法', english: 'Small Ideas', tags: 'Design Notes · Everyday Observation · 03 Stories' },
+  { number: '01', to: '/cases/yangming-hot-spring', name: '余姚阳明温泉山庄', title: '一个让人慢下来的地方', english: 'A Place to Slow Down', tags: 'Destination Planning · Experience Planning · Concept Development', cover: '/assets/projects/01-yangming.jpg' },
+  { number: '02', to: '/cases/yuelongwan', name: '余姚悦龙湾', title: '两栋房子之间', english: 'Designing the In-Between', tags: 'Spatial System · Residential Landscape · Integration', cover: '/assets/projects/02-yuelongwan.jpg' },
+  { number: '03', to: '/cases/qidu-huaqiao-garden', name: '温州七都华侨花园', title: '生活的艺术家', english: 'The Art of Living', tags: 'Art & Lifestyle · Level Design · Landscape Experience', cover: '/assets/projects/03-qidu.jpg' },
+  { number: '04', to: '/cases/binrongfu', name: '杭州滨融府', title: '两个露台，两种生活', english: 'Two Terraces, Two Ways of Living', tags: 'Built & Delivery · Roof Terrace · Full-process Design', cover: '/assets/projects/04-binrongfu.jpg' },
+  { number: '05', to: '/cases/daye-fragrance-exhibition', name: '湖北大冶芳香产业文化展馆', title: '让无形的香气被感知', english: 'Making the Invisible Perceptible', tags: 'Cultural Tourism · Exhibition · Sensory Experience', cover: '/assets/projects/05-daye.jpg' },
+  { number: '06', to: '/cases/small-ideas', name: '设计笔记', title: '方案中的小想法', english: 'Small Ideas', tags: 'Design Notes · Everyday Observation · 03 Stories', cover: '/assets/projects/06-small-ideas.jpg' },
 ]
 
+function SelectedStoryCard({ story, clone = false }) {
+  return (
+    <Link className="selected-story" to={story.to} tabIndex={clone ? -1 : undefined}>
+      <div className="selected-story-media" aria-hidden="true">
+        <img src={story.cover} alt="" draggable="false" loading="lazy" onError={(event) => event.currentTarget.remove()} />
+        <span>{story.number}</span><small>{story.english}</small>
+      </div>
+      <div className="selected-story-copy"><div className="selected-story-kicker"><span>{story.number}</span><strong>{story.name}</strong></div><b>{story.title}</b><small>{story.english}</small><i>{story.tags}</i></div>
+    </Link>
+  )
+}
+
 function SelectedWorks() {
+  const viewportRef = useRef(null)
+  const trackRef = useRef(null)
+  const moveRef = useRef(null)
+
+  useEffect(() => {
+    const viewport = viewportRef.current
+    const track = trackRef.current
+    const sets = track ? [...track.querySelectorAll('.selected-story-set')] : []
+    if (!viewport || sets.length < 3) return undefined
+
+    let setWidth = sets[1].getBoundingClientRect().width
+    let cardStep = sets[1].querySelector('.selected-story')?.getBoundingClientRect().width || 280
+    const setStyles = window.getComputedStyle(sets[1])
+    cardStep += Number.parseFloat(setStyles.columnGap || setStyles.gap) || 0
+    let x = -setWidth
+    let target = x
+    let dragging = false
+    let moved = false
+    let startClientX = 0
+    let startTarget = 0
+    let lastClientX = 0
+    let lastTime = 0
+    let velocity = 0
+    let snapTimer
+
+    const normalize = () => {
+      if (!setWidth) return
+      while (x <= -setWidth * 2) { x += setWidth; target += setWidth }
+      while (x > -setWidth) { x -= setWidth; target -= setWidth }
+    }
+
+    const tick = () => {
+      x += (target - x) * (dragging ? .28 : .115)
+      normalize()
+      gsap.set(track, { x, force3D: true })
+    }
+
+    const snap = () => {
+      target = Math.round(target / cardStep) * cardStep
+    }
+
+    const moveBy = (direction) => {
+      target -= direction * cardStep
+      snap()
+    }
+    moveRef.current = moveBy
+
+    const handlePointerDown = (event) => {
+      if (event.button !== 0) return
+      dragging = true
+      moved = false
+      startClientX = event.clientX
+      startTarget = target
+      lastClientX = event.clientX
+      lastTime = performance.now()
+      velocity = 0
+      viewport.classList.add('is-dragging')
+      viewport.setPointerCapture(event.pointerId)
+    }
+
+    const handlePointerMove = (event) => {
+      if (!dragging) return
+      const now = performance.now()
+      const delta = event.clientX - startClientX
+      moved = moved || Math.abs(delta) > 5
+      target = startTarget + delta
+      velocity = (event.clientX - lastClientX) / Math.max(16, now - lastTime)
+      lastClientX = event.clientX
+      lastTime = now
+    }
+
+    const handlePointerEnd = (event) => {
+      if (!dragging) return
+      dragging = false
+      target += velocity * 150
+      snap()
+      viewport.classList.remove('is-dragging')
+      if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId)
+      if (moved) window.setTimeout(() => viewport.classList.remove('allow-card-click'), 0)
+      else viewport.classList.add('allow-card-click')
+    }
+
+    const handleClick = (event) => {
+      if (moved && !viewport.classList.contains('allow-card-click')) event.preventDefault()
+      moved = false
+      viewport.classList.remove('allow-card-click')
+    }
+
+    const handleWheel = (event) => {
+      const horizontalGesture = Math.abs(event.deltaX) > Math.abs(event.deltaY)
+      const delta = horizontalGesture ? event.deltaX : event.deltaY
+      if (Math.abs(delta) < 1) return
+      if (horizontalGesture) event.preventDefault()
+      target -= delta * .72
+      window.clearTimeout(snapTimer)
+      snapTimer = window.setTimeout(snap, 130)
+    }
+
+    const handleResize = () => {
+      const previousWidth = setWidth || 1
+      const progress = (x + previousWidth) / previousWidth
+      setWidth = sets[1].getBoundingClientRect().width
+      cardStep = sets[1].querySelector('.selected-story')?.getBoundingClientRect().width || cardStep
+      cardStep += Number.parseFloat(window.getComputedStyle(sets[1]).columnGap || window.getComputedStyle(sets[1]).gap) || 0
+      x = -setWidth + progress * setWidth
+      target = x
+    }
+
+    gsap.set(track, { x })
+    gsap.ticker.add(tick)
+    viewport.addEventListener('pointerdown', handlePointerDown)
+    viewport.addEventListener('pointermove', handlePointerMove)
+    viewport.addEventListener('pointerup', handlePointerEnd)
+    viewport.addEventListener('pointercancel', handlePointerEnd)
+    viewport.addEventListener('wheel', handleWheel, { passive: false })
+    viewport.addEventListener('click', handleClick, true)
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.clearTimeout(snapTimer)
+      gsap.ticker.remove(tick)
+      viewport.removeEventListener('pointerdown', handlePointerDown)
+      viewport.removeEventListener('pointermove', handlePointerMove)
+      viewport.removeEventListener('pointerup', handlePointerEnd)
+      viewport.removeEventListener('pointercancel', handlePointerEnd)
+      viewport.removeEventListener('wheel', handleWheel)
+      viewport.removeEventListener('click', handleClick, true)
+      window.removeEventListener('resize', handleResize)
+      moveRef.current = null
+    }
+  }, [])
+
   return (
     <section className="selected-works" id="work">
-      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>SCROLL / 06</span></div>
+      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>DRAG / SCROLL</span></div>
       <div className="selected-content selected-content-wide">
         <p className="selected-english" lang="en">Selected Stories</p>
         <h2>精选<em>案例</em></h2>
-        <div className="selected-story-grid">
-          {selectedStories.map((story) => (
-            <Link className="selected-story" to={story.to} key={story.number}>
-              <div className="selected-story-media" aria-hidden="true"><span>{story.number}</span><small>{story.english}</small></div>
-              <div className="selected-story-copy"><div className="selected-story-kicker"><span>{story.number}</span><strong>{story.name}</strong></div><b>{story.title}</b><small>{story.english}</small><i>{story.tags}</i></div>
-            </Link>
-          ))}
+        <div className="selected-story-carousel">
+          <div className="selected-carousel-controls" aria-label="精选案例切换">
+            <button type="button" onClick={() => moveRef.current?.(-1)} aria-label="上一个案例">←</button>
+            <span>拖动或滚轮切换 · 可无限循环</span>
+            <button type="button" onClick={() => moveRef.current?.(1)} aria-label="下一个案例">→</button>
+          </div>
+          <div className="selected-story-viewport" ref={viewportRef} aria-label="可拖动的精选案例列表">
+            <div className="selected-story-track" ref={trackRef}>
+              {[0, 1, 2].map((setIndex) => (
+                <div className="selected-story-set" aria-hidden={setIndex !== 1 ? 'true' : undefined} key={setIndex}>
+                  {selectedStories.map((story) => <SelectedStoryCard story={story} clone={setIndex !== 1} key={`${setIndex}-${story.number}`} />)}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -218,7 +370,7 @@ function BinrongCase() {
       <Screen number="05" label="LOAD LIMIT｜现实限制"><div className="load-layout"><div><p className="accent-label">PROBLEM / ADJUSTMENT</p><p className="screen-title">屋顶花园<span className="nowrap-title-unit">首先</span>要解决重量</p></div><div className="body-copy"><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></div></div></Screen>
       <Screen number="06" label="SITE ADJUSTMENT｜现场调整"><div className="copy-layout exhaust-layout"><div><p className="accent-label">SITE ADJUSTMENT</p><p className="screen-title">一个不能移动的排风口</p></div><div className="body-copy"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></div></div></Screen>
       <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="closing-screen"><div className="render-layout"><div><p className="screen-title">方案<br />→ 深化<br />→ 现场<br />→ 调整<br />→ 落地</p></div><div className="body-copy"><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></div></div></Screen>
-      <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个想法经历真实条件之后，仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
+      <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个<span className="nowrap-title-unit">想法</span>经历真实条件<span className="nowrap-title-unit">之后</span>，仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
     </section>
   )
 }
@@ -232,7 +384,7 @@ function YuelongCase() {
           ['项目类型｜TYPE', '双别墅合并花园'], ['项目时间｜YEAR', '2025'], ['项目面积｜AREA', '约 1600㎡'], ['项目状态｜STATUS', <>施工进行中<br /><i>Under Construction</i></>],
         ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计｜负责整体方案构思与空间组织<br />方案深化｜推进方案深化、节点与材料关系<br />视觉表达｜负责效果图与设计表达<br />植物设计｜参与整体植物空间与氛围组织<br />施工跟进｜参与施工阶段调整与落地跟进<br />客户沟通｜直接与业主沟通需求、方案与修改意见</p></div></div></div>
       </Screen>
-      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">两栋相邻的房子，<br />需要一个怎样的花园？</p><div className="body-copy"><p>业主是一对从事制造行业的中年企业家夫妻。</p><p>由于日常生活之外还有一定的商务与社交接待需求，他们先后购入了两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋更偏向<strong>接待、聚会与会所式使用</strong>，另一栋则主要服务于<strong>家庭日常起居</strong>。</p><p>与此同时，两栋别墅的建筑气质偏现代海派 / 现代法式，业主本人却更偏爱安静、自然的日式庭院。</p><p>场地还必须满足车辆进入、到达、停车，以及两栋建筑之间的连续通行。</p><p>两个花园的联通只是最基础的一步。真正需要解决的是：</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同的空间功能与风格自然地过渡？</Quote></div></div></Screen>
+      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">两栋相邻的房子，<br /><span className="context-question-line">需要一个怎样的花园？</span></p><div className="body-copy"><p>业主是一对从事制造行业的中年企业家夫妻。</p><p>由于日常生活之外还有一定的商务与社交接待需求，他们先后购入了两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋更偏向<strong>接待、聚会与会所式使用</strong>，另一栋则主要服务于<strong>家庭日常起居</strong>。</p><p>与此同时，两栋别墅的建筑气质偏现代海派 / 现代法式，业主本人却更偏爱安静、自然的日式庭院。</p><p>场地还必须满足车辆进入、到达、停车，以及两栋建筑之间的连续通行。</p><p>两个花园的联通只是最基础的一步。真正需要解决的是：</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同的空间功能与风格自然地过渡？</Quote></div></div></Screen>
       <Screen number="03" label="SPATIAL SYSTEM｜三个花园，一套系统"><div className="garden-layout"><p className="screen-title">三个花园，一套系统</p><div className="garden-list"><div><b>01 入户花园｜Arrival Garden</b><span>包括两栋建筑各自的入户区域，以及连接两处入口的连续车行空间。<br />到达 · 行车 · 停车 · 建筑展示</span></div><div><b>02 主花园｜Main Garden</b><span>位于两栋建筑之间，以一块开阔草坪为中心，回到停留、活动、观景与日常生活。</span></div><div><b>03 休闲花园｜Leisure Garden</b><span>位于起居建筑南侧，对应挑空客厅的大面积落地玻璃，以镜面水景、沿河小路、休闲躺椅与植物围合形成更安静的停留空间。</span></div></div></div></Screen>
       <Screen number="04" label="ARRIVAL & PARKING｜让车进入花园，但不让车主导花园"><div className="copy-layout arrival-layout"><p className="screen-title">让车进入花园，<br />但不让车主导花园</p><div className="body-copy"><p>两栋建筑之间的连接空间尺度有限，却同时需要承担：</p><p className="bold-line">进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>因此，设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。</p><p>车辆停留时：</p><p className="question-line">这里可以完成停车与上下客。</p><p>车辆离开后：</p><p className="question-line">它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></div></div></Screen>
       <Screen number="05" label="THREE IN-BETWEENS｜三个“之间”"><div className="three-in-betweens"><p className="screen-title">几个不同状态之间<br />如何发生转换</p><div className="three-in-between-grid"><div><b>01 到达与停车之间</b><p>停车只在车辆出现时成为这里的主要功能；其余时间，空间仍然保持完整的入户秩序。</p></div><div><b>02 室内与室外之间</b><p>挑空客厅、落地玻璃、镜面水景、休闲花园与河岸形成连续的视线和行走关系。</p></div><div><b>03 现代与日式之间</b><p>让人从理性、正式的入户花园，自然进入更加自然、松弛的生活花园。</p></div></div></div></Screen>
@@ -252,12 +404,12 @@ function QiduCase() {
         <div className="screen-columns two-col"><div aria-hidden="true" /><div><MetaList items={[
           ['项目类型｜TYPE', '私宅庭院 / 滨水住宅景观'], ['项目时间｜YEAR', '2026'], ['项目面积｜AREA', '约1200㎡'], ['项目状态｜STATUS', <>准备施工<br /><i>Preparing for Construction</i></>],
         ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计 Lead Design<br />方案深化 Design Development<br />视觉表达 Visualization<br />植物设计 Planting Design<br />动画表现 Animation Visualization<br />客户沟通 Client Communication</p></div></div></div>
-        <div className="north-south-diagram"><span>NORTH / 北侧<br />ARRIVAL GARDEN</span><i>→</i><span>SOUTH / 南侧<br />LIVING GARDEN</span><small>总平面图放置于此项目概览中</small></div>
+        <div className="north-south-diagram"><span>NORTH / 北侧<br />ARRIVAL GARDEN</span><i>→</i><span>SOUTH / 南侧<br />LIVING GARDEN</span></div>
       </Screen>
       <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">一个年轻家庭的<br />滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
       <Screen number="03" label="CONCEPT｜核心概念"><div className="concept-layout"><div><p className="concept-word">“生活的艺术家”</p><p className="small-english">THE ART OF LIVING</p></div><div className="body-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
-      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园"><div className="copy-layout"><div><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是景观的一部分</p></div><div className="body-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
-      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差"><div className="copy-layout"><div><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy"><p>泳池设置在下沉庭院，阻隔园外视线。</p><p>栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
+      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园"><div className="copy-layout"><div><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是<br />景观的一部分</p></div><div className="body-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
+      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差"><div className="copy-layout"><div><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy"><p><strong>隐私</strong><br />泳池设置在下沉庭院，阻隔园外视线。</p><p><strong>空间层次</strong><br />栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
       <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池"><div className="copy-layout pool-layout"><div><p className="accent-label">POOL &amp; ROCK WALL</p><p className="screen-title">一条贴着岩壁的泳池</p></div><div className="body-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
       <Screen number="07" label="LIVING LANDSCAPE｜回到地面"><div className="copy-layout"><div><p className="accent-label">LIVING LANDSCAPE</p><p className="screen-title">更自由的日常生活</p></div><div className="body-copy"><p>离开下沉空间后，南侧重新回到开阔的地面层。草坪、砾石与沙生植物、亭子、河岸平台和秋千共同组成更松弛的生活区域。</p><p>从入口到河岸，空间也从较正式的“到达”，逐渐转向更加自由的“生活”。</p></div></div></Screen>
       <Screen number="08" label="TROPICAL ATMOSPHERE｜植物与色彩"><div className="copy-layout planting-layout"><div><p className="accent-label">TROPICAL ATMOSPHERE</p><p className="screen-title">植物与色彩</p></div><div className="body-copy"><p><strong>高层</strong><br />棕榈</p><p><strong>中层</strong><br />大叶植物 / 球形灌木</p><p><strong>低层</strong><br />花境 / 沙生植物</p><p>植物既参与建筑与景墙的构图，也在生长过程中逐渐变得更自然。南侧通过更丰富的层次和色彩，形成鲜明而轻松的度假感。</p></div></div></Screen>
@@ -285,13 +437,13 @@ function DayeCase() {
 }
 
 const smallIdeaStories = [
-  { number: '01', location: '杭州润和山庄', title: '停车位旁的一扇小门', body: '通过一扇平时并不使用的小门，让外来车辆意识到停车会挡住出入口，从心理上减少公共停车位被占用。' },
-  { number: '02', location: '温州世锦园', title: '为邻居准备的一把伞', body: '入口矮墙预留长柄伞位置，在突然下雨时可以让路过邻居临时取用。' },
-  { number: '03', location: '杭州之江门', title: '两扇北侧入口门', body: '花园内部已经连通，但两户仍分别保留自己的到达仪式和轻微独立感。' },
+  { number: '01', location: '杭州润和山庄', title: '停车位旁的一扇小门', body: '通过一扇平时并不使用的小门，让外来车辆意识到停车会挡住出入口，从心理上减少公共停车位被占用。', image: '/assets/small-ideas/01.jpg' },
+  { number: '02', location: '温州世锦园', title: '为邻居准备的一把伞', body: '入口矮墙预留长柄伞位置，在突然下雨时可以让路过邻居临时取用。', image: '/assets/small-ideas/02.jpg' },
+  { number: '03', location: '杭州之江门', title: '两扇北侧入口门', body: '花园内部已经连通，但两户仍分别保留自己的到达仪式和轻微独立感。', image: '/assets/small-ideas/03.jpg' },
 ]
 
 function SmallIdeasCase() {
-  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片素材待补充`}><span>{story.number}</span><small>图片素材待补充</small></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
+  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="lazy" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span><small>图片素材待补充</small></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
 }
 
 function HowIWork() {
@@ -310,10 +462,21 @@ const craftSlots = ['4 / 5', '1 / 1', '3 / 2', '2 / 3', '4 / 3', '4 / 5', '3 / 2
 const ikebanaSlots = ['3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3']
 const roomSlots = ['3 / 2', '4 / 5']
 
+const galleryFolders = {
+  STREET: 'gallery/photography/street',
+  LANDSCAPE: 'gallery/photography/landscape',
+  INTERIOR: 'gallery/photography/interior',
+  FILM: 'gallery/photography/film',
+  CRAFT: 'gallery/craft',
+  IKEBANA: 'gallery/ikebana',
+  DETAIL: 'gallery/room',
+}
+
 const makeGalleryItems = (ratios, prefix) => ratios.map((ratio, index) => ({
   id: `${prefix}-${index}`,
   label: `${prefix} / ${String(index + 1).padStart(2, '0')}`,
   ratio,
+  src: `/assets/${galleryFolders[prefix]}/${String(index + 1).padStart(2, '0')}.jpg`,
 }))
 
 const galleryCatalog = [
@@ -324,7 +487,7 @@ const galleryCatalog = [
 ]
 
 function GalleryPlaceholder({ item, onPreview }) {
-  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} onClick={() => onPreview?.(item)}><span>{item.label}</span></button>
+  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} onClick={() => onPreview?.(item)}><img src={item.src} alt="" loading="lazy" onError={(event) => event.currentTarget.remove()} /><span>{item.label}</span></button>
 }
 
 function MasonryGrid({ ratios, prefix, onPreview }) {
@@ -381,7 +544,7 @@ function BeforeAfterComparison() {
     if (event.key === 'ArrowRight') setReveal((value) => Math.min(100, value + 5))
   }
 
-  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`After ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><span>BEFORE</span><small>图片素材待补充</small></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 ${100 - reveal}% 0 0)` }}><span>AFTER</span><small>图片素材待补充</small></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
+  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`After ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src="/assets/gallery/room/before.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span><small>图片素材待补充</small></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 ${100 - reveal}% 0 0)` }}><img src="/assets/gallery/room/after.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span><small>图片素材待补充</small></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
 }
 
 function RoomMakeoverSection({ onPreview }) {
@@ -416,7 +579,7 @@ function GalleryLightbox({ item, index, count, onClose, onMove }) {
     window.setTimeout(() => setWheelLocked(false), 520)
   }
 
-  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><div className="gallery-lightbox-placeholder" style={{ aspectRatio: item.ratio }} aria-hidden="true" /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
+  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><div className="gallery-lightbox-placeholder" style={{ aspectRatio: item.ratio }} aria-hidden="true" /><img className="gallery-lightbox-image" src={item.src} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
 }
 
 function OutsideSection() {
@@ -533,7 +696,8 @@ function MotionDirector() {
       ['.selected-works', '.selected-top, .selected-english, .selected-content-wide h2, .selected-story'],
       ['.work-method', '.method-heading > *, .steps-grid > div, .method-emphasis > *'],
       ['.outside-cover', '.outside-cover-index, .outside-cover-copy > *'],
-      ['.outside-gallery-section', '.outside-gallery-heading > *, .photo-category header, .gallery-placeholder'],
+      ['.outside-gallery-section', '.outside-gallery-heading > *'],
+      ['.photo-category', 'header'],
       ['.experience-section', '.experience-heading > *, .timeline > article'],
       ['.about-section', '.about-label, .about-content > p'],
       ['.contact-section', '.contact-top, .contact-section h2, .contact-details > div, .footer-line'],
