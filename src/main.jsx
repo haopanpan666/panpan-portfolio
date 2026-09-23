@@ -150,7 +150,7 @@ const selectedStories = [
 
 function SelectedStoryCard({ story, clone = false }) {
   return (
-    <Link className="selected-story" to={story.to} tabIndex={clone ? -1 : undefined}>
+    <Link className="selected-story" to={story.to} tabIndex={clone ? -1 : undefined} draggable="false">
       <div className="selected-story-media" aria-hidden="true">
         <img src={story.cover} alt="" draggable="false" loading="lazy" onError={(event) => event.currentTarget.remove()} />
         <span>{story.number}</span><small>{story.english}</small>
@@ -171,35 +171,94 @@ function SelectedWorks() {
     const sets = track ? [...track.querySelectorAll('.selected-story-set')] : []
     if (!viewport || sets.length < 3) return undefined
 
-    let setWidth = sets[1].getBoundingClientRect().width
-    let cardStep = sets[1].querySelector('.selected-story')?.getBoundingClientRect().width || 280
-    const setStyles = window.getComputedStyle(sets[1])
-    cardStep += Number.parseFloat(setStyles.columnGap || setStyles.gap) || 0
-    let x = -setWidth
-    let target = x
+    const cards = [...track.querySelectorAll('.selected-story')]
+    let setWidth = 1
+    let cardStep = 300
+    let viewportCenter = 0
+    let snapBase = 0
+    let loopCenter = 0
+    let cardMetrics = []
+    let x = 0
+    let target = 0
+    let pointerActive = false
     let dragging = false
-    let moved = false
     let startClientX = 0
     let startTarget = 0
     let lastClientX = 0
     let lastTime = 0
     let velocity = 0
+    let suppressClickUntil = 0
     let snapTimer
+
+    const measure = (initial = false) => {
+      gsap.set(cards, { clearProps: 'transform,filter,opacity,zIndex' })
+      gsap.set(track, { x: 0 })
+      setWidth = sets[1].getBoundingClientRect().width
+      viewportCenter = viewport.clientWidth / 2
+      const trackRect = track.getBoundingClientRect()
+      cardMetrics = cards.map((card) => {
+        const rect = card.getBoundingClientRect()
+        return { card, center: rect.left - trackRect.left + rect.width / 2 }
+      })
+      const middleCards = [...sets[1].querySelectorAll('.selected-story')]
+      const firstMetric = cardMetrics.find(({ card }) => card === middleCards[0])
+      const secondMetric = cardMetrics.find(({ card }) => card === middleCards[1])
+      cardStep = secondMetric && firstMetric ? secondMetric.center - firstMetric.center : 300
+      snapBase = viewportCenter - (firstMetric?.center || setWidth)
+      loopCenter = snapBase - cardStep * 2
+      if (initial) {
+        x = loopCenter
+        target = loopCenter
+      } else {
+        x = loopCenter
+        target = loopCenter
+      }
+    }
 
     const normalize = () => {
       if (!setWidth) return
-      while (x <= -setWidth * 2) { x += setWidth; target += setWidth }
-      while (x > -setWidth) { x -= setWidth; target -= setWidth }
+      while (x < loopCenter - setWidth / 2) { x += setWidth; target += setWidth }
+      while (x >= loopCenter + setWidth / 2) { x -= setWidth; target -= setWidth }
+    }
+
+    const updateCardFocus = () => {
+      let closestCard = null
+      let closestDistance = Number.POSITIVE_INFINITY
+      cardMetrics.forEach(({ card, center }) => {
+        const distance = (center + x - viewportCenter) / cardStep
+        const absoluteDistance = Math.abs(distance)
+        const scale = Math.max(.42, 1.12 - absoluteDistance * .24)
+        const opacity = Math.max(.06, 1 - absoluteDistance * .28)
+        const nearPull = Math.max(0, 1.5 - absoluteDistance) * 30
+        const farPush = Math.max(0, absoluteDistance - 1.5) * 28
+        const shift = Math.sign(distance) * (farPush - nearPull)
+        const blur = Math.max(0, absoluteDistance - 1.15) * 1.15
+        gsap.set(card, {
+          x: shift,
+          scale,
+          opacity,
+          filter: `blur(${blur}px)`,
+          zIndex: Math.max(1, Math.round(20 - absoluteDistance * 4)),
+          transformOrigin: '50% 42%',
+          force3D: true,
+        })
+        if (absoluteDistance < closestDistance) {
+          closestDistance = absoluteDistance
+          closestCard = card
+        }
+      })
+      cards.forEach((card) => card.classList.toggle('is-carousel-active', card === closestCard))
     }
 
     const tick = () => {
-      x += (target - x) * (dragging ? .28 : .115)
+      x += (target - x) * (dragging ? .3 : .13)
       normalize()
       gsap.set(track, { x, force3D: true })
+      updateCardFocus()
     }
 
     const snap = () => {
-      target = Math.round(target / cardStep) * cardStep
+      target = snapBase - Math.round((snapBase - target) / cardStep) * cardStep
     }
 
     const moveBy = (direction) => {
@@ -210,22 +269,26 @@ function SelectedWorks() {
 
     const handlePointerDown = (event) => {
       if (event.button !== 0) return
-      dragging = true
-      moved = false
+      pointerActive = true
+      dragging = false
       startClientX = event.clientX
       startTarget = target
       lastClientX = event.clientX
       lastTime = performance.now()
       velocity = 0
-      viewport.classList.add('is-dragging')
-      viewport.setPointerCapture(event.pointerId)
     }
 
     const handlePointerMove = (event) => {
-      if (!dragging) return
+      if (!pointerActive) return
       const now = performance.now()
       const delta = event.clientX - startClientX
-      moved = moved || Math.abs(delta) > 5
+      if (!dragging && Math.abs(delta) < 7) return
+      if (!dragging) {
+        dragging = true
+        viewport.classList.add('is-dragging')
+        viewport.setPointerCapture(event.pointerId)
+      }
+      event.preventDefault()
       target = startTarget + delta
       velocity = (event.clientX - lastClientX) / Math.max(16, now - lastTime)
       lastClientX = event.clientX
@@ -233,43 +296,42 @@ function SelectedWorks() {
     }
 
     const handlePointerEnd = (event) => {
-      if (!dragging) return
-      dragging = false
-      target += velocity * 150
-      snap()
+      if (!pointerActive) return
+      pointerActive = false
+      if (dragging) {
+        target += velocity * 165
+        snap()
+        suppressClickUntil = performance.now() + 320
+      }
       viewport.classList.remove('is-dragging')
       if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId)
-      if (moved) window.setTimeout(() => viewport.classList.remove('allow-card-click'), 0)
-      else viewport.classList.add('allow-card-click')
+      dragging = false
     }
 
     const handleClick = (event) => {
-      if (moved && !viewport.classList.contains('allow-card-click')) event.preventDefault()
-      moved = false
-      viewport.classList.remove('allow-card-click')
+      if (performance.now() < suppressClickUntil) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
     }
 
     const handleWheel = (event) => {
-      const horizontalGesture = Math.abs(event.deltaX) > Math.abs(event.deltaY)
-      const delta = horizontalGesture ? event.deltaX : event.deltaY
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
       if (Math.abs(delta) < 1) return
-      if (horizontalGesture) event.preventDefault()
-      target -= delta * .72
+      event.preventDefault()
+      target -= delta * 1.35
       window.clearTimeout(snapTimer)
-      snapTimer = window.setTimeout(snap, 130)
+      snapTimer = window.setTimeout(snap, 110)
     }
 
     const handleResize = () => {
-      const previousWidth = setWidth || 1
-      const progress = (x + previousWidth) / previousWidth
-      setWidth = sets[1].getBoundingClientRect().width
-      cardStep = sets[1].querySelector('.selected-story')?.getBoundingClientRect().width || cardStep
-      cardStep += Number.parseFloat(window.getComputedStyle(sets[1]).columnGap || window.getComputedStyle(sets[1]).gap) || 0
-      x = -setWidth + progress * setWidth
-      target = x
+      measure()
     }
 
-    gsap.set(track, { x })
+    const preventNativeDrag = (event) => event.preventDefault()
+    measure(true)
+    gsap.set(track, { x, force3D: true })
+    updateCardFocus()
     gsap.ticker.add(tick)
     viewport.addEventListener('pointerdown', handlePointerDown)
     viewport.addEventListener('pointermove', handlePointerMove)
@@ -277,6 +339,7 @@ function SelectedWorks() {
     viewport.addEventListener('pointercancel', handlePointerEnd)
     viewport.addEventListener('wheel', handleWheel, { passive: false })
     viewport.addEventListener('click', handleClick, true)
+    viewport.addEventListener('dragstart', preventNativeDrag)
     window.addEventListener('resize', handleResize)
 
     return () => {
@@ -288,6 +351,7 @@ function SelectedWorks() {
       viewport.removeEventListener('pointercancel', handlePointerEnd)
       viewport.removeEventListener('wheel', handleWheel)
       viewport.removeEventListener('click', handleClick, true)
+      viewport.removeEventListener('dragstart', preventNativeDrag)
       window.removeEventListener('resize', handleResize)
       moveRef.current = null
     }
@@ -295,14 +359,13 @@ function SelectedWorks() {
 
   return (
     <section className="selected-works" id="work">
-      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>DRAG / SCROLL</span></div>
+      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>06 STORIES</span></div>
       <div className="selected-content selected-content-wide">
         <p className="selected-english" lang="en">Selected Stories</p>
         <h2>精选<em>案例</em></h2>
         <div className="selected-story-carousel">
           <div className="selected-carousel-controls" aria-label="精选案例切换">
             <button type="button" onClick={() => moveRef.current?.(-1)} aria-label="上一个案例">←</button>
-            <span>拖动或滚轮切换 · 可无限循环</span>
             <button type="button" onClick={() => moveRef.current?.(1)} aria-label="下一个案例">→</button>
           </div>
           <div className="selected-story-viewport" ref={viewportRef} aria-label="可拖动的精选案例列表">

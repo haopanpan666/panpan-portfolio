@@ -3,3 +3,4 @@ node_modules
 dist
 .sites-runtime
 .DS_Store
+/source-images/
