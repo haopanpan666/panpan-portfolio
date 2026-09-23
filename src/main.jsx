@@ -139,6 +139,15 @@ function QuickInfo() {
   )
 }
 
+const selectedStories = [
+  { number: '01', to: '/cases/yangming-hot-spring', name: '余姚阳明温泉山庄', title: '一个让人慢下来的地方', english: 'A Place to Slow Down', tags: 'Destination Planning · Experience Planning · Concept Development' },
+  { number: '02', to: '/cases/yuelongwan', name: '余姚悦龙湾', title: '两栋房子之间', english: 'Designing the In-Between', tags: 'Spatial System · Residential Landscape · Integration' },
+  { number: '03', to: '/cases/qidu-huaqiao-garden', name: '温州七都华侨花园', title: '生活的艺术家', english: 'The Art of Living', tags: 'Art & Lifestyle · Level Design · Landscape Experience' },
+  { number: '04', to: '/cases/binrongfu', name: '杭州滨融府', title: '两个露台，两种生活', english: 'Two Terraces, Two Ways of Living', tags: 'Built & Delivery · Roof Terrace · Full-process Design' },
+  { number: '05', to: '/cases/daye-fragrance-exhibition', name: '湖北大冶芳香产业文化展馆', title: '让无形的香气被感知', english: 'Making the Invisible Perceptible', tags: 'Cultural Tourism · Exhibition · Sensory Experience' },
+  { number: '06', to: '/cases/small-ideas', name: '设计笔记', title: '方案中的小想法', english: 'Small Ideas', tags: 'Design Notes · Everyday Observation · 03 Stories' },
+]
+
 function SelectedWorks() {
   return (
     <section className="selected-works" id="work">
@@ -147,12 +156,12 @@ function SelectedWorks() {
         <p className="selected-english" lang="en">Selected Stories</p>
         <h2>精选<em>案例</em></h2>
         <div className="selected-story-grid">
-          <Link className="selected-story" to="/cases/yangming-hot-spring"><span>01</span><strong>余姚阳明温泉山庄</strong><b>一个让人慢下来的地方</b><small>A Place to Slow Down</small><i>Destination Planning · Experience Planning · Concept Development</i></Link>
-          <Link className="selected-story" to="/cases/yuelongwan"><span>02</span><strong>余姚悦龙湾</strong><b>两栋房子之间</b><small>Designing the In-Between</small><i>Spatial System · Residential Landscape · Integration</i></Link>
-          <Link className="selected-story" to="/cases/qidu-huaqiao-garden"><span>03</span><strong>温州七都华侨花园</strong><b>生活的艺术家</b><small>The Art of Living</small><i>Art &amp; Lifestyle · Level Design · Landscape Experience</i></Link>
-          <Link className="selected-story" to="/cases/binrongfu"><span>04</span><strong>杭州滨融府</strong><b>两个露台，两种生活</b><small>Two Terraces, Two Ways of Living</small><i>Built &amp; Delivery · Roof Terrace · Full-process Design</i></Link>
-          <Link className="selected-story" to="/cases/daye-fragrance-exhibition"><span>05</span><strong>湖北大冶芳香产业文化展馆</strong><b>让无形的香气被感知</b><small>Making the Invisible Perceptible</small><i>Cultural Tourism · Exhibition · Sensory Experience</i></Link>
-          <Link className="selected-story" to="/cases/small-ideas"><span>06</span><strong>设计笔记</strong><b>方案中的小想法</b><small>Small Ideas</small><i>Design Notes · Everyday Observation · 03 Stories</i></Link>
+          {selectedStories.map((story) => (
+            <Link className="selected-story" to={story.to} key={story.number}>
+              <div className="selected-story-media" aria-hidden="true"><span>{story.number}</span><small>{story.english}</small></div>
+              <div className="selected-story-copy"><div className="selected-story-kicker"><span>{story.number}</span><strong>{story.name}</strong></div><b>{story.title}</b><small>{story.english}</small><i>{story.tags}</i></div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
@@ -206,7 +215,7 @@ function BinrongCase() {
       <Screen number="02" label="TWO TERRACES｜两个露台，两种生活场景"><div className="terrace-grid"><div><p className="accent-label">EAST｜东侧</p><h3>两个露台，对应两种生活场景。</h3><p>东侧露台连接客厅，空间狭长、呈 L 形，更安静，也更接近一个人的日常。</p><p>西侧露台连接茶室，面积更大，承担喝茶、聊天与聚会，更开放，也更适合共同停留。</p></div><div><p className="accent-label">WEST｜西侧</p><h3>从不同的室内空间出发，建立不同的花园关系。</h3><p>两个露台没有被处理成同一种花园，而是分别回应窗景、停留、私密与相聚。</p><Quote>两个露台从不同的室内空间出发，也对应两种不同的生活状态。</Quote></div></div></Screen>
       <Screen number="03" label="EAST TERRACE｜东侧露台"><div className="copy-layout"><div><p className="accent-label">EAST TERRACE</p><p className="screen-title">东露台——独处</p></div><div className="body-copy"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></div></div></Screen>
       <Screen number="04" label="WEST TERRACE｜西侧露台"><div className="copy-layout"><div><p className="accent-label">WEST TERRACE</p><p className="screen-title">西露台——聚会</p></div><div className="body-copy"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></div></div></Screen>
-      <Screen number="05" label="LOAD LIMIT｜现实限制"><div className="load-layout"><div><p className="accent-label">PROBLEM / ADJUSTMENT</p><p className="screen-title">屋顶花园首先要解决重量</p></div><div className="body-copy"><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></div></div></Screen>
+      <Screen number="05" label="LOAD LIMIT｜现实限制"><div className="load-layout"><div><p className="accent-label">PROBLEM / ADJUSTMENT</p><p className="screen-title">屋顶花园<span className="nowrap-title-unit">首先</span>要解决重量</p></div><div className="body-copy"><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></div></div></Screen>
       <Screen number="06" label="SITE ADJUSTMENT｜现场调整"><div className="copy-layout exhaust-layout"><div><p className="accent-label">SITE ADJUSTMENT</p><p className="screen-title">一个不能移动的排风口</p></div><div className="body-copy"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></div></div></Screen>
       <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="closing-screen"><div className="render-layout"><div><p className="screen-title">方案<br />→ 深化<br />→ 现场<br />→ 调整<br />→ 落地</p></div><div className="body-copy"><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></div></div></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个想法经历真实条件之后，仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
@@ -223,14 +232,14 @@ function YuelongCase() {
           ['项目类型｜TYPE', '双别墅合并花园'], ['项目时间｜YEAR', '2025'], ['项目面积｜AREA', '约 1600㎡'], ['项目状态｜STATUS', <>施工进行中<br /><i>Under Construction</i></>],
         ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计｜负责整体方案构思与空间组织<br />方案深化｜推进方案深化、节点与材料关系<br />视觉表达｜负责效果图与设计表达<br />植物设计｜参与整体植物空间与氛围组织<br />施工跟进｜参与施工阶段调整与落地跟进<br />客户沟通｜直接与业主沟通需求、方案与修改意见</p></div></div></div>
       </Screen>
-      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">两栋相邻的房子，需要一个怎样的花园？</p><div className="body-copy"><p>业主是一对从事制造行业的中年企业家夫妻。</p><p>由于日常生活之外还有一定的商务与社交接待需求，他们先后购入了两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋更偏向<strong>接待、聚会与会所式使用</strong>，另一栋则主要服务于<strong>家庭日常起居</strong>。</p><p>与此同时，两栋别墅的建筑气质偏现代海派 / 现代法式，业主本人却更偏爱安静、自然的日式庭院。</p><p>场地还必须满足车辆进入、到达、停车，以及两栋建筑之间的连续通行。</p><p>两个花园的联通只是最基础的一步。真正需要解决的是：</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同的空间功能与风格自然地过渡？</Quote></div></div></Screen>
+      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">两栋相邻的房子，<br />需要一个怎样的花园？</p><div className="body-copy"><p>业主是一对从事制造行业的中年企业家夫妻。</p><p>由于日常生活之外还有一定的商务与社交接待需求，他们先后购入了两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋更偏向<strong>接待、聚会与会所式使用</strong>，另一栋则主要服务于<strong>家庭日常起居</strong>。</p><p>与此同时，两栋别墅的建筑气质偏现代海派 / 现代法式，业主本人却更偏爱安静、自然的日式庭院。</p><p>场地还必须满足车辆进入、到达、停车，以及两栋建筑之间的连续通行。</p><p>两个花园的联通只是最基础的一步。真正需要解决的是：</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同的空间功能与风格自然地过渡？</Quote></div></div></Screen>
       <Screen number="03" label="SPATIAL SYSTEM｜三个花园，一套系统"><div className="garden-layout"><p className="screen-title">三个花园，一套系统</p><div className="garden-list"><div><b>01 入户花园｜Arrival Garden</b><span>包括两栋建筑各自的入户区域，以及连接两处入口的连续车行空间。<br />到达 · 行车 · 停车 · 建筑展示</span></div><div><b>02 主花园｜Main Garden</b><span>位于两栋建筑之间，以一块开阔草坪为中心，回到停留、活动、观景与日常生活。</span></div><div><b>03 休闲花园｜Leisure Garden</b><span>位于起居建筑南侧，对应挑空客厅的大面积落地玻璃，以镜面水景、沿河小路、休闲躺椅与植物围合形成更安静的停留空间。</span></div></div></div></Screen>
-      <Screen number="04" label="ARRIVAL & PARKING｜让车进入花园，但不让车主导花园"><div className="copy-layout arrival-layout"><p className="screen-title">让车进入花园，但不让车主导花园</p><div className="body-copy"><p>两栋建筑之间的连接空间尺度有限，却同时需要承担：</p><p className="bold-line">进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>因此，设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。</p><p>车辆停留时：</p><p className="question-line">这里可以完成停车与上下客。</p><p>车辆离开后：</p><p className="question-line">它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></div></div></Screen>
+      <Screen number="04" label="ARRIVAL & PARKING｜让车进入花园，但不让车主导花园"><div className="copy-layout arrival-layout"><p className="screen-title">让车进入花园，<br />但不让车主导花园</p><div className="body-copy"><p>两栋建筑之间的连接空间尺度有限，却同时需要承担：</p><p className="bold-line">进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>因此，设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。</p><p>车辆停留时：</p><p className="question-line">这里可以完成停车与上下客。</p><p>车辆离开后：</p><p className="question-line">它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></div></div></Screen>
       <Screen number="05" label="THREE IN-BETWEENS｜三个“之间”"><div className="three-in-betweens"><p className="screen-title">几个不同状态之间<br />如何发生转换</p><div className="three-in-between-grid"><div><b>01 到达与停车之间</b><p>停车只在车辆出现时成为这里的主要功能；其余时间，空间仍然保持完整的入户秩序。</p></div><div><b>02 室内与室外之间</b><p>挑空客厅、落地玻璃、镜面水景、休闲花园与河岸形成连续的视线和行走关系。</p></div><div><b>03 现代与日式之间</b><p>让人从理性、正式的入户花园，自然进入更加自然、松弛的生活花园。</p></div></div></div></Screen>
       <Screen number="06" label="INSIDE & OUTSIDE｜室内与室外之间"><div className="copy-layout inside-layout"><p className="screen-title">室内与室外之间</p><div className="body-copy"><p>项目中有两处重要的室内外接口。</p><p>第一处是起居建筑南侧。大面积落地玻璃直接面向休闲花园，镜面水景贴近建筑展开，植物与河岸景观继续向外延伸，让人在客厅中就能感知花园；走出室内后，空间又自然过渡到休闲停留与沿河步行。</p><p>第二处位于地下层的采光井。它连接酒廊、酒窖 / 雪茄、影音及休闲空间。</p><p>在满足采光和通风的基础上，这里加入高吧家具、大型花器与棕榈等植物，把地下生活向户外延伸。</p><p className="bilingual-line">Lightwell｜采光井<br />↓<br />Semi-outdoor Lounge｜半户外休闲空间</p></div></div></Screen>
       <Screen number="07" label="MODERN & JAPANESE｜现代与日式之间"><div className="copy-layout modern-layout"><p className="screen-title">现代与日式之间</p><div className="body-copy"><p>业主偏爱日式庭院，但两栋建筑本身具有较明显的现代海派 / 现代法式气质。</p><p>与其在两种风格之间做选择，我们更关注它们之间的<strong>过渡</strong>：</p><Quote>人怎样从一种空间状态，自然地进入另一种状态？</Quote><p>入户花园首先回应建筑。铺装、植物与空间秩序更加理性、正式，保持建筑本身的到达感。</p><p>随着人离开车行与入户系统，进入主花园和休闲花园，空间逐渐变得更加自然、松弛。</p><p className="bilingual-line">FORMAL → NATURAL<br />正式 → 自然</p></div></div></Screen>
-      <Screen number="08" label="A DIFFERENT POINT OF VIEW｜改变观看花园的位置"><div className="viewpoint-layout"><div><p className="screen-title">改变观看花园的位置</p><p className="accent-label">A DIFFERENT POINT OF VIEW</p></div><div className="body-copy"><p>在主花园最远的一角，我们设置了一座相对独立的休闲亭。它可以承担喝茶、棋牌与日常停留，也改变了人观看整个花园的位置。</p><p>大多数时候，人从住宅内部向外看花园：</p><p className="bilingual-line">House → Garden<br />建筑 → 花园</p><p>当人穿过草坪，走到场地最远端的亭子之后，观看方向第一次发生反转。</p><p className="bilingual-line">House → Garden → Pavilion → Look Back<br />建筑 → 花园 → 亭子 → 回望</p><p>这段路径让花园从住宅窗外的景观，变成一段可以真正进入、穿过，并在另一端回望的空间体验。</p></div></div></Screen>
-      <Screen number="09" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">回到人与空间的关系</p><p>这个项目最终需要处理的，是几组必须<strong>同时成立的关系</strong>：</p><p className="relation-stack">接待与起居——车行与花园——正式与松弛——室内与室外——现代与日式</p></div><div><Quote><strong>设计的价值，也可以来自对人与空间关系的重新安排。</strong></Quote><p className="italic-line">Designing relationships, not just spaces.</p><p className="bilingual-line">设计关系，而不只是空间。</p></div></div></Screen>
+      <Screen number="08" label="A DIFFERENT POINT OF VIEW｜改变观看花园的位置"><div className="viewpoint-layout"><div><p className="screen-title">改变观看花园的位置</p></div><div className="body-copy"><p>在主花园最远的一角，我们设置了一座相对独立的休闲亭。它可以承担喝茶、棋牌与日常停留，也改变了人观看整个花园的位置。</p><p>大多数时候，人从住宅内部向外看花园：</p><p className="bilingual-line">House → Garden<br />建筑 → 花园</p><p>当人穿过草坪，走到场地最远端的亭子之后，观看方向第一次发生反转。</p><p className="bilingual-line">House → Garden → Pavilion → Look Back<br />建筑 → 花园 → 亭子 → 回望</p><p>这段路径让花园从住宅窗外的景观，变成一段可以真正进入、穿过，并在另一端回望的空间体验。</p></div></div></Screen>
+      <Screen number="09" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">回到人与<span className="nowrap-title-unit">空间</span>的关系</p><p>这个项目最终需要处理的，是几组必须<strong>同时成立的关系</strong>：</p><p className="relation-stack">接待与起居——车行与花园——正式与松弛——室内与室外——现代与日式</p></div><div><Quote><strong>设计的价值，也可以来自对人与空间关系的重新安排。</strong></Quote><p className="italic-line">Designing relationships, not just spaces.</p><p className="bilingual-line">设计关系，而不只是空间。</p></div></div></Screen>
     </section>
   )
 }
@@ -248,8 +257,8 @@ function QiduCase() {
       <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">一个年轻家庭的<br />滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
       <Screen number="03" label="CONCEPT｜核心概念"><div className="concept-layout"><div><p className="concept-word">“生活的艺术家”</p><p className="small-english">THE ART OF LIVING</p></div><div className="body-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
       <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园"><div className="copy-layout"><div><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是景观的一部分</p></div><div className="body-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
-      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差"><div className="copy-layout"><div><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy"><p><strong>隐私</strong><br />下沉降低外部直接视线。</p><p><strong>空间层次</strong><br />从住宅向南，空间由开放逐渐转入更有包裹感的泳池区域。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
-      <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池"><div className="copy-layout pool-layout"><div><p className="screen-title">一条贴着岩壁的泳池</p><p className="accent-label">POOL &amp; ROCK WALL</p></div><div className="body-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
+      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差"><div className="copy-layout"><div><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy"><p>泳池设置在下沉庭院，阻隔园外视线。</p><p>栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
+      <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池"><div className="copy-layout pool-layout"><div><p className="accent-label">POOL &amp; ROCK WALL</p><p className="screen-title">一条贴着岩壁的泳池</p></div><div className="body-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
       <Screen number="07" label="LIVING LANDSCAPE｜回到地面"><div className="copy-layout"><div><p className="accent-label">LIVING LANDSCAPE</p><p className="screen-title">更自由的日常生活</p></div><div className="body-copy"><p>离开下沉空间后，南侧重新回到开阔的地面层。草坪、砾石与沙生植物、亭子、河岸平台和秋千共同组成更松弛的生活区域。</p><p>从入口到河岸，空间也从较正式的“到达”，逐渐转向更加自由的“生活”。</p></div></div></Screen>
       <Screen number="08" label="TROPICAL ATMOSPHERE｜植物与色彩"><div className="copy-layout planting-layout"><div><p className="accent-label">TROPICAL ATMOSPHERE</p><p className="screen-title">植物与色彩</p></div><div className="body-copy"><p><strong>高层</strong><br />棕榈</p><p><strong>中层</strong><br />大叶植物 / 球形灌木</p><p><strong>低层</strong><br />花境 / 沙生植物</p><p>植物既参与建筑与景墙的构图，也在生长过程中逐渐变得更自然。南侧通过更丰富的层次和色彩，形成鲜明而轻松的度假感。</p></div></div></Screen>
       <Screen number="09" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">艺术感和生活感<br />如何同时成立</p></div><div><p>花园可以有明确的构图、材料与视觉表达，也可以具体回应停车、隐私、游泳、吃饭、喝茶、阅读、亲水和家庭相处。</p><Quote><strong>让艺术进入日常，也让日常本身拥有被认真设计的价值。</strong></Quote></div></div></Screen>
@@ -267,7 +276,7 @@ function DayeCase() {
       <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">如何让“香”被看见？</p><div className="body-copy"><p>这是一个围绕芳香产业文化展开的展陈空间。</p><p>“香”最重要的部分来自嗅觉，但嗅觉无法像图像、文字或实体展品一样，被直接摆放在空间里。</p><p>因此，设计需要回答的并不是单纯“如何展示芳香产业”，而是：</p><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></div></div></Screen>
       <Screen number="03" label="DESIGN DIRECTION｜设计方向"><div className="copy-layout"><div><p className="accent-label">FROM SCENT TO SENSATION</p><p className="screen-title">从“气味”转向“感受”</p></div><div className="body-copy"><p>空间没有试图把气味具象成某一种固定造型，而是从它的感受方式出发。</p><p>气味会扩散、停留、消散，也会因为人的移动而改变感受。</p><p>因此，设计语言逐渐转向：</p><div className="keyword-row"><span>流动</span><span>半透明</span><span>朦胧</span><span>漂浮</span><span>渐变</span></div></div></div></Screen>
       <Screen number="04" label="SPATIAL LANGUAGE｜空间语言"><div className="copy-layout"><div><p className="accent-label">SPATIAL LANGUAGE</p><p className="screen-title">一条连续的感知路径</p></div><div className="body-copy"><p>整个展馆以曲线作为主要空间语言。</p><p>曲线弱化了传统展陈空间中明确的“房间—走廊—房间”关系，让参观路径更像一段连续发生的体验。</p><p>它没有明确边界，却会随着人的靠近、经过与停留逐渐被感知。</p></div></div></Screen>
-      <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明"><div className="three-in-betweens"><p className="screen-title">让空间本身参与“闻香”</p><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果进一步模糊空间前后关系。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></div></Screen>
+      <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明"><div className="three-in-betweens"><p className="screen-title">让空间成为“香”的容器</p><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果营造氤氲氛围。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></div></Screen>
       <Screen number="06" label="SENSORY EXPERIENCE｜从观看到参与"><div className="copy-layout"><div><p className="accent-label">SENSORY EXPERIENCE</p><p className="screen-title">从观看到参与</p></div><div className="body-copy"><p><strong>视觉</strong><br />曲线、光影、透明与渐变。</p><p><strong>嗅觉</strong><br />芳香本身成为展陈内容的一部分。</p><p><strong>移动</strong><br />连续动线让气味与画面在行走中不断变化。</p><p><strong>停留</strong><br />局部节点提供更近距离的观察与体验。</p><Quote><strong>展馆不是一组静态信息的排列，而是一条由不同感官共同完成的参观路径。</strong></Quote></div></div></Screen>
       <Screen number="07" label="RETAIL ENDING｜体验的最后"><div className="copy-layout"><div><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识走向产品接触</p></div><div className="body-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></div></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">“香”没有固定形状。</p></div><div><p>这个项目最重要的尝试，是寻找一种方法，把原本无法被直接看见的内容转成空间语言。</p><p>因此，空间也不需要替它制造一个明确符号。</p><Quote><strong>当展陈对象本身不可见，空间就成为感知它的媒介。</strong></Quote><p className="status-line">概念方案 / 未建成</p></div></div></Screen>
@@ -407,7 +416,7 @@ function GalleryLightbox({ item, index, count, onClose, onMove }) {
     window.setTimeout(() => setWheelLocked(false), 520)
   }
 
-  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><div className="gallery-lightbox-placeholder" style={{ aspectRatio: item.ratio }}><span>{item.label}</span><small>图片素材待补充</small></div></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
+  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><div className="gallery-lightbox-placeholder" style={{ aspectRatio: item.ratio }} aria-hidden="true" /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
 }
 
 function OutsideSection() {
@@ -489,9 +498,14 @@ function splitTextNodes(element) {
     node = walker.nextNode()
   }
   const chars = []
+  const closingPunctuation = new Set(['，', '。', '、', '：', '；', '！', '？', '”', '’', '）', '》', '】'])
   textNodes.forEach((textNode) => {
     const fragment = document.createDocumentFragment()
     textNode.nodeValue.split('').forEach((character) => {
+      if (closingPunctuation.has(character) && fragment.lastChild) {
+        fragment.lastChild.textContent += character
+        return
+      }
       const span = document.createElement('span')
       span.className = 'scroll-float-char'
       span.textContent = character === ' ' ? '\u00a0' : character
@@ -515,7 +529,7 @@ function MotionDirector() {
 
     const groups = [
       ['.hero', '.hero-subtitle, .hero-main h1, .hero-english-title, .hero-copy'],
-      ['.info-page', '.section-marker, .profile-figure, .info-content'],
+      ['.info-page', '.section-marker, .info-content, .info-content h2'],
       ['.selected-works', '.selected-top, .selected-english, .selected-content-wide h2, .selected-story'],
       ['.work-method', '.method-heading > *, .steps-grid > div, .method-emphasis > *'],
       ['.outside-cover', '.outside-cover-index, .outside-cover-copy > *'],
@@ -524,7 +538,7 @@ function MotionDirector() {
       ['.about-section', '.about-label, .about-content > p'],
       ['.contact-section', '.contact-top, .contact-section h2, .contact-details > div, .footer-line'],
       ['.project-intro', '.project-intro-top, .project-name, .project-intro h2, .project-english, .project-summary'],
-      ['.screen', '.screen-index, .screen-title, .display-note, .concept-word, .screen-body > *'],
+      ['.screen', '.screen-index, .screen-title, .display-note, .concept-word, .terrace-grid h3, .screen-body > *'],
       ['.case-next', '.case-next > a'],
       ['.small-ideas-case-hero', '.small-ideas-case-top, .small-ideas-case-english, .small-ideas-case h1, .small-ideas-case-intro'],
       ['.idea-card-stage', '.idea-card'],
@@ -537,7 +551,7 @@ function MotionDirector() {
         section.querySelectorAll(itemSelector).forEach((item, index) => {
           item.classList.add('motion-item')
           item.style.setProperty('--motion-index', index)
-          if (item.matches('h1, h2, .screen-title, .display-note, .concept-word, .project-name, .selected-english, .small-ideas-case-english')) {
+          if (item.matches('h1, h2, h3, .screen-title, .display-note, .concept-word, .project-name, .selected-english, .small-ideas-case-english')) {
             item.classList.add('motion-heading')
           }
         })
@@ -593,7 +607,7 @@ function MotionDirector() {
         })
       })
 
-      document.querySelectorAll('.gallery-placeholder').forEach((item, index) => {
+      document.querySelectorAll('.gallery-placeholder, .selected-story-media, .idea-card-media, .profile-figure').forEach((item, index) => {
         gsap.fromTo(item, {
           opacity: 0,
           y: 72,
