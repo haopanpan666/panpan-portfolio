@@ -259,7 +259,7 @@ function SelectedWorks() {
         if (x === target) return
         x = target
       } else {
-        x += difference * (dragging ? .52 : .3)
+        x += difference * (dragging ? .68 : .52)
       }
       normalize()
       gsap.set(track, { x, force3D: true })
@@ -308,7 +308,7 @@ function SelectedWorks() {
       if (!pointerActive) return
       pointerActive = false
       if (dragging) {
-        target += velocity * 120
+        target += velocity * 140
         snap()
         suppressClickUntil = performance.now() + 320
       }
@@ -328,9 +328,9 @@ function SelectedWorks() {
       const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
       if (Math.abs(delta) < 1) return
       event.preventDefault()
-      target -= delta * 1.15
+      target -= delta * 1.2
       window.clearTimeout(snapTimer)
-      snapTimer = window.setTimeout(snap, 65)
+      snapTimer = window.setTimeout(snap, 38)
     }
 
     const handleResize = () => {
@@ -806,6 +806,19 @@ function MotionDirector() {
       item.style.setProperty('--motion-index', index % 7)
     })
 
+    const galleryItems = [...document.querySelectorAll('.gallery-placeholder')]
+    const galleryObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-gallery-visible')
+        galleryObserver.unobserve(entry.target)
+      })
+    }, { threshold: 0.01, rootMargin: '0px 0px -6% 0px' })
+    galleryItems.forEach((item, index) => {
+      item.style.setProperty('--gallery-index', index % 7)
+      galleryObserver.observe(item)
+    })
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -893,6 +906,7 @@ function MotionDirector() {
 
     return () => {
       observer.disconnect()
+      galleryObserver.disconnect()
       gsapContext.revert()
       headingOriginals.forEach(([heading, html]) => {
         heading.innerHTML = html
