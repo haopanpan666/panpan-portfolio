@@ -890,6 +890,7 @@ body { font-family: var(--sans); }
   width: clamp(150px, 13vw, 220px);
   height: clamp(500px, 45vw, 640px);
   overflow: hidden;
+  border-radius: 25px;
   border: 1px solid var(--line);
   color: var(--coral);
   background: var(--paper-deep);
@@ -906,6 +907,7 @@ body { font-family: var(--sans); }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-radius: 25px;
 }
 .comparison-layer span { font-size: 13px; letter-spacing: .07em; }
 .comparison-layer small { color: var(--muted); font-size: 13px; writing-mode: vertical-rl; }
@@ -1961,6 +1963,7 @@ html.motion-enabled .motion-section.is-inview .gallery-placeholder {
   height: 100%;
   object-fit: cover;
 }
+.comparison-layer img { border-radius: 25px; }
 .selected-story-media::after,
 .idea-card-media::after {
   content: '';

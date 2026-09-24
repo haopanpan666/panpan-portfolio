@@ -534,7 +534,7 @@ const smallIdeaStories = [
 ]
 
 function SmallIdeasCase() {
-  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="lazy" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
+  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="eager" fetchPriority="high" decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
 }
 
 function HowIWork() {
@@ -591,7 +591,7 @@ function MasonryGrid({ ratios, prefix, onPreview }) {
 }
 
 function OutsideCover() {
-  return <section className="outside-cover texture-section" id="outside"><div className="outside-cover-index">04 / OUTSIDE OF WORK</div><div className="outside-cover-copy"><p lang="en">Outside of Work</p><h2>项目之外</h2><Quote>观察、摄影、手作，以及让房间慢慢变成更喜欢的样子。</Quote></div></section>
+  return <section className="outside-cover texture-section" id="outside"><div className="outside-cover-index">04 / OUTSIDE OF WORK</div><div className="outside-cover-copy"><p lang="en">Outside of Work</p><h2>工作之外</h2><Quote>观察、摄影、手作，以及让房间慢慢变成更喜欢的样子。</Quote></div></section>
 }
 
 function PhotographySection({ onPreview }) {
@@ -616,7 +616,7 @@ function CraftSection({ onPreview }) {
 }
 
 function IkebanaSection({ onPreview }) {
-  return <section className="outside-gallery-section texture-section" id="ikebana"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>插花</h2><p>Ikebana</p><Quote>从枝叶、容器与留白之间，观察一件作品如何慢慢形成。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={ikebanaSlots} prefix="IKEBANA" onPreview={onPreview} /></div></section>
+  return <section className="outside-gallery-section texture-section" id="ikebana"><aside className="outside-gallery-heading"><span>OUTSIDE 03</span><h2>插花</h2><p>Ikebana</p><Quote>用鲜花装点起居，从枝叶、容器与留白之间，感受生活的美好。</Quote></aside><div className="outside-gallery-stream"><MasonryGrid ratios={ikebanaSlots} prefix="IKEBANA" onPreview={onPreview} /></div></section>
 }
 
 function BeforeAfterComparison() {
