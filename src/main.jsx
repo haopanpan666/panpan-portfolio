@@ -145,7 +145,7 @@ const selectedStories = [
   { number: '03', to: '/cases/qidu-huaqiao-garden', name: '温州七都华侨花园', title: '生活的艺术家', english: 'The Art of Living', tags: 'Art & Lifestyle · Level Design · Landscape Experience', cover: '/assets/projects/03-qidu.jpg' },
   { number: '04', to: '/cases/binrongfu', name: '杭州滨融府', title: '两个露台，两种生活', english: 'Two Terraces, Two Ways of Living', tags: 'Built & Delivery · Roof Terrace · Full-process Design', cover: '/assets/projects/04-binrongfu.jpg' },
   { number: '05', to: '/cases/daye-fragrance-exhibition', name: '湖北大冶芳香产业文化展馆', title: '让无形的香气被感知', english: 'Making the Invisible Perceptible', tags: 'Cultural Tourism · Exhibition · Sensory Experience', cover: '/assets/projects/05-daye.jpg' },
-  { number: '06', to: '/cases/small-ideas', name: '设计笔记', title: '方案中的小想法', english: 'Small Ideas', tags: 'Design Notes · Everyday Observation · 03 Stories', cover: '/assets/projects/06-small-ideas.jpg' },
+  { number: '06', to: '/cases/small-ideas', name: '设计亮点', title: '方案中的小想法', english: 'Small Ideas', tags: 'Design Notes · Everyday Observation · 03 Stories', cover: '/assets/projects/06-small-ideas.jpg' },
 ]
 
 function SelectedStoryCard({ story, clone = false }) {
@@ -188,10 +188,11 @@ function SelectedWorks() {
     let lastTime = 0
     let velocity = 0
     let suppressClickUntil = 0
+    let activeCard = null
     let snapTimer
 
     const measure = (initial = false) => {
-      gsap.set(cards, { clearProps: 'transform,filter,opacity,zIndex' })
+      gsap.set(cards, { clearProps: 'transform,opacity,zIndex' })
       gsap.set(track, { x: 0 })
       setWidth = sets[1].getBoundingClientRect().width
       viewportCenter = viewport.clientWidth / 2
@@ -232,12 +233,10 @@ function SelectedWorks() {
         const nearPull = Math.max(0, 1.5 - absoluteDistance) * 30
         const farPush = Math.max(0, absoluteDistance - 1.5) * 28
         const shift = Math.sign(distance) * (farPush - nearPull)
-        const blur = Math.max(0, absoluteDistance - 1.15) * 1.15
         gsap.set(card, {
           x: shift,
           scale,
           opacity,
-          filter: `blur(${blur}px)`,
           zIndex: Math.max(1, Math.round(20 - absoluteDistance * 4)),
           transformOrigin: '50% 42%',
           force3D: true,
@@ -247,11 +246,21 @@ function SelectedWorks() {
           closestCard = card
         }
       })
-      cards.forEach((card) => card.classList.toggle('is-carousel-active', card === closestCard))
+      if (closestCard !== activeCard) {
+        activeCard?.classList.remove('is-carousel-active')
+        closestCard?.classList.add('is-carousel-active')
+        activeCard = closestCard
+      }
     }
 
     const tick = () => {
-      x += (target - x) * (dragging ? .3 : .13)
+      const difference = target - x
+      if (Math.abs(difference) < .05) {
+        if (x === target) return
+        x = target
+      } else {
+        x += difference * (dragging ? .52 : .3)
+      }
       normalize()
       gsap.set(track, { x, force3D: true })
       updateCardFocus()
@@ -299,7 +308,7 @@ function SelectedWorks() {
       if (!pointerActive) return
       pointerActive = false
       if (dragging) {
-        target += velocity * 165
+        target += velocity * 120
         snap()
         suppressClickUntil = performance.now() + 320
       }
@@ -319,9 +328,9 @@ function SelectedWorks() {
       const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
       if (Math.abs(delta) < 1) return
       event.preventDefault()
-      target -= delta * 1.35
+      target -= delta * 1.15
       window.clearTimeout(snapTimer)
-      snapTimer = window.setTimeout(snap, 110)
+      snapTimer = window.setTimeout(snap, 65)
     }
 
     const handleResize = () => {
@@ -433,7 +442,7 @@ function BinrongCase() {
       <Screen number="05" label="LOAD LIMIT｜现实限制"><div className="load-layout"><div><p className="accent-label">PROBLEM / ADJUSTMENT</p><p className="screen-title">屋顶花园<span className="nowrap-title-unit">首先</span>要解决重量</p></div><div className="body-copy"><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></div></div></Screen>
       <Screen number="06" label="SITE ADJUSTMENT｜现场调整"><div className="copy-layout exhaust-layout"><div><p className="accent-label">SITE ADJUSTMENT</p><p className="screen-title">一个不能移动的排风口</p></div><div className="body-copy"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></div></div></Screen>
       <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="closing-screen"><div className="render-layout"><div><p className="screen-title">方案<br />→ 深化<br />→ 现场<br />→ 调整<br />→ 落地</p></div><div className="body-copy"><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></div></div></Screen>
-      <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个<span className="nowrap-title-unit">想法</span>经历真实条件<span className="nowrap-title-unit">之后</span>，仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
+      <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个<span className="nowrap-title-unit">想法</span>经历真实条件<span className="nowrap-title-unit">之后，</span>仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
     </section>
   )
 }
@@ -500,13 +509,13 @@ function DayeCase() {
 }
 
 const smallIdeaStories = [
-  { number: '01', location: '杭州润和山庄', title: '停车位旁的一扇小门', body: '通过一扇平时并不使用的小门，让外来车辆意识到停车会挡住出入口，从心理上减少公共停车位被占用。', image: '/assets/small-ideas/01.jpg' },
+  { number: '01', location: '杭州润和山庄', title: '停车位旁的一扇小门', body: '通过设置一扇平时并不使用的小门，利用“门前不合适停车”的心理暗示，达到防止开放式停车位被占用的目的。', image: '/assets/small-ideas/01.jpg' },
   { number: '02', location: '温州世锦园', title: '为邻居准备的一把伞', body: '入口矮墙预留长柄伞位置，在突然下雨时可以让路过邻居临时取用。', image: '/assets/small-ideas/02.jpg' },
-  { number: '03', location: '杭州之江门', title: '两扇北侧入口门', body: '花园内部已经连通，但两户仍分别保留自己的到达仪式和轻微独立感。', image: '/assets/small-ideas/03.jpg' },
+  { number: '03', location: '杭州之江门', title: '保留独立的入户门', body: '业主为两个女儿买下相邻的两户别墅，花园内部已经连通，但我们仍然选择保留两个家庭各自的入户仪式感和边界。', image: '/assets/small-ideas/03.jpg' },
 ]
 
 function SmallIdeasCase() {
-  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这个板块更像一本设计笔记，用几个小故事展示一个设计师如何看见那些很小、但与真实生活有关的问题。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="lazy" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span><small>图片素材待补充</small></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
+  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="lazy" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
 }
 
 function HowIWork() {
@@ -550,7 +559,11 @@ const galleryCatalog = [
 ]
 
 function GalleryPlaceholder({ item, onPreview }) {
-  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} onClick={() => onPreview?.(item)}><img src={item.src} alt="" loading="lazy" onError={(event) => event.currentTarget.remove()} /><span>{item.label}</span></button>
+  const matchImageRatio = (event) => {
+    const image = event.currentTarget
+    if (image.naturalWidth && image.naturalHeight) image.parentElement.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`
+  }
+  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt="" loading="lazy" onLoad={matchImageRatio} onError={(event) => event.currentTarget.remove()} /></button>
 }
 
 function MasonryGrid({ ratios, prefix, onPreview }) {
@@ -607,7 +620,7 @@ function BeforeAfterComparison() {
     if (event.key === 'ArrowRight') setReveal((value) => Math.min(100, value + 5))
   }
 
-  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`After ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src="/assets/gallery/room/before.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span><small>图片素材待补充</small></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 ${100 - reveal}% 0 0)` }}><img src="/assets/gallery/room/after.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span><small>图片素材待补充</small></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
+  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src="/assets/gallery/room/before.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span><small>图片素材待补充</small></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src="/assets/gallery/room/after.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span><small>图片素材待补充</small></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
 }
 
 function RoomMakeoverSection({ onPreview }) {
@@ -642,7 +655,7 @@ function GalleryLightbox({ item, index, count, onClose, onMove }) {
     window.setTimeout(() => setWheelLocked(false), 520)
   }
 
-  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><div className="gallery-lightbox-placeholder" style={{ aspectRatio: item.ratio }} aria-hidden="true" /><img className="gallery-lightbox-image" src={item.src} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
+  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><img className="gallery-lightbox-image" src={item.src} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
 }
 
 function OutsideSection() {
@@ -759,7 +772,7 @@ function MotionDirector() {
       ['.selected-works', '.selected-top, .selected-english, .selected-content-wide h2, .selected-story'],
       ['.work-method', '.method-heading > *, .steps-grid > div, .method-emphasis > *'],
       ['.outside-cover', '.outside-cover-index, .outside-cover-copy > *'],
-      ['.outside-gallery-section', '.outside-gallery-heading > *'],
+      ['.outside-gallery-section', '.outside-gallery-heading > span, .outside-gallery-heading > p, .outside-gallery-heading > nav, .outside-gallery-heading > blockquote'],
       ['.photo-category', 'header'],
       ['.experience-section', '.experience-heading > *, .timeline > article'],
       ['.about-section', '.about-label, .about-content > p'],
@@ -799,7 +812,7 @@ function MotionDirector() {
           entry.target.classList.add(entry.target.classList.contains('motion-body') ? 'is-body-inview' : 'is-inview')
         }
       })
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' })
+    }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' })
     observed.forEach((section) => observer.observe(section))
     bodyItems.forEach((item) => observer.observe(item))
     document.querySelector('.hero')?.classList.add('is-inview')
@@ -834,7 +847,7 @@ function MotionDirector() {
         })
       })
 
-      document.querySelectorAll('.gallery-placeholder, .selected-story-media, .idea-card-media, .profile-figure').forEach((item, index) => {
+      document.querySelectorAll('.idea-card-media, .profile-figure').forEach((item, index) => {
         gsap.fromTo(item, {
           opacity: 0,
           y: 72,
