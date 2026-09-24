@@ -180,6 +180,8 @@ function SelectedWorks() {
     let cardMetrics = []
     let x = 0
     let target = 0
+    const playhead = { value: 0 }
+    let scrub
     let pointerActive = false
     let dragging = false
     let startClientX = 0
@@ -214,12 +216,7 @@ function SelectedWorks() {
         x = loopCenter
         target = loopCenter
       }
-    }
-
-    const normalize = () => {
-      if (!setWidth) return
-      while (x < loopCenter - setWidth / 2) { x += setWidth; target += setWidth }
-      while (x >= loopCenter + setWidth / 2) { x -= setWidth; target -= setWidth }
+      playhead.value = loopCenter
     }
 
     const updateCardFocus = () => {
@@ -253,17 +250,22 @@ function SelectedWorks() {
       }
     }
 
-    const tick = () => {
-      const difference = target - x
-      if (Math.abs(difference) < .05) {
-        if (x === target) return
-        x = target
-      } else {
-        x += difference * (dragging ? .68 : .52)
-      }
-      normalize()
+    const wrapX = (value) => {
+      if (!setWidth) return value
+      return gsap.utils.wrap(loopCenter - setWidth / 2, loopCenter + setWidth / 2, value)
+    }
+
+    const render = (value) => {
+      x = wrapX(value)
       gsap.set(track, { x, force3D: true })
       updateCardFocus()
+    }
+
+    const requestScrub = (duration = .5) => {
+      if (!scrub) return
+      scrub.vars.duration = duration
+      scrub.vars.value = target
+      scrub.invalidate().restart()
     }
 
     const snap = () => {
@@ -273,6 +275,7 @@ function SelectedWorks() {
     const moveBy = (direction) => {
       target -= direction * cardStep
       snap()
+      requestScrub(.5)
     }
     moveRef.current = moveBy
 
@@ -296,9 +299,12 @@ function SelectedWorks() {
         dragging = true
         viewport.classList.add('is-dragging')
         viewport.setPointerCapture(event.pointerId)
+        scrub?.pause()
       }
       event.preventDefault()
       target = startTarget + delta
+      playhead.value = target
+      render(playhead.value)
       velocity = (event.clientX - lastClientX) / Math.max(16, now - lastTime)
       lastClientX = event.clientX
       lastTime = now
@@ -311,6 +317,7 @@ function SelectedWorks() {
         target += velocity * 140
         snap()
         suppressClickUntil = performance.now() + 320
+        requestScrub(.56)
       }
       viewport.classList.remove('is-dragging')
       if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId)
@@ -330,18 +337,30 @@ function SelectedWorks() {
       event.preventDefault()
       target -= delta * 1.2
       window.clearTimeout(snapTimer)
-      snapTimer = window.setTimeout(snap, 38)
+      requestScrub(.48)
+      snapTimer = window.setTimeout(() => {
+        snap()
+        requestScrub(.54)
+      }, 38)
     }
 
     const handleResize = () => {
+      scrub?.pause()
       measure()
+      render(playhead.value)
     }
 
     const preventNativeDrag = (event) => event.preventDefault()
+    scrub = gsap.to(playhead, {
+      value: target,
+      duration: .5,
+      ease: 'power3.out',
+      paused: true,
+      overwrite: true,
+      onUpdate: () => render(playhead.value),
+    })
     measure(true)
-    gsap.set(track, { x, force3D: true })
-    updateCardFocus()
-    gsap.ticker.add(tick)
+    render(playhead.value)
     viewport.addEventListener('pointerdown', handlePointerDown)
     viewport.addEventListener('pointermove', handlePointerMove)
     viewport.addEventListener('pointerup', handlePointerEnd)
@@ -353,7 +372,7 @@ function SelectedWorks() {
 
     return () => {
       window.clearTimeout(snapTimer)
-      gsap.ticker.remove(tick)
+      scrub?.kill()
       viewport.removeEventListener('pointerdown', handlePointerDown)
       viewport.removeEventListener('pointermove', handlePointerMove)
       viewport.removeEventListener('pointerup', handlePointerEnd)
@@ -620,7 +639,7 @@ function BeforeAfterComparison() {
     if (event.key === 'ArrowRight') setReveal((value) => Math.min(100, value + 5))
   }
 
-  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src="/assets/gallery/room/before.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span><small>图片素材待补充</small></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src="/assets/gallery/room/after.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span><small>图片素材待补充</small></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
+  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src="/assets/gallery/room/before.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src="/assets/gallery/room/after.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
 }
 
 function RoomMakeoverSection({ onPreview }) {

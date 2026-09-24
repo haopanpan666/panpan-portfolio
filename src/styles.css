@@ -884,6 +884,7 @@ body { font-family: var(--sans); }
 .photo-category header p { font-size: 14px; }
 
 .room-gallery-stream { display: flex; flex-direction: column; align-items: center; }
+.room-gallery-stream .masonry-grid { width: 100%; column-count: 2; }
 .before-after-comparison {
   position: relative;
   width: clamp(150px, 13vw, 220px);
@@ -2041,7 +2042,9 @@ html.motion-enabled .motion-section.is-inview .gallery-placeholder {
 .selected-story {
   flex: 0 0 clamp(250px, 20.5vw, 360px);
   width: clamp(250px, 20.5vw, 360px);
-  transition: opacity .7s ease, transform .8s var(--motion-ease);
+  transition: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 .selected-story:hover,
 .selected-story:focus-visible {
@@ -2203,6 +2206,16 @@ html.motion-enabled .motion-section.is-inview .gallery-placeholder {
 .selected-story:not(.is-carousel-active) .selected-story-copy { opacity: .78; }
 html.motion-enabled .selected-story.motion-item { transition: none; }
 
+@media (min-width: 1200px) {
+  .hero-subtitle { position: relative; top: 200px; }
+  .hero-main h1 { position: relative; top: 100px; margin-top: 130px; }
+}
+
+@media (max-width: 1199px) {
+  .hero-subtitle { position: static; top: auto; }
+  .hero-main h1 { position: static; top: auto; }
+}
+
 @media (max-width: 900px) {
   .selected-story-viewport {
     min-height: 650px;
@@ -2285,6 +2298,10 @@ html.motion-enabled .motion-section.is-inview .idea-card-copy > p {
 @media (max-width: 700px) {
   .selected-story strong { font-size: 20px; }
   .selected-story b { font-size: 27px; }
+}
+
+@media (max-width: 700px) {
+  .room-gallery-stream .masonry-grid { column-count: 1; }
 }
 
 @media (max-width: 620px) {
