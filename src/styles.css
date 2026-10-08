@@ -1235,6 +1235,76 @@ body { font-family: var(--sans); }
   font-size: clamp(43px, 3.15vw, 56px);
 }
 
+#daye .project-intro {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  --coral: #fff;
+  --muted: rgba(255, 255, 255, .8);
+  --line: rgba(255, 255, 255, .46);
+  background-color: #191817;
+  background-image: linear-gradient(rgba(8, 8, 8, .58), rgba(8, 8, 8, .48)), url('/assets/projects/05-daye-hero.jpg');
+  background-position: center;
+  background-size: cover;
+}
+#daye .project-intro::after { border-bottom-color: rgba(255, 255, 255, .28); }
+#daye .project-intro > * { position: relative; z-index: 1; }
+#daye .project-intro .project-summary { color: rgba(255, 255, 255, .82); }
+
+#daye .daye-retail-screen .screen-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(270px, .7fr);
+  grid-template-rows: auto auto;
+  gap: clamp(38px, 4.5vw, 76px) clamp(32px, 4vw, 72px);
+  align-items: start;
+}
+#daye .daye-retail-heading {
+  grid-column: 1 / -1;
+  width: min(760px, 88%);
+  margin-left: auto;
+}
+#daye .daye-retail-heading .screen-title {
+  max-width: 760px;
+  margin-top: 22px;
+  font-size: clamp(48px, 5.5vw, 96px);
+  line-height: .95;
+}
+#daye .daye-retail-media {
+  grid-column: 1;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #ecebe7;
+}
+#daye .daye-retail-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+#daye .daye-retail-copy {
+  grid-column: 2;
+  align-self: start;
+  max-width: 360px;
+  padding-top: 4px;
+}
+#daye .daye-retail-copy .bilingual-line { margin-top: 42px; }
+
+@media (max-width: 900px) {
+  #daye .daye-retail-screen .screen-body {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+  #daye .daye-retail-heading,
+  #daye .daye-retail-media,
+  #daye .daye-retail-copy { grid-column: 1; }
+  #daye .daye-retail-heading { width: 100%; margin-left: 0; }
+  #daye .daye-retail-heading .screen-title { font-size: clamp(42px, 11vw, 64px); }
+  #daye .daye-retail-copy { max-width: 650px; }
+  #daye .daye-retail-copy .bilingual-line { margin-top: 28px; }
+}
+
 @media (min-width: 901px) {
   .small-ideas-case h1 { font-size: 80px; }
 
