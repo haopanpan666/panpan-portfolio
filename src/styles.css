@@ -2380,3 +2380,138 @@ html.motion-enabled .motion-section.is-inview .idea-card-copy > p {
 @media (max-width: 620px) {
   .gallery-lightbox-stage { width: 90vw; height: 72vh; }
 }
+
+/* Daye editorial image-led screens and shared image preview behavior */
+#daye .project-intro {
+  background-image: none;
+}
+#daye .project-intro-image {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+#daye .project-intro::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: rgba(8, 8, 8, .54);
+  pointer-events: none;
+}
+#daye .project-intro > *:not(.project-intro-image) {
+  position: relative;
+  z-index: 2;
+}
+
+#daye .daye-overview-screen,
+#daye .daye-direction-screen {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  --coral: #fff;
+  --muted: rgba(255, 255, 255, .8);
+  --line: rgba(255, 255, 255, .46);
+  background-color: #191817;
+  background-position: center;
+  background-size: cover;
+}
+#daye .daye-overview-screen {
+  background-image: linear-gradient(rgba(8, 8, 8, .58), rgba(8, 8, 8, .48)), url('/assets/projects/05-daye-hero.jpg');
+  background-attachment: fixed;
+}
+#daye .daye-direction-screen {
+  background-image: linear-gradient(rgba(8, 8, 8, .62), rgba(8, 8, 8, .52)), url('/assets/projects/05-daye-spatial.jpg');
+}
+
+#daye .daye-retail-screen {
+  grid-template-columns: 200px minmax(0, 1fr);
+}
+#daye .daye-retail-screen .screen-index {
+  width: 200px;
+}
+#daye .daye-retail-heading {
+  margin-left: 0;
+  text-align: left;
+}
+#daye .daye-editorial-media {
+  display: block;
+  position: relative;
+  grid-column: 1;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+  background: #ecebe7;
+  line-height: 0;
+  cursor: zoom-in;
+}
+#daye .daye-editorial-media:hover,
+#daye .daye-editorial-media:focus-visible {
+  background: #ecebe7;
+  border-color: transparent;
+  outline: none;
+}
+#daye .daye-editorial-media:focus-visible {
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--coral);
+}
+#daye .daye-editorial-media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+}
+#daye .daye-retail-media-pair {
+  display: grid;
+  grid-column: 1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+}
+#daye .daye-retail-media-pair .daye-editorial-media {
+  grid-column: auto;
+  height: 100%;
+  aspect-ratio: auto;
+}
+#daye .daye-retail-media-pair .daye-editorial-media img {
+  object-fit: cover;
+}
+#daye .daye-retail-copy .three-in-between-grid > div {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  #daye .daye-overview-screen {
+    background-attachment: scroll;
+  }
+  #daye .daye-retail-screen {
+    grid-template-columns: 1fr;
+  }
+  #daye .daye-retail-screen .screen-index {
+    width: auto;
+  }
+  #daye .daye-retail-media-pair {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    aspect-ratio: auto;
+  }
+  #daye .daye-retail-media-pair .daye-editorial-media {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}

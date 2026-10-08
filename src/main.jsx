@@ -67,9 +67,10 @@ function MetaList({ items }) {
   )
 }
 
-function ProjectIntro({ number, name, title, english, summary, tags: projectTags, id }) {
+function ProjectIntro({ number, name, title, english, summary, tags: projectTags, id, imageSrc, imageAlt = '' }) {
   return (
     <div className="project-intro" id={id}>
+      {imageSrc && <img className="project-intro-image" src={imageSrc} alt={imageAlt} loading="eager" fetchPriority="high" decoding="async" />}
       <div className="project-intro-top">
         <span className="project-no">CASE {number}</span>
         {tags(projectTags)}
@@ -509,22 +510,50 @@ function QiduCase() {
   )
 }
 
-function DayeCase() {
+const dayeHeroAsset = '/assets/projects/05-daye-hero.jpg'
+const dayeSpatialAsset = '/assets/projects/05-daye-spatial.jpg'
+const dayeRetailAsset = '/assets/projects/05-daye-retail.jpg'
+
+const dayeGalleryItems = [
+  { id: 'daye-context', label: 'DAYE / CONTEXT', src: dayeHeroAsset },
+  { id: 'daye-spatial', label: 'DAYE / SPATIAL LANGUAGE', src: dayeSpatialAsset },
+  { id: 'daye-light', label: 'DAYE / LIGHT', src: dayeHeroAsset },
+  { id: 'daye-haze', label: 'DAYE / HAZE', src: dayeSpatialAsset },
+  { id: 'daye-retail', label: 'DAYE / RETAIL ENDING', src: dayeRetailAsset },
+]
+
+function DayeEditorialImage({ item, onPreview, className = '' }) {
+  return <button className={`gallery-placeholder daye-editorial-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading="lazy" decoding="async" /></button>
+}
+
+function DayeCase({ onPreview }) {
   return (
     <section className="case-section texture-section daye-case" id="daye">
-      <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} />
-      <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">看不见的香气</p><p className="small-english">MAKING THE INVISIBLE PERCEPTIBLE</p></div><div><MetaList items={[
+      <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} imageSrc={dayeHeroAsset} imageAlt="芳香展馆空间效果图" />
+      <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen daye-overview-screen"><div className="screen-columns two-col"><div><p className="display-note">让无形的香气被感知</p><p className="small-english">MAKING THE INVISIBLE PERCEPTIBLE</p></div><div><MetaList items={[
         ['项目名称｜PROJECT', '湖北大冶芳香产业文化展馆'], ['项目类型｜TYPE', '产业文化展馆 / 文旅展陈空间'], ['项目时间｜YEAR', '2022'], ['项目状态｜STATUS', <>概念方案 / 未建成<br /><i>Concept Proposal / Unbuilt</i></>], ['我的角色｜ROLE', '方案设计 / 效果呈现'],
       ]} /></div></div><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></Screen>
-      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">如何让“香”被看见？</p><div className="body-copy"><p>这是一个围绕芳香产业文化展开的展陈空间。</p><p>“香”最重要的部分来自嗅觉，但嗅觉无法像图像、文字或实体展品一样，被直接摆放在空间里。</p><p>因此，设计需要回答的并不是单纯“如何展示芳香产业”，而是：</p><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></div></div></Screen>
-      <Screen number="03" label="DESIGN DIRECTION｜设计方向"><div className="copy-layout"><div><p className="accent-label">FROM SCENT TO SENSATION</p><p className="screen-title">从“气味”转向“感受”</p></div><div className="body-copy"><p>空间没有试图把气味具象成某一种固定造型，而是从它的感受方式出发。</p><p>气味会扩散、停留、消散，也会因为人的移动而改变感受。</p><p>因此，设计语言逐渐转向：</p><div className="keyword-row"><span>流动</span><span>半透明</span><span>朦胧</span><span>漂浮</span><span>渐变</span></div></div></div></Screen>
-      <Screen number="04" label="SPATIAL LANGUAGE｜空间语言"><div className="copy-layout"><div><p className="accent-label">SPATIAL LANGUAGE</p><p className="screen-title">一条连续的感知路径</p></div><div className="body-copy"><p>整个展馆以曲线作为主要空间语言。</p><p>曲线弱化了传统展陈空间中明确的“房间—走廊—房间”关系，让参观路径更像一段连续发生的体验。</p><p>它没有明确边界，却会随着人的靠近、经过与停留逐渐被感知。</p></div></div></Screen>
-      <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明"><div className="three-in-betweens"><p className="screen-title">让空间成为“香”的容器</p><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果营造氤氲氛围。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></div></Screen>
+      <Screen number="02" label="CONTEXT｜项目背景" className="daye-retail-screen daye-context-screen"><div className="daye-retail-heading"><p className="screen-title">如何让“香”被看见？</p></div><DayeEditorialImage item={dayeGalleryItems[0]} onPreview={onPreview} className="daye-retail-media" /><div className="body-copy daye-retail-copy"><p>这是一个围绕芳香产业文化展开的展陈空间。</p><p>“香”最重要的部分来自嗅觉，但嗅觉无法像图像、文字或实体展品一样，被直接摆放在空间里。</p><p>因此，设计需要回答的并不是单纯“如何展示芳香产业”，而是：</p><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></div></Screen>
+      <Screen number="03" label="DESIGN DIRECTION｜设计方向" className="daye-direction-screen"><div className="copy-layout"><div><p className="accent-label">FROM SCENT TO SENSATION</p><p className="screen-title">从“气味”转向“感受”</p></div><div className="body-copy"><p>空间没有试图把气味具象成某一种固定造型，而是从它的感受方式出发。</p><p>气味会扩散、停留、消散，也会因为人的移动而改变感受。</p><p>因此，设计语言逐渐转向：</p><div className="keyword-row"><span>流动</span><span>半透明</span><span>朦胧</span><span>漂浮</span><span>渐变</span></div></div></div></Screen>
+      <Screen number="04" label="SPATIAL LANGUAGE｜空间语言" className="daye-retail-screen daye-spatial-screen"><div className="daye-retail-heading"><p className="accent-label">SPATIAL LANGUAGE</p><p className="screen-title">一条连续的感知路径</p></div><DayeEditorialImage item={dayeGalleryItems[1]} onPreview={onPreview} className="daye-retail-media" /><div className="body-copy daye-retail-copy"><p>整个展馆以曲线作为主要空间语言。</p><p>曲线弱化了传统展陈空间中明确的“房间—走廊—房间”关系，让参观路径更像一段连续发生的体验。</p><p>它没有明确边界，却会随着人的靠近、经过与停留逐渐被感知。</p></div></Screen>
+      <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明" className="daye-retail-screen daye-light-screen"><div className="daye-retail-heading"><p className="screen-title">让空间成为“香”的容器</p></div><div className="daye-retail-media-pair"><DayeEditorialImage item={dayeGalleryItems[2]} onPreview={onPreview} className="daye-split-image" /><DayeEditorialImage item={dayeGalleryItems[3]} onPreview={onPreview} className="daye-split-image" /></div><div className="body-copy daye-retail-copy"><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果营造氤氲氛围。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></div></Screen>
       <Screen number="06" label="SENSORY EXPERIENCE｜从观看到参与"><div className="copy-layout"><div><p className="accent-label">SENSORY EXPERIENCE</p><p className="screen-title">从观看到参与</p></div><div className="body-copy"><p><strong>视觉</strong><br />曲线、光影、透明与渐变。</p><p><strong>嗅觉</strong><br />芳香本身成为展陈内容的一部分。</p><p><strong>移动</strong><br />连续动线让气味与画面在行走中不断变化。</p><p><strong>停留</strong><br />局部节点提供更近距离的观察与体验。</p><Quote><strong>展馆不是一组静态信息的排列，而是一条由不同感官共同完成的参观路径。</strong></Quote></div></div></Screen>
-      <Screen number="07" label="RETAIL ENDING｜体验的最后" className="daye-retail-screen"><div className="daye-retail-heading"><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识<br />走向产品接触</p></div><figure className="daye-retail-media"><img src="/assets/projects/05-daye-retail.jpg" alt="芳香展馆零售空间效果图" loading="lazy" decoding="async" /></figure><div className="body-copy daye-retail-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></Screen>
+      <Screen number="07" label="RETAIL ENDING｜体验的最后" className="daye-retail-screen"><div className="daye-retail-heading"><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识<br />走向产品接触</p></div><DayeEditorialImage item={dayeGalleryItems[4]} onPreview={onPreview} className="daye-retail-media" /><div className="body-copy daye-retail-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">“香”没有固定形状。</p></div><div><p>这个项目最重要的尝试，是寻找一种方法，把原本无法被直接看见的内容转成空间语言。</p><p>因此，空间也不需要替它制造一个明确符号。</p><Quote><strong>当展陈对象本身不可见，空间就成为感知它的媒介。</strong></Quote><p className="status-line">概念方案 / 未建成</p></div></div></Screen>
     </section>
   )
+}
+
+function DayeCasePage() {
+  const [previewId, setPreviewId] = useState(null)
+  const previewIndex = dayeGalleryItems.findIndex((item) => item.id === previewId)
+  const preview = previewIndex >= 0 ? dayeGalleryItems[previewIndex] : null
+  const movePreview = (direction) => {
+    if (previewIndex < 0) return
+    const nextIndex = (previewIndex + direction + dayeGalleryItems.length) % dayeGalleryItems.length
+    setPreviewId(dayeGalleryItems[nextIndex].id)
+  }
+  return <><CasePage theme="light" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={dayeGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage></>
 }
 
 const smallIdeaStories = [
@@ -648,9 +677,11 @@ function RoomMakeoverSection({ onPreview }) {
 
 function GalleryLightbox({ item, index, count, onClose, onMove }) {
   const [wheelLocked, setWheelLocked] = useState(false)
+  const openedAt = useRef(0)
 
   useEffect(() => {
     if (!item) return undefined
+    openedAt.current = performance.now()
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') onClose()
       if (event.key === 'ArrowDown' || event.key === 'ArrowRight') onMove(1)
@@ -662,7 +693,7 @@ function GalleryLightbox({ item, index, count, onClose, onMove }) {
       document.body.classList.remove('lightbox-open')
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [onClose, onMove])
+  }, [item, onClose, onMove])
 
   if (!item) return null
 
@@ -674,7 +705,13 @@ function GalleryLightbox({ item, index, count, onClose, onMove }) {
     window.setTimeout(() => setWheelLocked(false), 520)
   }
 
-  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={onClose} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><img className="gallery-lightbox-image" src={item.src} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
+  const handleBackdropClick = (event) => {
+    if (event.target !== event.currentTarget) return
+    if (performance.now() - openedAt.current < 240) return
+    onClose()
+  }
+
+  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={handleBackdropClick} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><img className="gallery-lightbox-image" src={item.src} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
 }
 
 function OutsideSection() {
@@ -943,7 +980,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/binrongfu', label: '杭州滨融府' }}><QiduCase /></CasePage>} /><Route path="/cases/binrongfu" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<CasePage theme="light" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase /></CasePage>} /><Route path="/cases/small-ideas" element={<CasePage theme="light" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/binrongfu', label: '杭州滨融府' }}><QiduCase /></CasePage>} /><Route path="/cases/binrongfu" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="light" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
