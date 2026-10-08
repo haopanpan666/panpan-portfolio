@@ -2632,3 +2632,221 @@ html.motion-enabled .motion-section.is-inview .idea-card-copy > p {
     padding-bottom: 12px;
   }
 }
+
+/* Final case direction: dark detail pages, one atmospheric Daye backdrop, and seamless section edges. */
+.case-page .screen,
+.case-page .case-next,
+.case-page .texture-section::after {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.case-page:has(#daye) .case-next {
+  color: #fff;
+  background: rgba(10, 10, 10, .72);
+  border: 0;
+  backdrop-filter: blur(18px) saturate(120%);
+}
+.case-page:has(#daye) .case-next a { color: inherit; }
+.case-page .site-header { border-bottom: 0; }
+
+.case-page.theme-dark .small-ideas-case {
+  color: var(--dark-text);
+  background-color: var(--dark-bg);
+  background-image: none;
+}
+.case-page.theme-dark .small-ideas-case .idea-card,
+.case-page.theme-dark .small-ideas-case .idea-card-media span { color: var(--dark-text); }
+.case-page.theme-dark .small-ideas-case .idea-card-media {
+  color: var(--dark-muted);
+  background: #141414;
+  border-color: var(--dark-line);
+}
+.case-page.theme-dark .small-ideas-case .idea-card-meta,
+.case-page.theme-dark .small-ideas-case .idea-card-copy > p,
+.case-page.theme-dark .small-ideas-case-intro { color: var(--dark-muted); }
+
+#daye {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  color: #fff;
+  --coral: #fff;
+  --ink: #fff;
+  --muted: rgba(255, 255, 255, .72);
+  --line: transparent;
+  background: transparent;
+}
+#daye > .daye-scene-backdrop {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #090909;
+}
+#daye > .daye-scene-backdrop::before,
+#daye > .daye-scene-backdrop::after {
+  position: absolute;
+  content: '';
+  inset: -30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: scale(1.055);
+  filter: brightness(.92) blur(var(--daye-scene-blur, 0px));
+  transition: opacity .9s var(--motion-ease), filter .18s linear;
+  will-change: opacity, filter;
+}
+#daye > .daye-scene-backdrop::before {
+  opacity: 1;
+  background-image: linear-gradient(rgba(8, 8, 8, var(--daye-scene-haze, .34)), rgba(8, 8, 8, var(--daye-scene-haze, .34))), url('/assets/projects/05-daye-hero.jpg');
+}
+#daye > .daye-scene-backdrop::after {
+  opacity: 0;
+  background-image: linear-gradient(rgba(8, 8, 8, var(--daye-scene-haze, .34)), rgba(8, 8, 8, var(--daye-scene-haze, .34))), url('/assets/projects/05-daye-spatial.jpg');
+}
+#daye.daye-after-direction > .daye-scene-backdrop::before { opacity: 0; }
+#daye.daye-after-direction > .daye-scene-backdrop::after { opacity: 1; }
+#daye > *:not(.daye-scene-backdrop) {
+  position: relative;
+  z-index: 1;
+}
+#daye .project-intro,
+#daye .screen,
+#daye .case-section,
+#daye .daye-overview-screen,
+#daye .daye-direction-screen,
+#daye .daye-retail-screen {
+  background: transparent;
+  background-image: none;
+  color: #fff;
+  --coral: #fff;
+  --ink: #fff;
+  --muted: rgba(255, 255, 255, .72);
+  --line: transparent;
+}
+#daye .project-intro-image,
+#daye .project-intro::before,
+#daye .project-intro::after { display: none; }
+#daye .project-intro > *:not(.project-intro-image) { position: relative; z-index: auto; }
+#daye .daye-retail-media { background: rgba(8, 8, 8, .18); }
+#daye .daye-retail-media:hover,
+#daye .daye-retail-media:focus-visible { background: rgba(8, 8, 8, .18); }
+
+@media (min-width: 901px) {
+  /* 02 / 04 / 07: the image and the complete right-hand copy column share a top edge. */
+  #daye .daye-retail-screen:not(.daye-light-screen) .screen-body {
+    grid-template-rows: auto;
+  }
+  #daye .daye-retail-screen:not(.daye-light-screen) .daye-retail-media {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+  }
+  #daye .daye-retail-aside {
+    display: flex;
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    flex-direction: column;
+    align-self: start;
+    gap: clamp(28px, 3.2vw, 52px);
+  }
+  #daye .daye-retail-aside .daye-retail-heading,
+  #daye .daye-retail-aside .daye-retail-copy {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  #daye .daye-retail-aside .daye-retail-heading .screen-title { margin-top: 0; }
+
+  #daye .daye-light-screen .screen-body {
+    grid-template-rows: auto 400px;
+    min-height: 700px;
+    height: 700px;
+    margin-top: 0;
+    margin-left: -371px;
+    width: calc(100% + 126.73px);
+    gap: clamp(28px, 3.5vw, 52px) 10px;
+  }
+  #daye .daye-light-screen .daye-retail-heading {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    margin: 40px 0 0;
+  }
+  #daye .daye-light-screen .daye-retail-heading .screen-title { margin-top: 0; }
+  #daye .daye-light-screen .daye-retail-copy {
+    grid-column: 1;
+    grid-row: 1;
+    width: min(100%, 480px);
+    margin: 0;
+    padding: 0;
+  }
+  #daye .daye-light-screen .three-in-between-grid {
+    margin: 40px 0 -12px 64px;
+  }
+  #daye .daye-light-screen .daye-retail-media-pair {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    height: 400px;
+    aspect-ratio: auto;
+  }
+  #daye .daye-light-screen .daye-retail-media-pair .daye-editorial-media,
+  #daye .daye-light-screen .daye-retail-media-pair .daye-editorial-media img {
+    height: 400px;
+  }
+}
+
+/* Keep the same waterfall-style entrance on Daye's editorial image cards, even when they are not in a masonry grid. */
+html.motion-enabled #daye .daye-editorial-media {
+  opacity: 0;
+  transform: translate3d(0, 72px, 0) scale(.965);
+  filter: blur(8px);
+  transition: opacity .82s var(--motion-ease), transform .92s var(--motion-ease), filter .82s var(--motion-ease);
+  transition-delay: calc(var(--gallery-index, 0) * 42ms);
+  will-change: opacity, transform, filter;
+}
+html.motion-enabled #daye .daye-editorial-media.is-gallery-visible {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+@media (max-width: 900px) {
+  #daye > .daye-scene-backdrop::before,
+  #daye > .daye-scene-backdrop::after { transform: scale(1.08); }
+  #daye .daye-retail-aside {
+    grid-column: 1;
+    grid-row: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  #daye .daye-retail-aside .daye-retail-heading,
+  #daye .daye-retail-aside .daye-retail-copy {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #daye .daye-light-screen .screen-body {
+    height: auto;
+    min-height: 0;
+    margin-top: 0;
+    margin-left: 0;
+    width: 100%;
+  }
+  #daye .daye-light-screen .daye-retail-heading { margin-top: 40px; }
+  #daye .daye-light-screen .three-in-between-grid { margin: 40px 0 -12px 0; }
+  #daye .daye-light-screen .daye-retail-media-pair,
+  #daye .daye-light-screen .daye-retail-media-pair .daye-editorial-media,
+  #daye .daye-light-screen .daye-retail-media-pair .daye-editorial-media img {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
