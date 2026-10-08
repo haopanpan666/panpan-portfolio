@@ -527,6 +527,22 @@ function DayeEditorialImage({ item, onPreview, className = '' }) {
 }
 
 function DayeCase({ onPreview }) {
+  useEffect(() => {
+    const daye = document.querySelector('#daye')
+    const directionScreen = daye?.querySelector('.daye-direction-screen')
+    if (!daye || !directionScreen) return undefined
+    const updateBackdropState = () => {
+      daye.classList.toggle('daye-background-stopped', directionScreen.getBoundingClientRect().top <= window.innerHeight * .88)
+    }
+    updateBackdropState()
+    window.addEventListener('scroll', updateBackdropState, { passive: true })
+    window.addEventListener('resize', updateBackdropState)
+    return () => {
+      window.removeEventListener('scroll', updateBackdropState)
+      window.removeEventListener('resize', updateBackdropState)
+    }
+  }, [])
+
   return (
     <section className="case-section texture-section daye-case" id="daye">
       <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} imageSrc={dayeHeroAsset} imageAlt="芳香展馆空间效果图" />
