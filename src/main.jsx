@@ -2,13 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import '@fontsource-variable/bodoni-moda'
 import '@fontsource-variable/inter'
-import '@fontsource-variable/playfair-display'
 import './styles.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const navItems = [
   ['STORIES', '/#work'],
@@ -152,11 +147,13 @@ const selectedStories = [
 function SelectedStoryCard({ story, clone = false }) {
   return (
     <Link className="selected-story" to={story.to} tabIndex={clone ? -1 : undefined} draggable="false">
-      <div className="selected-story-media" aria-hidden="true">
-        <img src={story.cover} alt="" draggable="false" loading="lazy" onError={(event) => event.currentTarget.remove()} />
-        <span>{story.number}</span><small>{story.english}</small>
+      <div className="selected-story-reveal">
+        <div className="selected-story-media" aria-hidden="true">
+          <img src={story.cover} alt="" draggable="false" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} />
+          <span>{story.number}</span><small>{story.english}</small>
+        </div>
+        <div className="selected-story-copy"><div className="selected-story-kicker"><span>{story.number}</span><strong>{story.name}</strong></div><b>{story.title}</b><small>{story.english}</small><i>{story.tags}</i></div>
       </div>
-      <div className="selected-story-copy"><div className="selected-story-kicker"><span>{story.number}</span><strong>{story.name}</strong></div><b>{story.title}</b><small>{story.english}</small><i>{story.tags}</i></div>
     </Link>
   )
 }
@@ -412,9 +409,14 @@ function SelectedWorks() {
   )
 }
 
+function CaseBackdrop({ src }) {
+  return <div className="case-scene-backdrop" aria-hidden="true"><img src={src} alt="" loading="eager" fetchPriority="high" decoding="async" /></div>
+}
+
 function YangmingCase() {
   return (
     <section className="case-section texture-section" id="yangming">
+      <CaseBackdrop src="/assets/projects/01-yangming-bg.jpg" />
       <ProjectIntro number="01" name="余姚阳明温泉山庄" title="一个让人慢下来的地方" english="A Place to Slow Down" summary="通过疗愈体验与既有资源的重新激活，想象一座运营十五年的温泉度假酒店，还可以如何重新变得值得到访。" tags={['文旅策划 Destination Planning', '体验策划 Experience Planning', '概念设计 Concept Development']} />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen">
         <div className="screen-columns two-col">
@@ -452,6 +454,7 @@ function YangmingCase() {
 function BinrongCase() {
   return (
     <section className="case-section texture-section" id="binrongfu">
+      <CaseBackdrop src="/assets/projects/04-binrongfu-bg.jpg" />
       <ProjectIntro number="04" name="杭州滨融府" title="两个露台，两种生活" english="Two Terraces, Two Ways of Living" summary="在两个与室内生活紧密相连的屋顶露台中，分别回应独处与相聚的日常场景，并在施工阶段面对荷载、设备、材料与植物条件持续调整，最终完成落地。" tags={['Built & Delivery', 'Roof Terrace', 'Full-process Design']} />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">两个露台<br />两种生活</p></div><div><MetaList items={[
         ['项目名称｜PROJECT', '杭州滨融府'], ['项目类型｜TYPE', '高端住宅屋顶露台 / 私宅花园'], ['项目时间｜YEAR', '2024'], ['项目面积｜AREA', '约140㎡'], ['项目状态｜STATUS', <>已交付<br /><i>Completed</i></>],
@@ -470,6 +473,7 @@ function BinrongCase() {
 function YuelongCase() {
   return (
     <section className="case-section texture-section" id="yuelongwan">
+      <CaseBackdrop src="/assets/projects/02-yuelongwan-bg.jpg" />
       <ProjectIntro number="02" name="余姚悦龙湾" title="两栋房子之间" english="Designing the In-Between" summary="在接待与起居、车行与花园、现代与日式之间，为两栋用途不同的别墅建立一个完整而自然的空间系统。" tags={['私宅景观 Residential Landscape', '空间系统 Spatial System', '体验组织 Experience Planning']} />
       <Screen number="01" label="PROJECT INFO｜项目信息" className="overview-screen">
         <div className="screen-columns two-col"><div><p className="display-note">两栋房子之间</p><p className="small-english">DESIGNING THE IN-BETWEEN</p></div><div><MetaList items={[
@@ -491,6 +495,7 @@ function YuelongCase() {
 function QiduCase() {
   return (
     <section className="case-section texture-section" id="qidu">
+      <CaseBackdrop src="/assets/projects/03-qidu-bg.jpg" />
       <ProjectIntro number="03" name="温州七都华侨花园" title="生活的艺术家" english="The Art of Living" summary="通过艺术化空间、强烈高差、下沉泳池、悬空步道和热带植物，组织一套更自由的年轻家庭生活场景。" tags={['Art & Lifestyle', 'Level Design', 'Landscape Experience']} />
       <Screen number="01" label="PROJECT INFO｜项目概览" className="overview-screen">
         <div className="screen-columns two-col"><div aria-hidden="true" /><div><MetaList items={[
@@ -574,7 +579,10 @@ function DayeCase({ onPreview }) {
 
   return (
     <section className="case-section texture-section daye-case" id="daye">
-      <div className="daye-scene-backdrop" aria-hidden="true" />
+      <div className="daye-scene-backdrop" aria-hidden="true">
+        <img className="daye-scene-image daye-scene-image-primary" src={dayeHeroAsset} alt="" loading="eager" fetchPriority="high" decoding="async" />
+        <img className="daye-scene-image daye-scene-image-secondary" src={dayeSpatialAsset} alt="" loading="eager" fetchPriority="low" decoding="async" />
+      </div>
       <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} imageSrc={dayeHeroAsset} imageAlt="芳香展馆空间效果图" />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen daye-overview-screen"><div className="screen-columns two-col"><div><p className="display-note">让无形的香气被感知</p><p className="small-english">MAKING THE INVISIBLE PERCEPTIBLE</p></div><div><MetaList items={[
         ['项目名称｜PROJECT', '湖北大冶芳香产业文化展馆'], ['项目类型｜TYPE', '产业文化展馆 / 文旅展陈空间'], ['项目时间｜YEAR', '2022'], ['项目状态｜STATUS', <>概念方案 / 未建成<br /><i>Concept Proposal / Unbuilt</i></>], ['我的角色｜ROLE', '方案设计 / 效果呈现'],
@@ -609,7 +617,36 @@ const smallIdeaStories = [
 ]
 
 function SmallIdeasCase() {
-  return <section className="case-section small-ideas-case" id="small-ideas"><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="eager" fetchPriority="high" decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const stage = section?.querySelector('.idea-card-stage')
+    if (!section || !stage) return undefined
+    let frame = 0
+    const clamp = (value) => Math.min(1, Math.max(0, value))
+    const updateBackdrop = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const top = stage.getBoundingClientRect().top
+        const progress = clamp((window.innerHeight * .55 - top) / (window.innerHeight * .55))
+        section.style.setProperty('--small-ideas-progress', progress.toFixed(3))
+        section.style.setProperty('--small-ideas-blur', `${Math.round(progress * 15)}px`)
+        section.style.setProperty('--small-ideas-haze', (0.24 + progress * .28).toFixed(3))
+        section.style.setProperty('--small-ideas-glass', `${Math.round(progress * 22)}px`)
+      })
+    }
+    updateBackdrop()
+    window.addEventListener('scroll', updateBackdrop, { passive: true })
+    window.addEventListener('resize', updateBackdrop)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateBackdrop)
+      window.removeEventListener('resize', updateBackdrop)
+    }
+  }, [])
+
+  return <section className="case-section small-ideas-case" id="small-ideas" ref={sectionRef}><CaseBackdrop src="/assets/projects/06-small-ideas-bg.jpg" /><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
 }
 
 function HowIWork() {
@@ -872,7 +909,7 @@ function MotionDirector() {
       ['.site-header', '.wordmark, .site-header nav a'],
       ['.hero', '.hero-subtitle, .hero-main h1, .hero-english-title, .hero-copy'],
       ['.info-page', '.section-marker, .info-content, .info-content h2'],
-      ['.selected-works', '.selected-top, .selected-english, .selected-content-wide h2, .selected-story'],
+      ['.selected-works', '.selected-top, .selected-english, .selected-content-wide h2'],
       ['.work-method', '.method-heading > *, .steps-grid > div, .method-emphasis > *'],
       ['.outside-cover', '.outside-cover-index, .outside-cover-copy > *'],
       ['.outside-gallery-section', '.outside-gallery-heading > span, .outside-gallery-heading > p, .outside-gallery-heading > nav, .outside-gallery-heading > blockquote'],
@@ -909,7 +946,7 @@ function MotionDirector() {
       item.style.setProperty('--motion-index', index % 7)
     })
 
-    const galleryItems = [...document.querySelectorAll('.gallery-placeholder')]
+    const galleryItems = [...document.querySelectorAll('.gallery-placeholder, .selected-story-reveal, .idea-card-media, .profile-figure')]
     const galleryObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return
@@ -918,6 +955,7 @@ function MotionDirector() {
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -6% 0px' })
     galleryItems.forEach((item, index) => {
+      item.classList.add('motion-media')
       item.style.setProperty('--gallery-index', index % 7)
       galleryObserver.observe(item)
     })
@@ -934,58 +972,40 @@ function MotionDirector() {
     document.querySelector('.hero')?.classList.add('is-inview')
 
     const headingOriginals = []
-    const gsapContext = gsap.context(() => {
-      document.querySelectorAll('.motion-heading').forEach((heading) => {
-        headingOriginals.push([heading, heading.innerHTML])
-        heading.classList.add('scroll-float')
-        const chars = splitTextNodes(heading)
-        gsap.fromTo(chars, {
-          willChange: 'opacity, transform',
-          opacity: 0,
-          yPercent: 120,
-          scaleY: 1.65,
-          scaleX: 0.84,
-          transformOrigin: '50% 0%',
-        }, {
+    const headingChars = new Map()
+    document.querySelectorAll('.motion-heading').forEach((heading) => {
+      headingOriginals.push([heading, heading.innerHTML])
+      heading.classList.add('scroll-float')
+      const chars = splitTextNodes(heading)
+      headingChars.set(heading, chars)
+      gsap.set(chars, {
+        willChange: 'opacity, transform',
+        opacity: 0,
+        yPercent: 112,
+        scaleY: 1.45,
+        scaleX: .9,
+        transformOrigin: '50% 0%',
+      })
+    })
+    const headingObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        const chars = headingChars.get(entry.target) || []
+        gsap.to(chars, {
           opacity: 1,
           yPercent: 0,
           scaleY: 1,
           scaleX: 1,
-          duration: 1,
+          duration: .86,
           ease: 'power3.out',
-          stagger: 0.028,
-          scrollTrigger: {
-            trigger: heading,
-            start: 'top bottom-=8%',
-            end: 'top 38%',
-            scrub: 0.8,
-          },
+          stagger: .022,
+          clearProps: 'willChange',
         })
+        entry.target.classList.add('is-heading-inview')
+        headingObserver.unobserve(entry.target)
       })
-
-      document.querySelectorAll('.idea-card-media, .profile-figure').forEach((item, index) => {
-        gsap.fromTo(item, {
-          opacity: 0,
-          y: 72,
-          scale: 0.965,
-          filter: 'blur(8px)',
-        }, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 1,
-          ease: 'power3.out',
-          delay: (index % 5) * 0.045,
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 94%',
-            end: 'top 62%',
-            scrub: 0.75,
-          },
-        })
-      })
-    })
+    }, { threshold: 0.01, rootMargin: '0px 0px -5% 0px' })
+    headingChars.forEach((_, heading) => headingObserver.observe(heading))
 
     const parallaxTargets = [...document.querySelectorAll('.profile-figure img')]
     let frame = 0
@@ -1010,8 +1030,9 @@ function MotionDirector() {
     return () => {
       observer.disconnect()
       galleryObserver.disconnect()
-      gsapContext.revert()
+      headingObserver.disconnect()
       headingOriginals.forEach(([heading, html]) => {
+        gsap.killTweensOf(headingChars.get(heading) || [])
         heading.innerHTML = html
         heading.classList.remove('scroll-float')
       })
