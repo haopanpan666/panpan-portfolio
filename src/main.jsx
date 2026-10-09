@@ -492,27 +492,94 @@ function YuelongCase() {
   )
 }
 
-function QiduCase() {
+const qiduBackdropAsset = '/assets/projects/03-qidu-bg.jpg'
+const qiduGalleryItems = [
+  { id: 'qidu-concept', label: 'QIDU / THE ART OF LIVING', src: '/assets/projects/qidu/03.jpg' },
+  { id: 'qidu-arrival', label: 'QIDU / ARRIVAL GARDEN', src: '/assets/projects/qidu/04.jpg' },
+  { id: 'qidu-sunken', label: 'QIDU / SUNKEN GARDEN', src: '/assets/projects/qidu/05.jpg' },
+  { id: 'qidu-pool', label: 'QIDU / POOL & ROCK WALL', src: '/assets/projects/qidu/06.jpg' },
+  { id: 'qidu-living', label: 'QIDU / LIVING LANDSCAPE', src: '/assets/projects/qidu/07.jpg' },
+  { id: 'qidu-planting', label: 'QIDU / TROPICAL ATMOSPHERE', src: '/assets/projects/qidu/08.jpg' },
+]
+
+function QiduEditorialImage({ item, onPreview }) {
+  return <button className="gallery-placeholder qidu-editorial-media" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading="lazy" decoding="async" /></button>
+}
+
+function QiduCase({ onPreview }) {
+  useEffect(() => {
+    const qidu = document.querySelector('#qidu')
+    const glassScreens = [...(qidu?.querySelectorAll('.qidu-overview-screen, .qidu-editorial-screen') || [])]
+    if (!qidu || !glassScreens.length) return undefined
+    let frame = 0
+    const clamp = (value) => Math.min(1, Math.max(0, value))
+    const screenProgress = (rect, viewportHeight) => {
+      const enter = viewportHeight * .92
+      const full = viewportHeight * .58
+      const leaveFull = viewportHeight * .78
+      if (rect.bottom <= 0 || rect.top >= enter) return 0
+      if (rect.top > full) return clamp((enter - rect.top) / (enter - full))
+      if (rect.bottom < leaveFull) return clamp(rect.bottom / leaveFull)
+      return 1
+    }
+    const updateBackdrop = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const viewportHeight = window.innerHeight
+        const progress = Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
+        qidu.style.setProperty('--qidu-glass-progress', progress.toFixed(3))
+        qidu.style.setProperty('--qidu-scene-blur', `${Math.round(progress * 14)}px`)
+        qidu.style.setProperty('--qidu-glass-blur', `${Math.round(progress * 18)}px`)
+      })
+    }
+    updateBackdrop()
+    window.addEventListener('scroll', updateBackdrop, { passive: true })
+    window.addEventListener('resize', updateBackdrop)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateBackdrop)
+      window.removeEventListener('resize', updateBackdrop)
+    }
+  }, [])
+
   return (
     <section className="case-section texture-section" id="qidu">
-      <CaseBackdrop src="/assets/projects/03-qidu-bg.jpg" />
+      <CaseBackdrop src={qiduBackdropAsset} />
       <ProjectIntro number="03" name="温州七都华侨花园" title="生活的艺术家" english="The Art of Living" summary="通过艺术化空间、强烈高差、下沉泳池、悬空步道和热带植物，组织一套更自由的年轻家庭生活场景。" tags={['Art & Lifestyle', 'Level Design', 'Landscape Experience']} />
-      <Screen number="01" label="PROJECT INFO｜项目概览" className="overview-screen">
-        <div className="screen-columns two-col"><div aria-hidden="true" /><div><MetaList items={[
-          ['项目类型｜TYPE', '私宅庭院 / 滨水住宅景观'], ['项目时间｜YEAR', '2026'], ['项目面积｜AREA', '约1200㎡'], ['项目状态｜STATUS', <>准备施工<br /><i>Preparing for Construction</i></>],
-        ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计 Lead Design<br />方案深化 Design Development<br />视觉表达 Visualization<br />植物设计 Planting Design<br />动画表现 Animation Visualization<br />客户沟通 Client Communication</p></div></div></div>
-        <div className="north-south-diagram"><span>NORTH / 北侧<br />ARRIVAL GARDEN</span><i>→</i><span>SOUTH / 南侧<br />LIVING GARDEN</span></div>
+      <Screen number="01" label="PROJECT INFO｜项目概览" className="overview-screen qidu-overview-screen">
+        <div className="qidu-overview-layout">
+          <figure className="qidu-overview-plan"><img src="/assets/projects/qidu/01-plan.png" alt="七都华侨花园总平面图" loading="eager" decoding="async" /></figure>
+          <div className="qidu-overview-meta"><MetaList items={[
+            ['项目类型｜TYPE', '私宅庭院 / 滨水住宅景观'], ['项目时间｜YEAR', '2026'], ['项目面积｜AREA', '约1200㎡'], ['项目状态｜STATUS', <>准备施工<br /><i>Preparing for Construction</i></>],
+          ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计 Lead Design<br />方案深化 Design Development<br />视觉表达 Visualization<br />植物设计 Planting Design<br />动画表现 Animation Visualization<br />客户沟通 Client Communication</p></div></div>
+          <div className="qidu-overview-areas">
+            <figure><img src="/assets/projects/qidu/01-north.jpg" alt="七都华侨花园北侧入户花园鸟瞰" loading="eager" decoding="async" /><figcaption>NORTH / 北侧<br />ARRIVAL GARDEN</figcaption></figure>
+            <figure><img src="/assets/projects/qidu/01-south.jpg" alt="七都华侨花园南侧生活花园鸟瞰" loading="eager" decoding="async" /><figcaption>SOUTH / 南侧<br />LIVING GARDEN</figcaption></figure>
+          </div>
+        </div>
       </Screen>
       <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">一个年轻家庭的<br />滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
-      <Screen number="03" label="CONCEPT｜核心概念"><div className="concept-layout"><div><p className="concept-word">“生活的艺术家”</p><p className="small-english">THE ART OF LIVING</p></div><div className="body-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
-      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园"><div className="copy-layout"><div><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是<br />景观的一部分</p></div><div className="body-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
-      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差"><div className="copy-layout"><div><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy"><p><strong>隐私</strong><br />泳池设置在下沉庭院，阻隔园外视线。</p><p><strong>空间层次</strong><br />栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
-      <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池"><div className="copy-layout pool-layout"><div><p className="accent-label">POOL &amp; ROCK WALL</p><p className="screen-title">一条贴着岩壁的泳池</p></div><div className="body-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
-      <Screen number="07" label="LIVING LANDSCAPE｜回到地面"><div className="copy-layout"><div><p className="accent-label">LIVING LANDSCAPE</p><p className="screen-title">更自由的日常生活</p></div><div className="body-copy"><p>离开下沉空间后，南侧重新回到开阔的地面层。草坪、砾石与沙生植物、亭子、河岸平台和秋千共同组成更松弛的生活区域。</p><p>从入口到河岸，空间也从较正式的“到达”，逐渐转向更加自由的“生活”。</p></div></div></Screen>
-      <Screen number="08" label="TROPICAL ATMOSPHERE｜植物与色彩"><div className="copy-layout planting-layout"><div><p className="accent-label">TROPICAL ATMOSPHERE</p><p className="screen-title">植物与色彩</p></div><div className="body-copy"><p><strong>高层</strong><br />棕榈</p><p><strong>中层</strong><br />大叶植物 / 球形灌木</p><p><strong>低层</strong><br />花境 / 沙生植物</p><p>植物既参与建筑与景墙的构图，也在生长过程中逐渐变得更自然。南侧通过更丰富的层次和色彩，形成鲜明而轻松的度假感。</p></div></div></Screen>
+      <Screen number="03" label="CONCEPT｜核心概念" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="small-english">THE ART OF LIVING</p><p className="concept-word">“生活的艺术家”</p></div><div className="body-copy qidu-editorial-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
+      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[1]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是<br />景观的一部分</p></div><div className="body-copy qidu-editorial-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
+      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[2]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy qidu-editorial-copy"><p><strong>隐私</strong><br />泳池设置在下沉庭院，阻隔园外视线。</p><p><strong>空间层次</strong><br />栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
+      <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[3]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">POOL &amp; ROCK WALL</p><p className="screen-title">一条贴着岩壁的泳池</p></div><div className="body-copy qidu-editorial-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
+      <Screen number="07" label="LIVING LANDSCAPE｜回到地面" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[4]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">LIVING LANDSCAPE</p><p className="screen-title">更自由的日常生活</p></div><div className="body-copy qidu-editorial-copy"><p>离开下沉空间后，南侧重新回到开阔的地面层。草坪、砾石与沙生植物、亭子、河岸平台和秋千共同组成更松弛的生活区域。</p><p>从入口到河岸，空间也从较正式的“到达”，逐渐转向更加自由的“生活”。</p></div></div></Screen>
+      <Screen number="08" label="TROPICAL ATMOSPHERE｜植物与色彩" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[5]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">TROPICAL ATMOSPHERE</p><p className="screen-title">植物与色彩</p></div><div className="body-copy qidu-editorial-copy"><p><strong>高层</strong><br />棕榈</p><p><strong>中层</strong><br />大叶植物 / 球形灌木</p><p><strong>低层</strong><br />花境 / 沙生植物</p><p>植物既参与建筑与景墙的构图，也在生长过程中逐渐变得更自然。南侧通过更丰富的层次和色彩，形成鲜明而轻松的度假感。</p></div></div></Screen>
       <Screen number="09" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">艺术感和生活感<br />如何同时成立</p></div><div><p>花园可以有明确的构图、材料与视觉表达，也可以具体回应停车、隐私、游泳、吃饭、喝茶、阅读、亲水和家庭相处。</p><Quote><strong>让艺术进入日常，也让日常本身拥有被认真设计的价值。</strong></Quote></div></div></Screen>
     </section>
   )
+}
+
+function QiduCasePage() {
+  const [previewId, setPreviewId] = useState(null)
+  const previewIndex = qiduGalleryItems.findIndex((item) => item.id === previewId)
+  const preview = previewIndex >= 0 ? qiduGalleryItems[previewIndex] : null
+  const movePreview = (direction) => {
+    if (previewIndex < 0) return
+    const nextIndex = (previewIndex + direction + qiduGalleryItems.length) % qiduGalleryItems.length
+    setPreviewId(qiduGalleryItems[nextIndex].id)
+  }
+  return <CasePage theme="dark" next={{ to: '/cases/binrongfu', label: '杭州滨融府' }}><QiduCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={qiduGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
 const dayeHeroAsset = '/assets/projects/05-daye-hero.jpg'
@@ -527,8 +594,8 @@ const dayeGalleryItems = [
   { id: 'daye-retail', label: 'DAYE / RETAIL ENDING', src: dayeRetailAsset },
 ]
 
-function DayeEditorialImage({ item, onPreview, className = '' }) {
-  return <button className={`gallery-placeholder daye-editorial-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading="lazy" decoding="async" /></button>
+function DayeEditorialImage({ item, onPreview, className = '', priority = false }) {
+  return <button className={`gallery-placeholder daye-editorial-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></button>
 }
 
 function DayeCase({ onPreview }) {
@@ -592,7 +659,7 @@ function DayeCase({ onPreview }) {
       <Screen number="04" label="SPATIAL LANGUAGE｜空间语言" className="daye-retail-screen daye-spatial-screen"><DayeEditorialImage item={dayeGalleryItems[1]} onPreview={onPreview} className="daye-retail-media" /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="accent-label">SPATIAL LANGUAGE</p><p className="screen-title">一条连续的感知路径</p></div><div className="body-copy daye-retail-copy"><p>整个展馆以曲线作为主要空间语言。</p><p>曲线弱化了传统展陈空间中明确的“房间—走廊—房间”关系，让参观路径更像一段连续发生的体验。</p><p>它没有明确边界，却会随着人的靠近、经过与停留逐渐被感知。</p></div></div></Screen>
       <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明" className="daye-retail-screen daye-light-screen"><div className="daye-retail-heading"><p className="screen-title">让空间成为“香”的容器</p></div><div className="daye-retail-media-pair"><DayeEditorialImage item={dayeGalleryItems[2]} onPreview={onPreview} className="daye-split-image" /><DayeEditorialImage item={dayeGalleryItems[3]} onPreview={onPreview} className="daye-split-image" /></div><div className="body-copy daye-retail-copy"><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果营造氤氲氛围。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></div></Screen>
       <Screen number="06" label="SENSORY EXPERIENCE｜从观看到参与"><div className="copy-layout"><div><p className="accent-label">SENSORY EXPERIENCE</p><p className="screen-title">从观看到参与</p></div><div className="body-copy"><p><strong>视觉</strong><br />曲线、光影、透明与渐变。</p><p><strong>嗅觉</strong><br />芳香本身成为展陈内容的一部分。</p><p><strong>移动</strong><br />连续动线让气味与画面在行走中不断变化。</p><p><strong>停留</strong><br />局部节点提供更近距离的观察与体验。</p><Quote><strong>展馆不是一组静态信息的排列，而是一条由不同感官共同完成的参观路径。</strong></Quote></div></div></Screen>
-      <Screen number="07" label="RETAIL ENDING｜体验的最后" className="daye-retail-screen"><DayeEditorialImage item={dayeGalleryItems[4]} onPreview={onPreview} className="daye-retail-media" /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识<br />走向产品接触</p></div><div className="body-copy daye-retail-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></div></Screen>
+      <Screen number="07" label="RETAIL ENDING｜体验的最后" className="daye-retail-screen"><DayeEditorialImage item={dayeGalleryItems[4]} onPreview={onPreview} className="daye-retail-media" priority /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识<br />走向产品接触</p></div><div className="body-copy daye-retail-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></div></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">“香”没有固定形状。</p></div><div><p>这个项目最重要的尝试，是寻找一种方法，把原本无法被直接看见的内容转成空间语言。</p><p>因此，空间也不需要替它制造一个明确符号。</p><Quote><strong>当展陈对象本身不可见，空间就成为感知它的媒介。</strong></Quote><p className="status-line">概念方案 / 未建成</p></div></div></Screen>
     </section>
   )
@@ -607,7 +674,7 @@ function DayeCasePage() {
     const nextIndex = (previewIndex + direction + dayeGalleryItems.length) % dayeGalleryItems.length
     setPreviewId(dayeGalleryItems[nextIndex].id)
   }
-  return <><CasePage theme="dark" next={{ to: '/cases/small-ideas', label: '方案中的小想法' }}><DayeCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={dayeGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage></>
+  return <><CasePage theme="dark" next={{ to: '/', label: '返回首页', eyebrow: 'BACK HOME' }}><DayeCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={dayeGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage></>
 }
 
 const smallIdeaStories = [
@@ -632,7 +699,7 @@ function SmallIdeasCase() {
         const progress = clamp((window.innerHeight * .55 - top) / (window.innerHeight * .55))
         section.style.setProperty('--small-ideas-progress', progress.toFixed(3))
         section.style.setProperty('--small-ideas-blur', `${Math.round(progress * 15)}px`)
-        section.style.setProperty('--small-ideas-haze', (0.24 + progress * .28).toFixed(3))
+        section.style.setProperty('--small-ideas-haze', '0.24')
         section.style.setProperty('--small-ideas-glass', `${Math.round(progress * 22)}px`)
       })
     }
@@ -850,7 +917,7 @@ function ScrollManager() {
 }
 
 function CaseNext({ next }) {
-  return <nav className="case-next" aria-label="案例翻页"><Link to="/#work"><span>BACK TO STORIES</span><strong>返回精选案例</strong></Link><Link className="case-next-link" to={next.to}><span>NEXT CASE</span><strong>{next.label}</strong><b>↗</b></Link></nav>
+  return <nav className="case-next" aria-label="案例翻页"><Link to="/#work"><span>BACK TO STORIES</span><strong>返回精选案例</strong></Link><Link className="case-next-link" to={next.to}><span>{next.eyebrow || 'NEXT CASE'}</span><strong>{next.label}</strong><b>↗</b></Link></nav>
 }
 
 function CasePage({ theme, children, next }) {
@@ -960,14 +1027,18 @@ function MotionDirector() {
       galleryObserver.observe(item)
     })
 
+    const caseItems = [...document.querySelectorAll('.case-page .screen .motion-item')]
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add(entry.target.classList.contains('motion-body') ? 'is-body-inview' : 'is-inview')
+          if (entry.target.classList.contains('motion-body')) entry.target.classList.add('is-body-inview')
+          else if (entry.target.matches('.case-page .screen .motion-item')) entry.target.classList.add('is-item-inview')
+          else entry.target.classList.add('is-inview')
         }
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' })
     observed.forEach((section) => observer.observe(section))
+    caseItems.forEach((item) => observer.observe(item))
     bodyItems.forEach((item) => observer.observe(item))
     document.querySelector('.hero')?.classList.add('is-inview')
 
@@ -1048,7 +1119,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<CasePage theme="dark" next={{ to: '/cases/binrongfu', label: '杭州滨融府' }}><QiduCase /></CasePage>} /><Route path="/cases/binrongfu" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
