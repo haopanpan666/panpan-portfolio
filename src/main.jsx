@@ -493,23 +493,36 @@ function YuelongCase() {
 }
 
 const qiduBackdropAsset = '/assets/projects/03-qidu-bg.jpg'
-const qiduGalleryItems = [
-  { id: 'qidu-concept', label: 'QIDU / THE ART OF LIVING', src: '/assets/projects/qidu/03.jpg' },
-  { id: 'qidu-arrival', label: 'QIDU / ARRIVAL GARDEN', src: '/assets/projects/qidu/04.jpg' },
-  { id: 'qidu-sunken', label: 'QIDU / SUNKEN GARDEN', src: '/assets/projects/qidu/05.jpg' },
-  { id: 'qidu-pool', label: 'QIDU / POOL & ROCK WALL', src: '/assets/projects/qidu/06.jpg' },
-  { id: 'qidu-living', label: 'QIDU / LIVING LANDSCAPE', src: '/assets/projects/qidu/07.jpg' },
-  { id: 'qidu-planting', label: 'QIDU / TROPICAL ATMOSPHERE', src: '/assets/projects/qidu/08.jpg' },
-]
+const qiduChapterImages = {
+  concept: [{ id: 'qidu-concept', label: 'QIDU / THE ART OF LIVING', src: '/assets/projects/qidu/03.jpg' }],
+  arrival: [
+    { id: 'qidu-arrival-01', label: 'QIDU / ARRIVAL GARDEN 01', src: '/assets/projects/qidu/04-1.jpg' },
+    { id: 'qidu-arrival-02', label: 'QIDU / ARRIVAL GARDEN 02', src: '/assets/projects/qidu/04-2.jpg' },
+    { id: 'qidu-arrival-03', label: 'QIDU / ARRIVAL GARDEN 03', src: '/assets/projects/qidu/04-3.jpg' },
+  ],
+  sunken: [{ id: 'qidu-sunken', label: 'QIDU / SUNKEN GARDEN', src: '/assets/projects/qidu/05.jpg' }],
+  pool: [{ id: 'qidu-pool', label: 'QIDU / POOL & ROCK WALL', src: '/assets/projects/qidu/06.jpg' }],
+  living: [{ id: 'qidu-living', label: 'QIDU / LIVING LANDSCAPE', src: '/assets/projects/qidu/07.jpg' }],
+  planting: [
+    { id: 'qidu-planting-01', label: 'QIDU / TROPICAL ATMOSPHERE 01', src: '/assets/projects/qidu/08-1.jpg' },
+    { id: 'qidu-planting-02', label: 'QIDU / TROPICAL ATMOSPHERE 02', src: '/assets/projects/qidu/08-2.jpg' },
+    { id: 'qidu-planting-03', label: 'QIDU / TROPICAL ATMOSPHERE 03', src: '/assets/projects/qidu/08-3.jpg' },
+  ],
+}
+const qiduGalleryItems = Object.values(qiduChapterImages).flat()
 
 function QiduEditorialImage({ item, onPreview }) {
   return <button className="gallery-placeholder qidu-editorial-media" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading="lazy" decoding="async" /></button>
 }
 
+function QiduEditorialGallery({ items, onPreview }) {
+  return <div className="qidu-editorial-gallery">{items.map((item) => <button className="gallery-placeholder qidu-gallery-card" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)} key={item.id}><img src={item.src} alt={item.label} loading="lazy" decoding="async" /></button>)}</div>
+}
+
 function QiduCase({ onPreview }) {
   useEffect(() => {
     const qidu = document.querySelector('#qidu')
-    const glassScreens = [...(qidu?.querySelectorAll('.qidu-overview-screen, .qidu-editorial-screen') || [])]
+    const glassScreens = [...(qidu?.querySelectorAll('.project-intro, .qidu-overview-screen, .screen:nth-of-type(2), .qidu-editorial-screen') || [])]
     if (!qidu || !glassScreens.length) return undefined
     let frame = 0
     const clamp = (value) => Math.min(1, Math.max(0, value))
@@ -559,12 +572,12 @@ function QiduCase({ onPreview }) {
         </div>
       </Screen>
       <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">一个年轻家庭的<br />滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
-      <Screen number="03" label="CONCEPT｜核心概念" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="small-english">THE ART OF LIVING</p><p className="concept-word">“生活的艺术家”</p></div><div className="body-copy qidu-editorial-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
-      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[1]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是<br />景观的一部分</p></div><div className="body-copy qidu-editorial-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
-      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[2]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy qidu-editorial-copy"><p><strong>隐私</strong><br />泳池设置在下沉庭院，阻隔园外视线。</p><p><strong>空间层次</strong><br />栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
-      <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[3]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">POOL &amp; ROCK WALL</p><p className="screen-title">一条贴着岩壁的泳池</p></div><div className="body-copy qidu-editorial-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
-      <Screen number="07" label="LIVING LANDSCAPE｜回到地面" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[4]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">LIVING LANDSCAPE</p><p className="screen-title">更自由的日常生活</p></div><div className="body-copy qidu-editorial-copy"><p>离开下沉空间后，南侧重新回到开阔的地面层。草坪、砾石与沙生植物、亭子、河岸平台和秋千共同组成更松弛的生活区域。</p><p>从入口到河岸，空间也从较正式的“到达”，逐渐转向更加自由的“生活”。</p></div></div></Screen>
-      <Screen number="08" label="TROPICAL ATMOSPHERE｜植物与色彩" className="qidu-editorial-screen"><QiduEditorialImage item={qiduGalleryItems[5]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">TROPICAL ATMOSPHERE</p><p className="screen-title">植物与色彩</p></div><div className="body-copy qidu-editorial-copy"><p><strong>高层</strong><br />棕榈</p><p><strong>中层</strong><br />大叶植物 / 球形灌木</p><p><strong>低层</strong><br />花境 / 沙生植物</p><p>植物既参与建筑与景墙的构图，也在生长过程中逐渐变得更自然。南侧通过更丰富的层次和色彩，形成鲜明而轻松的度假感。</p></div></div></Screen>
+      <Screen number="03" label="CONCEPT｜核心概念" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.concept[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="small-english">THE ART OF LIVING</p><p className="concept-word">“生活的艺术家”</p></div><div className="body-copy qidu-editorial-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
+      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园" className="qidu-editorial-screen"><QiduEditorialGallery items={qiduChapterImages.arrival} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是<br />景观的一部分</p></div><div className="body-copy qidu-editorial-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
+      <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.sunken[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy qidu-editorial-copy"><p><strong>隐私</strong><br />泳池设置在下沉庭院，阻隔园外视线。</p><p><strong>空间层次</strong><br />栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
+      <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.pool[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">POOL &amp; ROCK WALL</p><p className="screen-title">一条贴着岩壁的泳池</p></div><div className="body-copy qidu-editorial-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
+      <Screen number="07" label="LIVING LANDSCAPE｜回到地面" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.living[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">LIVING LANDSCAPE</p><p className="screen-title">更开阔的地上起居花园</p></div><div className="body-copy qidu-editorial-copy"><p>离开下沉空间后，南侧重新回到开阔的地面层。草坪、砾石与沙生植物、亭子、河岸平台和秋千共同组成更松弛的生活区域。</p><p>从入口到河岸，空间也从较正式的“到达”，逐渐转向更加自由的“生活”。</p></div></div></Screen>
+      <Screen number="08" label="TROPICAL ATMOSPHERE｜植物与色彩" className="qidu-editorial-screen"><QiduEditorialGallery items={qiduChapterImages.planting} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">TROPICAL ATMOSPHERE</p><p className="screen-title">植物与色彩</p></div><div className="body-copy qidu-editorial-copy"><p><strong>高层</strong><br />棕榈</p><p><strong>中层</strong><br />大叶植物 / 球形灌木</p><p><strong>低层</strong><br />花境 / 沙生植物</p><p>植物既参与建筑与景墙的构图，也在生长过程中逐渐变得更自然。南侧花园通过更丰富的层次和色彩，形成鲜明而轻松的度假感。</p></div></div></Screen>
       <Screen number="09" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">艺术感和生活感<br />如何同时成立</p></div><div><p>花园可以有明确的构图、材料与视觉表达，也可以具体回应停车、隐私、游泳、吃饭、喝茶、阅读、亲水和家庭相处。</p><Quote><strong>让艺术进入日常，也让日常本身拥有被认真设计的价值。</strong></Quote></div></div></Screen>
     </section>
   )
@@ -713,7 +726,7 @@ function SmallIdeasCase() {
     }
   }, [])
 
-  return <section className="case-section small-ideas-case" id="small-ideas" ref={sectionRef}><CaseBackdrop src="/assets/projects/06-small-ideas-bg.jpg" /><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
+  return <section className="case-section small-ideas-case" id="small-ideas" ref={sectionRef}><CaseBackdrop src="/assets/projects/06-small-ideas-bg.jpg" /><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story, index) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="eager" fetchPriority={index === 0 ? 'auto' : 'low'} decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
 }
 
 function HowIWork() {
@@ -1024,8 +1037,25 @@ function MotionDirector() {
     galleryItems.forEach((item, index) => {
       item.classList.add('motion-media')
       item.style.setProperty('--gallery-index', index % 7)
-      galleryObserver.observe(item)
     })
+
+    const caseScreens = [...document.querySelectorAll('.case-page .screen')]
+    const caseTargetSelector = '.screen-index, .screen-title, .display-note, .concept-word, .small-english, .accent-label, .body-copy > p, .body-copy > blockquote, .meta-list > div, .role-detail-grid, .qidu-overview-plan, .qidu-overview-meta, .qidu-overview-areas figure, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card, .closing-layout > div'
+    caseScreens.forEach((screen) => {
+      screen.classList.add('case-reveal-screen')
+      screen.querySelectorAll(caseTargetSelector).forEach((target, index) => {
+        target.classList.add('case-reveal-target')
+        target.style.setProperty('--case-reveal-index', Math.min(index, 9))
+        if (target.matches('.gallery-placeholder, .qidu-overview-plan, .qidu-overview-areas figure, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card')) target.classList.add('case-reveal-media')
+      })
+    })
+    const screenObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-case-active')
+        screenObserver.unobserve(entry.target)
+      })
+    }, { threshold: 0.01, rootMargin: '0px 0px -12% 0px' })
 
     const caseItems = [...document.querySelectorAll('.case-page .screen .motion-item')]
     const observer = new IntersectionObserver((entries) => {
@@ -1037,11 +1067,6 @@ function MotionDirector() {
         }
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' })
-    observed.forEach((section) => observer.observe(section))
-    caseItems.forEach((item) => observer.observe(item))
-    bodyItems.forEach((item) => observer.observe(item))
-    document.querySelector('.hero')?.classList.add('is-inview')
-
     const headingOriginals = []
     const headingChars = new Map()
     document.querySelectorAll('.motion-heading').forEach((heading) => {
@@ -1076,8 +1101,6 @@ function MotionDirector() {
         headingObserver.unobserve(entry.target)
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -5% 0px' })
-    headingChars.forEach((_, heading) => headingObserver.observe(heading))
-
     const parallaxTargets = [...document.querySelectorAll('.profile-figure img')]
     let frame = 0
     const updateParallax = () => {
@@ -1096,12 +1119,24 @@ function MotionDirector() {
     updateParallax()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
-    const readyFrame = requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('motion-ready')))
+    let readyFrame = requestAnimationFrame(() => {
+      readyFrame = requestAnimationFrame(() => {
+        observed.forEach((section) => observer.observe(section))
+        caseItems.forEach((item) => observer.observe(item))
+        bodyItems.forEach((item) => observer.observe(item))
+        galleryItems.forEach((item) => galleryObserver.observe(item))
+        headingChars.forEach((_, heading) => headingObserver.observe(heading))
+        caseScreens.forEach((screen) => screenObserver.observe(screen))
+        document.querySelector('.hero')?.classList.add('is-inview')
+        root.classList.add('motion-ready')
+      })
+    })
 
     return () => {
       observer.disconnect()
       galleryObserver.disconnect()
       headingObserver.disconnect()
+      screenObserver.disconnect()
       headingOriginals.forEach(([heading, html]) => {
         gsap.killTweensOf(headingChars.get(heading) || [])
         heading.innerHTML = html
