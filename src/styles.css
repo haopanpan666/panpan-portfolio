@@ -4221,13 +4221,15 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
   }
 
   #qidu .qidu-overview-plan img {
-    margin-left: 0;
+    margin-left: 255px;
+    position: relative;
+    z-index: 2;
   }
 
   #binrongfu .binrong-site-adjustment-screen .case-template-one-media img {
     width: calc(100% + 71px);
     max-width: none;
-    margin-left: -71px;
+    margin-left: -150px;
   }
 }
 
@@ -4242,5 +4244,56 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
   #binrongfu .binrong-site-adjustment-screen .case-template-one-media img {
     width: 100%;
     margin-left: 0;
+  }
+}
+
+/* V18: persistent navigation affordance and final desktop annotation offsets. */
+.back-to-top {
+  position: fixed;
+  z-index: 30;
+  right: clamp(16px, 2.4vw, 42px);
+  bottom: clamp(16px, 2.4vw, 34px);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, .58);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(8, 8, 8, .58);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+  backdrop-filter: blur(12px) saturate(115%);
+  -webkit-backdrop-filter: blur(12px) saturate(115%);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .12em;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .25s ease, border-color .25s ease, transform .25s ease;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  border-color: rgba(255, 255, 255, .95);
+  background: rgba(8, 8, 8, .78);
+  transform: translateY(-3px);
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, .92);
+  outline-offset: 4px;
+}
+
+.back-to-top span {
+  font-size: 15px;
+  line-height: .7;
+}
+
+@media (max-width: 900px) {
+  .back-to-top {
+    right: 16px;
+    bottom: 16px;
+    padding: 11px 12px;
+    font-size: 9px;
   }
 }

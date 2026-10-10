@@ -1093,6 +1093,12 @@ function ScrollManager() {
   return null
 }
 
+function BackToTop() {
+  const handleClick = () => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+
+  return <button className="back-to-top" type="button" onClick={handleClick} aria-label="Back to top">BACK TO TOP <span aria-hidden="true">↑</span></button>
+}
+
 function CaseNext({ next }) {
   return <nav className="case-next" aria-label="案例翻页"><Link to="/#work"><span>BACK TO STORIES</span><strong>返回精选案例</strong></Link><Link className="case-next-link" to={next.to}><span>{next.eyebrow || 'NEXT CASE'}</span><strong>{next.label}</strong><b>↗</b></Link></nav>
 }
@@ -1330,7 +1336,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<YangmingCasePage />} /><Route path="/cases/yuelongwan" element={<YuelongCasePage />} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<YangmingCasePage />} /><Route path="/cases/yuelongwan" element={<YuelongCasePage />} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes><BackToTop /></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
