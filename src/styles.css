@@ -4298,25 +4298,68 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
   }
 }
 
-/* V19: final copy spacing, uncropped plan reveal, and 15:9 hover cards. */
+/* V20: requested glass chapters, readable plan image slot, and 13:9 hover cards. */
+.theme-dark #yuelongwan .screen:nth-of-type(2),
+.theme-dark #yuelongwan .screen:nth-of-type(3),
+.theme-dark #yuelongwan .screen:nth-of-type(n + 5):nth-of-type(-n + 8) {
+  background: rgba(8, 10, 9, .22);
+  backdrop-filter: blur(14px) saturate(108%);
+  -webkit-backdrop-filter: blur(14px) saturate(108%);
+}
+
+.theme-dark #yangming .screen:nth-of-type(6),
+.theme-dark #yangming .ideas-screen {
+  background: rgba(5, 7, 6, .28);
+  backdrop-filter: blur(18px) saturate(112%);
+  -webkit-backdrop-filter: blur(18px) saturate(112%);
+}
+
 #qidu .qidu-overview-plan,
 html.motion-enabled #qidu .qidu-overview-plan {
-  clip-path: inset(0 round 10px);
+  height: auto;
+  aspect-ratio: auto;
+  overflow: visible;
+  background: transparent;
+  clip-path: none;
+}
+
+#qidu .qidu-overview-plan-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: initial;
+  border-radius: 10px;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .case-template-three-gallery:has(.case-template-three-card:hover),
   .case-template-three-gallery:has(.case-template-three-card:focus-visible) {
-    aspect-ratio: 15 / 9;
+    aspect-ratio: 13 / 9;
   }
 
   .case-template-three-card:hover,
   .case-template-three-card:focus-visible {
-    aspect-ratio: 15 / 9;
+    aspect-ratio: 13 / 9;
   }
 }
 
 @media (min-width: 901px) {
+  #qidu .qidu-overview-plan {
+    width: 288px;
+    height: auto;
+    margin-left: 115px;
+  }
+
+  #qidu .qidu-overview-plan-image {
+    width: 288px;
+    margin-left: 255px;
+  }
+
+  #yuelongwan .yuelong-arrival-screen .editorial-quote {
+    font-size: 21px;
+  }
+
   #yuelongwan .screen:nth-of-type(7) .case-template-three-copy {
     width: 429.712px;
   }
@@ -4363,6 +4406,17 @@ html.motion-enabled #qidu .qidu-overview-plan {
 }
 
 @media (max-width: 900px) {
+  #qidu .qidu-overview-plan {
+    width: min(100%, 360px);
+    height: auto;
+    margin: 0 auto;
+  }
+
+  #qidu .qidu-overview-plan-image {
+    width: 100%;
+    margin-left: 0;
+  }
+
   #yuelongwan .screen:nth-of-type(7) .case-template-three-copy,
   #yuelongwan .screen:nth-of-type(8) .case-template-three-copy {
     width: 100%;

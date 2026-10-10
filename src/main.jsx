@@ -611,9 +611,9 @@ const yuelongMedia = {
 const yuelongGalleryItems = Object.values(yuelongMedia)
 
 const yuelongGardenStories = [
-  { number: '01', location: 'ARRIVAL GARDEN｜入户花园', title: '到达、行车与建筑展示', body: '连接两栋建筑的入口、车行与停车空间，在车辆离开后仍保持完整的入户秩序。', image: yuelongMedia.arrival.src },
-  { number: '02', location: 'MAIN GARDEN｜主花园', title: '一块回到日常生活的草坪', body: '两栋建筑之间以开阔草坪为中心，组织停留、活动、观景与家庭日常。', image: yuelongMedia.main.src },
-  { number: '03', location: 'LEISURE GARDEN｜休闲花园', title: '面向河岸的安静停留', body: '镜面水景、沿河小路、休闲躺椅与植物围合，共同形成更松弛的生活花园。', image: yuelongMedia.leisure.src },
+  { number: '01', location: 'ARRIVAL GARDEN｜到达、行车与建筑展示', title: '入户花园', body: '连接两栋建筑的入口、车行与停车空间，在车辆离开后仍保持完整的入户秩序。', image: yuelongMedia.arrival.src },
+  { number: '02', location: 'MAIN GARDEN｜一块回到日常生活的草坪', title: '主花园', body: '两栋建筑之间以开阔草坪为中心，组织停留、活动、观景与家庭日常。', image: yuelongMedia.main.src },
+  { number: '03', location: 'LEISURE GARDEN｜面向河岸的安静停留', title: '休闲花园', body: '镜面水景、沿河小路、休闲躺椅与植物围合，共同形成更松弛的生活花园。', image: yuelongMedia.leisure.src },
 ]
 
 function YuelongCase({ onPreview }) {
@@ -725,7 +725,7 @@ function QiduCase({ onPreview }) {
       <ProjectIntro number="03" name="温州七都华侨花园" title="生活的艺术家" english="The Art of Living" summary="通过艺术化空间、强烈高差、下沉泳池、悬空步道和热带植物，组织一套更自由的年轻家庭生活场景。" tags={['Art & Lifestyle', 'Level Design', 'Landscape Experience']} />
       <Screen number="01" label="PROJECT INFO｜项目概览" className="overview-screen qidu-overview-screen">
         <div className="qidu-overview-layout">
-          <figure className="qidu-overview-plan"><img src="/assets/projects/qidu/01-plan.png" alt="七都华侨花园总平面图" loading="eager" decoding="async" /></figure>
+          <figure className="qidu-overview-plan"><img className="qidu-overview-plan-image" src="/assets/projects/qidu/01-plan.png" alt="七都华侨花园总平面图" loading="eager" decoding="async" /></figure>
           <div className="qidu-overview-meta"><MetaList items={[
             ['项目类型｜TYPE', '私宅庭院 / 滨水住宅景观'], ['项目时间｜YEAR', '2026'], ['项目面积｜AREA', '约1200㎡'], ['项目状态｜STATUS', <>准备施工<br /><i>Preparing for Construction</i></>],
           ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计 Lead Design<br />方案深化 Design Development<br />视觉表达 Visualization<br />植物设计 Planting Design<br />动画表现 Animation Visualization<br />客户沟通 Client Communication</p></div></div>
