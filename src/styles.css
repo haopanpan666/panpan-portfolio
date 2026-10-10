@@ -3537,3 +3537,260 @@ html.motion-enabled .case-reveal-screen .qidu-gallery-card {
     transition: none;
   }
 }
+
+/* V14: reusable case templates, image assignments, and annotation pass. */
+.case-template-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(8, 8, 8, .18);
+  cursor: zoom-in;
+  line-height: 0;
+}
+.case-template-media:hover,
+.case-template-media:focus-visible { background: rgba(8, 8, 8, .18); outline: none; }
+.case-template-media:focus-visible { box-shadow: 0 0 0 2px #fff; }
+.case-template-media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.case-template-one-media { aspect-ratio: 16 / 9; }
+.case-template-one-aside,
+.case-template-three-aside {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: clamp(28px, 3.2vw, 52px);
+  align-self: start;
+}
+.case-template-one-heading,
+.case-template-three-heading { width: 100%; text-align: left; }
+.case-template-one-heading .screen-title,
+.case-template-three-heading .screen-title { max-width: none; margin-top: 0; }
+.case-template-one-copy,
+.case-template-three-copy { width: 100%; max-width: none; }
+
+.case-template-two-media-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+.case-template-two-media { height: 100%; }
+.case-template-two-heading .screen-title { max-width: none; margin-top: 0; }
+
+.case-template-three-gallery {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  gap: 10px;
+  overflow: visible;
+  aspect-ratio: 16 / 9;
+}
+.case-template-three-card {
+  height: 100%;
+  flex: 1 1 0;
+  transition: flex-grow .95s cubic-bezier(.16, 1, .3, 1), opacity .75s ease, transform .95s cubic-bezier(.16, 1, .3, 1), filter .82s var(--motion-ease);
+}
+.case-template-three-card img { transition: transform .95s cubic-bezier(.16, 1, .3, 1); }
+.case-template-three-gallery:has(.case-template-three-card:hover) .case-template-three-card:not(:hover),
+.case-template-three-gallery:has(.case-template-three-card:focus-visible) .case-template-three-card:not(:focus-visible) {
+  flex-grow: .68;
+  opacity: .42;
+  transform: scale(.92);
+}
+.case-template-three-card:hover,
+.case-template-three-card:focus-visible {
+  z-index: 2;
+  flex-grow: 1.65;
+  transform: translateY(-16px) scale(1.02);
+}
+.case-template-three-card:hover img,
+.case-template-three-card:focus-visible img { transform: scale(1.06); }
+
+.case-template-four { width: 100%; }
+.case-template-four--screen .idea-card-media { border-radius: 10px; }
+
+#daye .daye-editorial-media,
+#daye .daye-editorial-media img,
+#qidu .qidu-editorial-media,
+#qidu .qidu-editorial-media img,
+#qidu .qidu-gallery-card,
+#qidu .qidu-gallery-card img,
+#qidu .qidu-overview-plan img,
+#qidu .qidu-overview-areas figure,
+#qidu .qidu-overview-areas img { border-radius: 10px; }
+
+/* The intro and context stay optically sharp; the following Qidu chapters share one darker glass treatment. */
+.theme-dark #qidu .project-intro,
+.theme-dark #qidu .screen:nth-of-type(2) {
+  background: rgba(7, 7, 7, .12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.theme-dark #qidu .qidu-overview-screen,
+.theme-dark #qidu .qidu-editorial-screen,
+.theme-dark #qidu .closing-screen {
+  background: rgba(7, 7, 7, .12);
+  backdrop-filter: blur(var(--qidu-glass-blur)) saturate(106%);
+  -webkit-backdrop-filter: blur(var(--qidu-glass-blur)) saturate(106%);
+}
+
+/* Requested title baselines. */
+#binrongfu .project-name { padding-top: 17px; }
+#binrongfu .project-intro .project-name + h2 { padding-top: 10px; }
+#binrongfu .overview-screen .display-note { padding-top: 13px; }
+#binrongfu .screen:nth-of-type(2) .terrace-grid h3 { padding-top: 10px; }
+#binrongfu .screen:nth-of-type(3) .screen-title { padding-top: 7px; }
+#binrongfu .screen:nth-of-type(4) .screen-title { padding-top: 7px; }
+#binrongfu .screen:nth-of-type(5) .screen-title { padding-top: 7px; }
+#binrongfu .screen:nth-of-type(6) .screen-title { padding-top: 9px; }
+#binrongfu .screen:nth-of-type(7) .screen-title { padding-top: 11px; white-space: nowrap; }
+#binrongfu .screen:nth-of-type(8) .screen-title { padding-top: 9px; }
+
+#yuelongwan .project-name { padding-top: 19px; }
+#yuelongwan .project-intro .project-name + h2 { padding-top: 10px; }
+#yuelongwan .overview-screen .display-note { padding-top: 20px; }
+#yuelongwan .screen:nth-of-type(2) .screen-title { padding-top: 9px; }
+#yuelongwan .screen:nth-of-type(3) .screen-title { padding-top: 10px; }
+#yuelongwan .screen:nth-of-type(4) .screen-title { padding-top: 10px; }
+#yuelongwan .screen:nth-of-type(5) .screen-title { padding-top: 10px; }
+#yuelongwan .screen:nth-of-type(6) .screen-title { padding-top: 8px; }
+#yuelongwan .screen:nth-of-type(7) .screen-title { padding-top: 8px; }
+#yuelongwan .screen:nth-of-type(8) .screen-title { padding-top: 9px; }
+#yuelongwan .screen:nth-of-type(9) .screen-title { padding-top: 9px; }
+
+#yangming .project-name { padding-top: 20px; }
+#yangming .project-intro .project-name + h2 { padding-top: 10px; }
+#yangming .overview-screen .display-note { padding-top: 20px; }
+#yangming .screen:nth-of-type(2) .screen-title { padding-top: 9px; }
+#yangming .screen:nth-of-type(3) .screen-title { padding-top: 8px; }
+#yangming .screen:nth-of-type(4) .concept-lead { padding-top: 8px; }
+#yangming .screen:nth-of-type(5) .screen-title { padding-top: 8px; }
+
+@media (min-width: 901px) {
+  .case-template-one-screen,
+  .case-template-three-screen { grid-template-columns: 200px minmax(0, 1fr); }
+  .case-template-one-screen .screen-index,
+  .case-template-three-screen .screen-index { width: 200px; }
+  .case-template-one-screen .screen-body,
+  .case-template-three-screen .screen-body,
+  #daye .case-template-one-screen .screen-body,
+  #qidu .case-template-three-screen .screen-body,
+  #binrongfu .case-template-one-screen .screen-body,
+  #binrongfu .case-template-three-screen .screen-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(320px, .7fr);
+    gap: clamp(32px, 3.4vw, 62px) clamp(28px, 4vw, 72px);
+    width: calc(100vw - 14.8px);
+    margin-top: 190px;
+    margin-left: calc(-200px - clamp(42px, 6vw, 108px) - 56px);
+    align-items: start;
+  }
+  .case-template-one-media,
+  .case-template-three-gallery { grid-column: 1; grid-row: 1; }
+  .case-template-one-aside,
+  .case-template-three-aside { grid-column: 2; grid-row: 1; }
+  .case-template-one-heading .screen-title,
+  .case-template-three-heading .screen-title { font-size: clamp(44px, 3.25vw, 62px); line-height: .98; }
+
+  .case-template-two-screen .screen-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto 400px;
+    gap: clamp(28px, 3.5vw, 52px) 10px;
+    width: calc(100% + 126.73px);
+    min-height: 700px;
+    height: 700px;
+    margin-top: 0;
+    margin-left: -371px;
+  }
+  .case-template-two-heading { grid-column: 2; grid-row: 1; width: 100%; margin: 40px 0 0; }
+  .case-template-two-copy { grid-column: 1; grid-row: 1; width: min(100%, 480px); margin: 0; padding: 0; }
+  .case-template-two-media-pair { grid-column: 1 / -1; grid-row: 2; height: 400px; }
+  .case-template-two-media,
+  .case-template-two-media img { height: 400px; }
+
+  #yangming .case-template-four-screen .screen-body {
+    width: calc(100% + 155px + 7vw);
+    margin-left: calc(-155px - 7vw);
+  }
+  #yangming .case-template-four--screen { padding: 60px 0 30px; }
+
+  #qidu .qidu-overview-screen { min-height: 1180px; }
+  #qidu .qidu-overview-layout {
+    position: relative;
+    width: calc(100vw - 14.8px);
+    height: 1100px;
+    margin-left: -209px;
+  }
+  #qidu .qidu-overview-plan {
+    width: 434px;
+    height: 578.82px;
+    margin-top: 80px;
+    margin-left: 115px;
+    justify-self: start;
+  }
+  #qidu .qidu-overview-plan img { width: 100%; height: 100%; max-height: none; }
+  #qidu .qidu-overview-meta { margin-top: 110px; padding-top: 0; }
+  #qidu .qidu-overview-areas {
+    right: auto;
+    bottom: 50px;
+    left: 30px;
+    width: calc(100vw - 14.8px);
+    margin-left: -30px;
+  }
+}
+
+@media (max-width: 900px) {
+  .case-template-one-screen,
+  .case-template-three-screen { grid-template-columns: 1fr; }
+  .case-template-one-screen .screen-index,
+  .case-template-three-screen .screen-index { width: auto; }
+  .case-template-one-screen .screen-body,
+  .case-template-three-screen .screen-body,
+  .case-template-two-screen .screen-body {
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .case-template-two-heading { order: 1; margin: 40px 0 0; }
+  .case-template-two-copy { order: 2; width: 100%; }
+  .case-template-two-media-pair { order: 3; height: auto; grid-template-columns: 1fr; }
+  .case-template-two-media,
+  .case-template-two-media img { height: auto; aspect-ratio: 16 / 9; }
+  .case-template-one-aside,
+  .case-template-three-aside { gap: 28px; }
+  .case-template-three-gallery { min-height: 300px; aspect-ratio: auto; }
+  #binrongfu .screen:nth-of-type(7) .screen-title { white-space: normal; }
+}
+
+@media (hover: none) {
+  .case-template-three-gallery:has(.case-template-three-card:hover) .case-template-three-card:not(:hover),
+  .case-template-three-gallery:has(.case-template-three-card:focus-visible) .case-template-three-card:not(:focus-visible),
+  .case-template-three-card:hover,
+  .case-template-three-card:focus-visible {
+    flex-grow: 1;
+    opacity: 1;
+    transform: none;
+  }
+  .case-template-three-card:hover img,
+  .case-template-three-card:focus-visible img { transform: none; }
+}

@@ -82,6 +82,26 @@ function Quote({ children, className = '' }) {
   return <blockquote className={`editorial-quote ${className}`}>{children}</blockquote>
 }
 
+function CaseTemplateMedia({ item, onPreview, className = '', priority = false }) {
+  return <button className={`gallery-placeholder case-template-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></button>
+}
+
+function CaseTemplateOne({ item, onPreview, eyebrow, title, children, mediaClassName = '', priority = false }) {
+  return <><CaseTemplateMedia item={item} onPreview={onPreview} className={`case-template-one-media ${mediaClassName}`.trim()} priority={priority} /><div className="case-template-one-aside"><div className="case-template-one-heading">{eyebrow && <p className="accent-label">{eyebrow}</p>}<p className="screen-title">{title}</p></div><div className="body-copy case-template-one-copy">{children}</div></div></>
+}
+
+function CaseTemplateTwo({ title, items, onPreview, children }) {
+  return <><div className="case-template-two-heading"><p className="screen-title">{title}</p></div><div className="case-template-two-media-pair">{items.map((item) => <CaseTemplateMedia item={item} onPreview={onPreview} className="case-template-two-media" key={item.id} />)}</div><div className="body-copy case-template-two-copy">{children}</div></>
+}
+
+function CaseTemplateThree({ items, onPreview, eyebrow, title, children }) {
+  return <><div className="case-template-three-gallery">{items.map((item) => <CaseTemplateMedia item={item} onPreview={onPreview} className="case-template-three-card" key={item.id} />)}</div><div className="case-template-three-aside"><div className="case-template-three-heading">{eyebrow && <p className="accent-label">{eyebrow}</p>}<p className="screen-title">{title}</p></div><div className="body-copy case-template-three-copy">{children}</div></div></>
+}
+
+function CaseTemplateFour({ stories, className = '' }) {
+  return <div className={`case-template-four ${className}`.trim()}><div className="idea-card-row">{stories.map((story, index) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="eager" fetchPriority={index === 0 ? 'auto' : 'low'} decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div>
+}
+
 function Hero() {
   return (
     <section className="hero texture-section" id="top">
@@ -413,6 +433,23 @@ function CaseBackdrop({ src }) {
   return <div className="case-scene-backdrop" aria-hidden="true"><img src={src} alt="" loading="eager" fetchPriority="high" decoding="async" /></div>
 }
 
+const yangmingKeyIdeas = [
+  { number: '01', location: 'WATER PARK｜水乐园', title: '水乐园的淡季功能转换', body: '夏季是嬉水空间，淡季则转换为更安静的漂浮冥想、桨板等水上体验场所。', image: '/assets/projects/yangming/06-1.jpg' },
+  { number: '02', location: 'NEW ARRIVAL｜新的入住方式', title: '一种新的入住方式', body: '为车尾露营提供充电、盥洗与安全等基础配套，并加入观星与自然社交体验。', image: '/assets/projects/yangming/06-2.jpg' },
+  { number: '03', location: 'MINGYIXUAN｜明逸轩', title: '明逸轩的功能再利用', body: '一层被设想为向外打开的食养就餐空间；二层拥有更高、更安静、可以远眺茶山的视野。', image: '/assets/projects/yangming/06-3.jpg' },
+]
+
+const binrongGalleryItems = [
+  { id: 'binrong-east-terrace', label: 'BINRONGFU / EAST TERRACE', src: '/assets/projects/binrong/03.jpg' },
+  { id: 'binrong-west-terrace', label: 'BINRONGFU / WEST TERRACE', src: '/assets/projects/binrong/04.jpg' },
+  { id: 'binrong-load-limit', label: 'BINRONGFU / LOAD LIMIT', src: '/assets/projects/binrong/05.jpg' },
+  { id: 'binrong-site-adjustment', label: 'BINRONGFU / SITE ADJUSTMENT', src: '/assets/projects/binrong/06.jpg' },
+  { id: 'binrong-process-01', label: 'BINRONGFU / PROCESS 01', src: '/assets/projects/binrong/07-1.jpg' },
+  { id: 'binrong-process-02', label: 'BINRONGFU / PROCESS 02', src: '/assets/projects/binrong/07-2.jpg' },
+  { id: 'binrong-process-03', label: 'BINRONGFU / PROCESS 03', src: '/assets/projects/binrong/07-3.jpg' },
+  { id: 'binrong-process-04', label: 'BINRONGFU / PROCESS 04', src: '/assets/projects/binrong/07-4.jpg' },
+]
+
 function YangmingCase() {
   return (
     <section className="case-section texture-section" id="yangming">
@@ -441,8 +478,8 @@ function YangmingCase() {
       <Screen number="05" label="EXPERIENCE SYSTEM｜体验体系">
         <div className="system-layout"><p className="screen-title">从概念，变成一种完整的度假方式</p><div className="system-grid"><div><b>WATER｜水</b><span>温泉 · 私汤 · 漂浮 · 亲水</span></div><div><b>NATURE｜自然</b><span>疗愈森林 · 芳香花圃 · 茶山</span></div><div><b>NOURISH｜滋养</b><span>采摘 · 食养 · 茶咖</span></div><div><b>STAY &amp; CONNECT｜停留与连接</b><span>露营 · 观星 · 家庭 · 自然社交</span></div></div></div>
       </Screen>
-      <Screen number="06" label="THREE KEY IDEAS｜三个关键创意" className="ideas-screen">
-        <div className="ideas-list"><div><span>01</span><div><h3>水乐园的淡季功能转换</h3><p>夏季是嬉水空间，淡季则转换为更安静的<strong>漂浮冥想、桨板等水上体验场所</strong>。</p></div></div><div><span>02</span><div><h3>一种新的入住方式</h3><p>由此形成<strong>车尾露营场景服务</strong>的设想，为其提供充电、盥洗、安全等基础配套，并进一步加入观星、自然社交体验场景，将这种自驾停留方式作为多元度假体验的一部分。</p></div></div><div><span>03</span><div><h3>明逸轩的功能再利用</h3><p>一层被设想为向外打开的食养就餐空间；二层拥有更高、更安静的视野，可以远眺茶山。</p></div></div></div>
+      <Screen number="06" label="THREE KEY IDEAS｜三个关键创意" className="ideas-screen case-template-four-screen">
+        <CaseTemplateFour stories={yangmingKeyIdeas} className="case-template-four--screen" />
       </Screen>
       <Screen number="07" label="CLIENT RESPONSE｜项目之后" className="closing-screen">
         <div className="closing-layout"><div><p className="screen-title">CLIENT RESPONSE｜甲方反馈</p><p>方案汇报中，甲方对<strong>重新梳理的动线、“疗愈”概念、食养体验，以及打开酒店边界、与周边自然及文化资源重新建立联系的思路</strong>给予了积极反馈。</p></div><div><p className="screen-title">WHAT I LEARNED｜项目之后</p><Quote><strong>一个好的概念，并不是为项目贴上一个漂亮的名字。</strong><br /><br />它应该帮助我们重新看待已经存在的问题，并继续生长出空间、活动和真实体验。<br /><br />这个项目让我越来越明确：<br /><br /><strong>我真正感兴趣的，不只是设计一个空间，也包括思考人在这里可以发生什么。</strong></Quote></div></div>
@@ -451,7 +488,7 @@ function YangmingCase() {
   )
 }
 
-function BinrongCase() {
+function BinrongCase({ onPreview }) {
   return (
     <section className="case-section texture-section" id="binrongfu">
       <CaseBackdrop src="/assets/projects/04-binrongfu-bg.jpg" />
@@ -460,14 +497,26 @@ function BinrongCase() {
         ['项目名称｜PROJECT', '杭州滨融府'], ['项目类型｜TYPE', '高端住宅屋顶露台 / 私宅花园'], ['项目时间｜YEAR', '2024'], ['项目面积｜AREA', '约140㎡'], ['项目状态｜STATUS', <>已交付<br /><i>Completed</i></>],
       ]} /><div className="role-block"><span>我的角色｜ROLE</span><p>主创设计 / 方案深化 / 视觉表达 / 植物设计 / 施工跟进 / 客户沟通</p></div></div></div></Screen>
       <Screen number="02" label="TWO TERRACES｜两个露台，两种生活场景"><div className="terrace-grid"><div><p className="accent-label">EAST｜东侧</p><h3>两个露台，对应两种生活场景。</h3><p>东侧露台连接客厅，空间狭长、呈 L 形，更安静，也更接近一个人的日常。</p><p>西侧露台连接茶室，面积更大，承担喝茶、聊天与聚会，更开放，也更适合共同停留。</p></div><div><p className="accent-label">WEST｜西侧</p><h3>从不同的室内空间出发，建立不同的花园关系。</h3><p>两个露台没有被处理成同一种花园，而是分别回应窗景、停留、私密与相聚。</p><Quote>两个露台从不同的室内空间出发，也对应两种不同的生活状态。</Quote></div></div></Screen>
-      <Screen number="03" label="EAST TERRACE｜东侧露台"><div className="copy-layout"><div><p className="accent-label">EAST TERRACE</p><p className="screen-title">东露台——独处</p></div><div className="body-copy"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></div></div></Screen>
-      <Screen number="04" label="WEST TERRACE｜西侧露台"><div className="copy-layout"><div><p className="accent-label">WEST TERRACE</p><p className="screen-title">西露台——聚会</p></div><div className="body-copy"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></div></div></Screen>
-      <Screen number="05" label="LOAD LIMIT｜现实限制"><div className="load-layout"><div><p className="accent-label">PROBLEM / ADJUSTMENT</p><p className="screen-title">屋顶花园<span className="nowrap-title-unit">首先</span>要解决重量</p></div><div className="body-copy"><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></div></div></Screen>
-      <Screen number="06" label="SITE ADJUSTMENT｜现场调整"><div className="copy-layout exhaust-layout"><div><p className="accent-label">SITE ADJUSTMENT</p><p className="screen-title">一个不能移动的排风口</p></div><div className="body-copy"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></div></div></Screen>
-      <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="closing-screen"><div className="render-layout"><div><p className="screen-title">方案<br />→ 深化<br />→ 现场<br />→ 调整<br />→ 落地</p></div><div className="body-copy"><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></div></div></Screen>
+      <Screen number="03" label="EAST TERRACE｜东侧露台" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[0]} onPreview={onPreview} eyebrow="EAST TERRACE" title="东露台——独处"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></CaseTemplateOne></Screen>
+      <Screen number="04" label="WEST TERRACE｜西侧露台" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[1]} onPreview={onPreview} eyebrow="WEST TERRACE" title="西露台——聚会"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></CaseTemplateOne></Screen>
+      <Screen number="05" label="LOAD LIMIT｜现实限制" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[2]} onPreview={onPreview} eyebrow="PROBLEM / ADJUSTMENT" title={<>屋顶花园<span className="nowrap-title-unit">首先</span>要解决重量</>}><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></CaseTemplateOne></Screen>
+      <Screen number="06" label="SITE ADJUSTMENT｜现场调整" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[3]} onPreview={onPreview} eyebrow="SITE ADJUSTMENT" title="一个不能移动的排风口"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></CaseTemplateOne></Screen>
+      <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="case-template-three-screen binrong-gallery-screen"><CaseTemplateThree items={binrongGalleryItems.slice(4)} onPreview={onPreview} eyebrow="FROM DRAWING TO REALITY" title="方案 → 深化 → 现场 → 调整 → 落地"><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></CaseTemplateThree></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个<span className="nowrap-title-unit">想法</span>经历真实条件<span className="nowrap-title-unit">之后，</span>仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
     </section>
   )
+}
+
+function BinrongCasePage() {
+  const [previewId, setPreviewId] = useState(null)
+  const previewIndex = binrongGalleryItems.findIndex((item) => item.id === previewId)
+  const preview = previewIndex >= 0 ? binrongGalleryItems[previewIndex] : null
+  const movePreview = (direction) => {
+    if (previewIndex < 0) return
+    const nextIndex = (previewIndex + direction + binrongGalleryItems.length) % binrongGalleryItems.length
+    setPreviewId(binrongGalleryItems[nextIndex].id)
+  }
+  return <CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={binrongGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
 function YuelongCase() {
@@ -496,23 +545,23 @@ const qiduBackdropAsset = '/assets/projects/03-qidu-bg.jpg'
 const qiduChapterImages = {
   concept: [{ id: 'qidu-concept', label: 'QIDU / THE ART OF LIVING', src: '/assets/projects/qidu/03.jpg' }],
   arrival: [
-    { id: 'qidu-arrival-01', label: 'QIDU / ARRIVAL GARDEN 01', src: '/assets/projects/qidu/04-1.jpg' },
-    { id: 'qidu-arrival-02', label: 'QIDU / ARRIVAL GARDEN 02', src: '/assets/projects/qidu/04-2.jpg' },
-    { id: 'qidu-arrival-03', label: 'QIDU / ARRIVAL GARDEN 03', src: '/assets/projects/qidu/04-3.jpg' },
+    { id: 'qidu-arrival-01', label: 'QIDU / ARRIVAL GARDEN 01', src: '/assets/projects/qidu/08-1.jpg' },
+    { id: 'qidu-arrival-02', label: 'QIDU / ARRIVAL GARDEN 02', src: '/assets/projects/qidu/08-2.jpg' },
+    { id: 'qidu-arrival-03', label: 'QIDU / ARRIVAL GARDEN 03', src: '/assets/projects/qidu/08-3.jpg' },
   ],
   sunken: [{ id: 'qidu-sunken', label: 'QIDU / SUNKEN GARDEN', src: '/assets/projects/qidu/05.jpg' }],
   pool: [{ id: 'qidu-pool', label: 'QIDU / POOL & ROCK WALL', src: '/assets/projects/qidu/06.jpg' }],
   living: [{ id: 'qidu-living', label: 'QIDU / LIVING LANDSCAPE', src: '/assets/projects/qidu/07.jpg' }],
   planting: [
-    { id: 'qidu-planting-01', label: 'QIDU / TROPICAL ATMOSPHERE 01', src: '/assets/projects/qidu/08-1.jpg' },
-    { id: 'qidu-planting-02', label: 'QIDU / TROPICAL ATMOSPHERE 02', src: '/assets/projects/qidu/08-2.jpg' },
-    { id: 'qidu-planting-03', label: 'QIDU / TROPICAL ATMOSPHERE 03', src: '/assets/projects/qidu/08-3.jpg' },
+    { id: 'qidu-planting-01', label: 'QIDU / TROPICAL ATMOSPHERE 01', src: '/assets/projects/qidu/04-1.jpg' },
+    { id: 'qidu-planting-02', label: 'QIDU / TROPICAL ATMOSPHERE 02', src: '/assets/projects/qidu/04-2.jpg' },
+    { id: 'qidu-planting-03', label: 'QIDU / TROPICAL ATMOSPHERE 03', src: '/assets/projects/qidu/04-3.jpg' },
   ],
 }
 const qiduGalleryItems = Object.values(qiduChapterImages).flat()
 
 function QiduEditorialImage({ item, onPreview }) {
-  return <button className="gallery-placeholder qidu-editorial-media" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading="lazy" decoding="async" /></button>
+  return <CaseTemplateMedia item={item} onPreview={onPreview} className="qidu-editorial-media" />
 }
 
 function QiduEditorialGallery({ items, onPreview }) {
@@ -522,7 +571,8 @@ function QiduEditorialGallery({ items, onPreview }) {
 function QiduCase({ onPreview }) {
   useEffect(() => {
     const qidu = document.querySelector('#qidu')
-    const glassScreens = [...(qidu?.querySelectorAll('.project-intro, .qidu-overview-screen, .screen:nth-of-type(2), .qidu-editorial-screen') || [])]
+    const glassScreens = [...(qidu?.querySelectorAll('.qidu-overview-screen, .qidu-editorial-screen, .closing-screen') || [])]
+    const clearScreens = [...(qidu?.querySelectorAll('.project-intro, .screen:nth-of-type(2)') || [])]
     if (!qidu || !glassScreens.length) return undefined
     let frame = 0
     const clamp = (value) => Math.min(1, Math.max(0, value))
@@ -539,7 +589,12 @@ function QiduCase({ onPreview }) {
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
         const viewportHeight = window.innerHeight
-        const progress = Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
+        const center = viewportHeight * .5
+        const clearScreenIsCurrent = clearScreens.some((screen) => {
+          const rect = screen.getBoundingClientRect()
+          return rect.top <= center && rect.bottom >= center
+        })
+        const progress = clearScreenIsCurrent ? 0 : Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
         qidu.style.setProperty('--qidu-glass-progress', progress.toFixed(3))
         qidu.style.setProperty('--qidu-scene-blur', `${Math.round(progress * 14)}px`)
         qidu.style.setProperty('--qidu-glass-blur', `${Math.round(progress * 18)}px`)
@@ -573,7 +628,7 @@ function QiduCase({ onPreview }) {
       </Screen>
       <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">一个年轻家庭的<br />滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
       <Screen number="03" label="CONCEPT｜核心概念" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.concept[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="small-english">THE ART OF LIVING</p><p className="concept-word">“生活的艺术家”</p></div><div className="body-copy qidu-editorial-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
-      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园" className="qidu-editorial-screen"><QiduEditorialGallery items={qiduChapterImages.arrival} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">ARRIVAL GARDEN</p><p className="screen-title">隐私也是<br />景观的一部分</p></div><div className="body-copy qidu-editorial-copy"><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></div></div></Screen>
+      <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园" className="qidu-editorial-screen case-template-three-screen"><CaseTemplateThree items={qiduChapterImages.arrival} onPreview={onPreview} eyebrow="ARRIVAL GARDEN" title={<>隐私也是<br />景观的一部分</>}><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></CaseTemplateThree></Screen>
       <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.sunken[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy qidu-editorial-copy"><p><strong>隐私</strong><br />泳池设置在下沉庭院，阻隔园外视线。</p><p><strong>空间层次</strong><br />栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
       <Screen number="06" label="POOL & ROCK WALL｜一条贴着岩壁的泳池" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.pool[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">POOL &amp; ROCK WALL</p><p className="screen-title">一条贴着岩壁的泳池</p></div><div className="body-copy qidu-editorial-copy"><p>长条泳池沿景墙展开，岩壁顶部的水经过循环系统重新回到泳池，水声、岩石、灯光与植物共同构成下沉空间的背景。</p><Quote>夏日傍晚，游完泳从水里上岸，坐到岩壁旁的软垫上开一瓶香槟。跌水声留在身后，水面和树影把晃动的光投在周围，风从河边吹过来，白天的暑气也慢慢散下去。</Quote></div></div></Screen>
       <Screen number="07" label="LIVING LANDSCAPE｜回到地面" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.living[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">LIVING LANDSCAPE</p><p className="screen-title">更开阔的地上起居花园</p></div><div className="body-copy qidu-editorial-copy"><p>离开下沉空间后，南侧重新回到开阔的地面层。草坪、砾石与沙生植物、亭子、河岸平台和秋千共同组成更松弛的生活区域。</p><p>从入口到河岸，空间也从较正式的“到达”，逐渐转向更加自由的“生活”。</p></div></div></Screen>
@@ -608,7 +663,7 @@ const dayeGalleryItems = [
 ]
 
 function DayeEditorialImage({ item, onPreview, className = '', priority = false }) {
-  return <button className={`gallery-placeholder daye-editorial-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></button>
+  return <CaseTemplateMedia item={item} onPreview={onPreview} className={`daye-editorial-media ${className}`.trim()} priority={priority} />
 }
 
 function DayeCase({ onPreview }) {
@@ -669,8 +724,8 @@ function DayeCase({ onPreview }) {
       ]} /></div></div><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></Screen>
       <Screen number="02" label="CONTEXT｜项目背景" className="daye-retail-screen daye-context-screen"><DayeEditorialImage item={dayeGalleryItems[0]} onPreview={onPreview} className="daye-retail-media" /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="screen-title">如何让“香”被看见？</p></div><div className="body-copy daye-retail-copy"><p>这是一个围绕芳香产业文化展开的展陈空间。</p><p>“香”最重要的部分来自嗅觉，但嗅觉无法像图像、文字或实体展品一样，被直接摆放在空间里。</p><p>因此，设计需要回答的并不是单纯“如何展示芳香产业”，而是：</p><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></div></div></Screen>
       <Screen number="03" label="DESIGN DIRECTION｜设计方向" className="daye-direction-screen"><div className="copy-layout"><div><p className="accent-label">FROM SCENT TO SENSATION</p><p className="screen-title">从“气味”转向“感受”</p></div><div className="body-copy"><p>空间没有试图把气味具象成某一种固定造型，而是从它的感受方式出发。</p><p>气味会扩散、停留、消散，也会因为人的移动而改变感受。</p><p>因此，设计语言逐渐转向：</p><div className="keyword-row"><span>流动</span><span>半透明</span><span>朦胧</span><span>漂浮</span><span>渐变</span></div></div></div></Screen>
-      <Screen number="04" label="SPATIAL LANGUAGE｜空间语言" className="daye-retail-screen daye-spatial-screen"><DayeEditorialImage item={dayeGalleryItems[1]} onPreview={onPreview} className="daye-retail-media" /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="accent-label">SPATIAL LANGUAGE</p><p className="screen-title">一条连续的感知路径</p></div><div className="body-copy daye-retail-copy"><p>整个展馆以曲线作为主要空间语言。</p><p>曲线弱化了传统展陈空间中明确的“房间—走廊—房间”关系，让参观路径更像一段连续发生的体验。</p><p>它没有明确边界，却会随着人的靠近、经过与停留逐渐被感知。</p></div></div></Screen>
-      <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明" className="daye-retail-screen daye-light-screen"><div className="daye-retail-heading"><p className="screen-title">让空间成为“香”的容器</p></div><div className="daye-retail-media-pair"><DayeEditorialImage item={dayeGalleryItems[2]} onPreview={onPreview} className="daye-split-image" /><DayeEditorialImage item={dayeGalleryItems[3]} onPreview={onPreview} className="daye-split-image" /></div><div className="body-copy daye-retail-copy"><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果营造氤氲氛围。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></div></Screen>
+      <Screen number="04" label="SPATIAL LANGUAGE｜空间语言" className="daye-retail-screen daye-spatial-screen case-template-one-screen"><CaseTemplateOne item={dayeGalleryItems[1]} onPreview={onPreview} eyebrow="SPATIAL LANGUAGE" title="一条连续的感知路径" mediaClassName="daye-editorial-media"><p>整个展馆以曲线作为主要空间语言。</p><p>曲线弱化了传统展陈空间中明确的“房间—走廊—房间”关系，让参观路径更像一段连续发生的体验。</p><p>它没有明确边界，却会随着人的靠近、经过与停留逐渐被感知。</p></CaseTemplateOne></Screen>
+      <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明" className="daye-retail-screen daye-light-screen case-template-two-screen"><CaseTemplateTwo title="让空间成为“香”的容器" items={dayeGalleryItems.slice(2, 4)} onPreview={onPreview}><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果营造氤氲氛围。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></CaseTemplateTwo></Screen>
       <Screen number="06" label="SENSORY EXPERIENCE｜从观看到参与"><div className="copy-layout"><div><p className="accent-label">SENSORY EXPERIENCE</p><p className="screen-title">从观看到参与</p></div><div className="body-copy"><p><strong>视觉</strong><br />曲线、光影、透明与渐变。</p><p><strong>嗅觉</strong><br />芳香本身成为展陈内容的一部分。</p><p><strong>移动</strong><br />连续动线让气味与画面在行走中不断变化。</p><p><strong>停留</strong><br />局部节点提供更近距离的观察与体验。</p><Quote><strong>展馆不是一组静态信息的排列，而是一条由不同感官共同完成的参观路径。</strong></Quote></div></div></Screen>
       <Screen number="07" label="RETAIL ENDING｜体验的最后" className="daye-retail-screen"><DayeEditorialImage item={dayeGalleryItems[4]} onPreview={onPreview} className="daye-retail-media" priority /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识<br />走向产品接触</p></div><div className="body-copy daye-retail-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></div></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">“香”没有固定形状。</p></div><div><p>这个项目最重要的尝试，是寻找一种方法，把原本无法被直接看见的内容转成空间语言。</p><p>因此，空间也不需要替它制造一个明确符号。</p><Quote><strong>当展陈对象本身不可见，空间就成为感知它的媒介。</strong></Quote><p className="status-line">概念方案 / 未建成</p></div></div></Screen>
@@ -726,7 +781,7 @@ function SmallIdeasCase() {
     }
   }, [])
 
-  return <section className="case-section small-ideas-case" id="small-ideas" ref={sectionRef}><CaseBackdrop src="/assets/projects/06-small-ideas-bg.jpg" /><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><div className="idea-card-row">{smallIdeaStories.map((story, index) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="eager" fetchPriority={index === 0 ? 'auto' : 'low'} decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div></section>
+  return <section className="case-section small-ideas-case" id="small-ideas" ref={sectionRef}><CaseBackdrop src="/assets/projects/06-small-ideas-bg.jpg" /><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><CaseTemplateFour stories={smallIdeaStories} /></div></section>
 }
 
 function HowIWork() {
@@ -1040,13 +1095,13 @@ function MotionDirector() {
     })
 
     const caseScreens = [...document.querySelectorAll('.case-page .screen')]
-    const caseTargetSelector = '.screen-index, .screen-title, .display-note, .concept-word, .small-english, .accent-label, .body-copy > p, .body-copy > blockquote, .meta-list > div, .role-detail-grid, .qidu-overview-plan, .qidu-overview-meta, .qidu-overview-areas figure, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card, .closing-layout > div'
+    const caseTargetSelector = '.screen-index, .screen-title, .display-note, .concept-word, .small-english, .accent-label, .body-copy > p, .body-copy > blockquote, .meta-list > div, .role-detail-grid, .qidu-overview-plan, .qidu-overview-meta, .qidu-overview-areas figure, .case-template-media, .case-template-four .idea-card, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card, .closing-layout > div'
     caseScreens.forEach((screen) => {
       screen.classList.add('case-reveal-screen')
       screen.querySelectorAll(caseTargetSelector).forEach((target, index) => {
         target.classList.add('case-reveal-target')
         target.style.setProperty('--case-reveal-index', Math.min(index, 9))
-        if (target.matches('.gallery-placeholder, .qidu-overview-plan, .qidu-overview-areas figure, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card')) target.classList.add('case-reveal-media')
+        if (target.matches('.gallery-placeholder, .case-template-media, .qidu-overview-plan, .qidu-overview-areas figure, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card')) target.classList.add('case-reveal-media')
       })
     })
     const screenObserver = new IntersectionObserver((entries) => {
@@ -1154,7 +1209,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase /></CasePage>} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
