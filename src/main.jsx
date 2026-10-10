@@ -113,7 +113,7 @@ function Hero() {
           <h1>PANPAN</h1>
           <p className="hero-english-title" lang="en">Creative Planning × Experience Design</p>
           <div className="hero-copy">
-            <p>过去几年，我参与过私宅、酒店、文旅与公共空间项目，从概念、方案、客户沟通一路跟进到施工。现在，我希望把这些积累带到文旅活动策划与运营中，去创造更多真正会被人参与、感受和记住的体验。</p>
+            <p>过去几年，我参与过私宅、酒店、文旅与公共空间项目，从概念、方案、客户沟通一路跟进到施工。现在，我希望把这些积累带到活动策划与运营中，去创造更多真正会被人参与、感受和记住的体验。</p>
           </div>
         </div>
         <div className="hero-bottom"><span>SCROLL TO EXPLORE</span><span>01 / 10</span></div>
@@ -596,26 +596,58 @@ function BinrongCasePage() {
   return <CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={binrongGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
-function YuelongCase() {
+const yuelongMedia = {
+  site: { id: 'yuelong-site-overview', label: 'YUELONGWAN / SITE OVERVIEW', src: '/assets/projects/yuelong/site-overview.jpg' },
+  arrival: { id: 'yuelong-arrival-system', label: 'YUELONGWAN / ARRIVAL SYSTEM', src: '/assets/projects/yuelong/arrival-system.jpg' },
+  main: { id: 'yuelong-main-garden', label: 'YUELONGWAN / MAIN GARDEN', src: '/assets/projects/yuelong/main-garden.jpg' },
+  leisure: { id: 'yuelong-leisure-garden', label: 'YUELONGWAN / LEISURE GARDEN', src: '/assets/projects/yuelong/leisure-garden.jpg' },
+  insideOne: { id: 'yuelong-inside-outside-01', label: 'YUELONGWAN / INSIDE & OUTSIDE 01', src: '/assets/projects/yuelong/inside-outside-1.jpg' },
+  insideTwo: { id: 'yuelong-inside-outside-02', label: 'YUELONGWAN / INSIDE & OUTSIDE 02', src: '/assets/projects/yuelong/inside-outside-2.jpg' },
+  modernOne: { id: 'yuelong-modern-japanese-01', label: 'YUELONGWAN / MODERN & JAPANESE 01', src: '/assets/projects/yuelong/modern-japanese-1.jpg' },
+  modernTwo: { id: 'yuelong-modern-japanese-02', label: 'YUELONGWAN / MODERN & JAPANESE 02', src: '/assets/projects/yuelong/modern-japanese-2.jpg' },
+  viewpoint: { id: 'yuelong-viewpoint-02', label: 'YUELONGWAN / A DIFFERENT POINT OF VIEW', src: '/assets/projects/yuelong/viewpoint-2.jpg' },
+}
+
+const yuelongGalleryItems = Object.values(yuelongMedia)
+
+const yuelongGardenStories = [
+  { number: '01', location: 'ARRIVAL GARDEN｜入户花园', title: '到达、行车与建筑展示', body: '连接两栋建筑的入口、车行与停车空间，在车辆离开后仍保持完整的入户秩序。', image: yuelongMedia.arrival.src },
+  { number: '02', location: 'MAIN GARDEN｜主花园', title: '一块回到日常生活的草坪', body: '两栋建筑之间以开阔草坪为中心，组织停留、活动、观景与家庭日常。', image: yuelongMedia.main.src },
+  { number: '03', location: 'LEISURE GARDEN｜休闲花园', title: '面向河岸的安静停留', body: '镜面水景、沿河小路、休闲躺椅与植物围合，共同形成更松弛的生活花园。', image: yuelongMedia.leisure.src },
+]
+
+function YuelongCase({ onPreview }) {
   return (
     <section className="case-section texture-section" id="yuelongwan">
-      <CaseBackdrop src="/assets/projects/02-yuelongwan-bg.jpg" />
+      <CaseBackdrop src="/assets/projects/yuelong/backdrop-optimized.jpg" />
       <ProjectIntro number="02" name="余姚悦龙湾" title="两栋房子之间" english="Designing the In-Between" summary="在接待与起居、车行与花园、现代与日式之间，为两栋用途不同的别墅建立一个完整而自然的空间系统。" tags={['私宅景观 Residential Landscape', '空间系统 Spatial System', '体验组织 Experience Planning']} />
       <Screen number="01" label="PROJECT INFO｜项目信息" className="overview-screen">
         <div className="screen-columns two-col"><div><p className="display-note">两栋房子之间</p><p className="small-english">DESIGNING THE IN-BETWEEN</p></div><div><MetaList items={[
           ['项目类型｜TYPE', '双别墅合并花园'], ['项目时间｜YEAR', '2025'], ['项目面积｜AREA', '约 1600㎡'], ['项目状态｜STATUS', <>施工进行中<br /><i>Under Construction</i></>],
         ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计｜负责整体方案构思与空间组织<br />方案深化｜推进方案深化、节点与材料关系<br />视觉表达｜负责效果图与设计表达<br />植物设计｜参与整体植物空间与氛围组织<br />施工跟进｜参与施工阶段调整与落地跟进<br />客户沟通｜直接与业主沟通需求、方案与修改意见</p></div></div></div>
       </Screen>
-      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">两栋相邻的房子，<br /><span className="context-question-line">需要一个怎样的花园？</span></p><div className="body-copy"><p>业主是一对从事制造行业的中年企业家夫妻。</p><p>由于日常生活之外还有一定的商务与社交接待需求，他们先后购入了两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋更偏向<strong>接待、聚会与会所式使用</strong>，另一栋则主要服务于<strong>家庭日常起居</strong>。</p><p>与此同时，两栋别墅的建筑气质偏现代海派 / 现代法式，业主本人却更偏爱安静、自然的日式庭院。</p><p>场地还必须满足车辆进入、到达、停车，以及两栋建筑之间的连续通行。</p><p>两个花园的联通只是最基础的一步。真正需要解决的是：</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同的空间功能与风格自然地过渡？</Quote></div></div></Screen>
-      <Screen number="03" label="SPATIAL SYSTEM｜三个花园，一套系统"><div className="garden-layout"><p className="screen-title">三个花园，一套系统</p><div className="garden-list"><div><b>01 入户花园｜Arrival Garden</b><span>包括两栋建筑各自的入户区域，以及连接两处入口的连续车行空间。<br />到达 · 行车 · 停车 · 建筑展示</span></div><div><b>02 主花园｜Main Garden</b><span>位于两栋建筑之间，以一块开阔草坪为中心，回到停留、活动、观景与日常生活。</span></div><div><b>03 休闲花园｜Leisure Garden</b><span>位于起居建筑南侧，对应挑空客厅的大面积落地玻璃，以镜面水景、沿河小路、休闲躺椅与植物围合形成更安静的停留空间。</span></div></div></div></Screen>
-      <Screen number="04" label="ARRIVAL & PARKING｜让车进入花园，但不让车主导花园"><div className="copy-layout arrival-layout"><p className="screen-title">让车进入花园，<br />但不让车主导花园</p><div className="body-copy"><p>两栋建筑之间的连接空间尺度有限，却同时需要承担：</p><p className="bold-line">进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>因此，设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。</p><p>车辆停留时：</p><p className="question-line">这里可以完成停车与上下客。</p><p>车辆离开后：</p><p className="question-line">它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></div></div></Screen>
+      <Screen number="02" label="CONTEXT｜项目背景" className="case-template-one-screen yuelong-editorial-screen yuelong-context-screen"><CaseTemplateOne item={yuelongMedia.site} onPreview={onPreview} eyebrow="CONTEXT" title={<>两栋相邻的房子，<br /><span className="context-question-line">需要一个怎样的花园？</span></>}><p>业主是一对从事制造行业的中年企业家夫妻。由于日常生活之外还有一定的商务与社交接待需求，他们先后购入两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋更偏向<strong>接待、聚会与会所式使用</strong>，另一栋主要服务于<strong>家庭日常起居</strong>。场地还必须满足车辆进入、到达、停车，以及两栋建筑之间的连续通行。</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同的空间功能与风格自然地过渡？</Quote></CaseTemplateOne></Screen>
+      <Screen number="03" label="SPATIAL SYSTEM｜三个花园，一套系统" className="case-template-four-screen yuelong-ideas-screen"><CaseTemplateFour stories={yuelongGardenStories} className="case-template-four--screen yuelong-garden-system" /></Screen>
+      <Screen number="04" label="ARRIVAL & PARKING｜让车进入花园，但不让车主导花园" className="case-template-one-screen yuelong-editorial-screen"><CaseTemplateOne item={yuelongMedia.arrival} onPreview={onPreview} eyebrow="ARRIVAL & PARKING" title={<>让车进入花园，<br />但不让车主导花园</>}><p>两栋建筑之间的连接空间尺度有限，却同时需要承担进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。车辆离开后，它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></CaseTemplateOne></Screen>
       <Screen number="05" label="THREE IN-BETWEENS｜三个“之间”"><div className="three-in-betweens"><p className="screen-title">几个不同状态之间<br />如何发生转换</p><div className="three-in-between-grid"><div><b>01 到达与停车之间</b><p>停车只在车辆出现时成为这里的主要功能；其余时间，空间仍然保持完整的入户秩序。</p></div><div><b>02 室内与室外之间</b><p>挑空客厅、落地玻璃、镜面水景、休闲花园与河岸形成连续的视线和行走关系。</p></div><div><b>03 现代与日式之间</b><p>让人从理性、正式的入户花园，自然进入更加自然、松弛的生活花园。</p></div></div></div></Screen>
-      <Screen number="06" label="INSIDE & OUTSIDE｜室内与室外之间"><div className="copy-layout inside-layout"><p className="screen-title">室内与室外之间</p><div className="body-copy"><p>项目中有两处重要的室内外接口。</p><p>第一处是起居建筑南侧。大面积落地玻璃直接面向休闲花园，镜面水景贴近建筑展开，植物与河岸景观继续向外延伸，让人在客厅中就能感知花园；走出室内后，空间又自然过渡到休闲停留与沿河步行。</p><p>第二处位于地下层的采光井。它连接酒廊、酒窖 / 雪茄、影音及休闲空间。</p><p>在满足采光和通风的基础上，这里加入高吧家具、大型花器与棕榈等植物，把地下生活向户外延伸。</p><p className="bilingual-line">Lightwell｜采光井<br />↓<br />Semi-outdoor Lounge｜半户外休闲空间</p></div></div></Screen>
-      <Screen number="07" label="MODERN & JAPANESE｜现代与日式之间"><div className="copy-layout modern-layout"><p className="screen-title">现代与日式之间</p><div className="body-copy"><p>业主偏爱日式庭院，但两栋建筑本身具有较明显的现代海派 / 现代法式气质。</p><p>与其在两种风格之间做选择，我们更关注它们之间的<strong>过渡</strong>：</p><Quote>人怎样从一种空间状态，自然地进入另一种状态？</Quote><p>入户花园首先回应建筑。铺装、植物与空间秩序更加理性、正式，保持建筑本身的到达感。</p><p>随着人离开车行与入户系统，进入主花园和休闲花园，空间逐渐变得更加自然、松弛。</p><p className="bilingual-line">FORMAL → NATURAL<br />正式 → 自然</p></div></div></Screen>
-      <Screen number="08" label="A DIFFERENT POINT OF VIEW｜改变观看花园的位置"><div className="viewpoint-layout"><div><p className="screen-title">改变观看花园的位置</p></div><div className="body-copy"><p>在主花园最远的一角，我们设置了一座相对独立的休闲亭。它可以承担喝茶、棋牌与日常停留，也改变了人观看整个花园的位置。</p><p>大多数时候，人从住宅内部向外看花园：</p><p className="bilingual-line">House → Garden<br />建筑 → 花园</p><p>当人穿过草坪，走到场地最远端的亭子之后，观看方向第一次发生反转。</p><p className="bilingual-line">House → Garden → Pavilion → Look Back<br />建筑 → 花园 → 亭子 → 回望</p><p>这段路径让花园从住宅窗外的景观，变成一段可以真正进入、穿过，并在另一端回望的空间体验。</p></div></div></Screen>
+      <Screen number="06" label="INSIDE & OUTSIDE｜室内与室外之间" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.insideOne, yuelongMedia.insideTwo]} onPreview={onPreview} eyebrow="INSIDE & OUTSIDE" title="室内与室外之间"><p>起居建筑南侧的大面积落地玻璃直接面向休闲花园，镜面水景贴近建筑展开，植物与河岸景观继续向外延伸。</p><p>另一处接口位于地下层采光井。在满足采光和通风的基础上，高吧家具、大型花器与棕榈把地下生活向户外延伸。</p><p className="bilingual-line">Lightwell → Semi-outdoor Lounge<br />采光井 → 半户外休闲空间</p></CaseTemplateThree></Screen>
+      <Screen number="07" label="MODERN & JAPANESE｜现代与日式之间" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.modernOne, yuelongMedia.modernTwo]} onPreview={onPreview} eyebrow="MODERN & JAPANESE" title="现代与日式之间"><p>业主偏爱日式庭院，但两栋建筑本身具有明显的现代海派 / 现代法式气质。与其在两种风格之间做选择，我们更关注它们之间的<strong>过渡</strong>。</p><Quote>人怎样从一种空间状态，自然地进入另一种状态？</Quote><p className="bilingual-line">FORMAL → NATURAL<br />正式 → 自然</p></CaseTemplateThree></Screen>
+      <Screen number="08" label="A DIFFERENT POINT OF VIEW｜改变观看花园的位置" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.main, yuelongMedia.viewpoint]} onPreview={onPreview} eyebrow="A DIFFERENT POINT OF VIEW" title="改变观看花园的位置"><p>在主花园最远的一角，我们设置了一座相对独立的休闲亭。它承担喝茶、棋牌与日常停留，也改变了人观看整个花园的位置。</p><p>当人穿过草坪到达亭子，观看方向第一次发生反转。</p><p className="bilingual-line">House → Garden → Pavilion → Look Back<br />建筑 → 花园 → 亭子 → 回望</p></CaseTemplateThree></Screen>
       <Screen number="09" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">回到人与<span className="nowrap-title-unit">空间</span>的关系</p><p>这个项目最终需要处理的，是几组必须<strong>同时成立的关系</strong>：</p><p className="relation-stack">接待与起居——车行与花园——正式与松弛——室内与室外——现代与日式</p></div><div><Quote><strong>设计的价值，也可以来自对人与空间关系的重新安排。</strong></Quote><p className="italic-line">Designing relationships, not just spaces.</p><p className="bilingual-line">设计关系，而不只是空间。</p></div></div></Screen>
     </section>
   )
+}
+
+function YuelongCasePage() {
+  const [previewId, setPreviewId] = useState(null)
+  const previewIndex = yuelongGalleryItems.findIndex((item) => item.id === previewId)
+  const preview = previewIndex >= 0 ? yuelongGalleryItems[previewIndex] : null
+  const movePreview = (direction) => {
+    if (previewIndex < 0) return
+    const nextIndex = (previewIndex + direction + yuelongGalleryItems.length) % yuelongGalleryItems.length
+    setPreviewId(yuelongGalleryItems[nextIndex].id)
+  }
+  return <CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={yuelongGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
 const qiduBackdropAsset = '/assets/projects/03-qidu-bg.jpg'
@@ -648,7 +680,7 @@ function QiduEditorialGallery({ items, onPreview }) {
 function QiduCase({ onPreview }) {
   useEffect(() => {
     const qidu = document.querySelector('#qidu')
-    const glassScreens = [...(qidu?.querySelectorAll('.qidu-overview-screen, .qidu-editorial-screen, .closing-screen') || [])]
+    const glassScreens = [...(qidu?.querySelectorAll('.qidu-overview-screen, .qidu-editorial-screen') || [])]
     const clearScreens = [...(qidu?.querySelectorAll('.project-intro, .screen:nth-of-type(2)') || [])]
     if (!qidu || !glassScreens.length) return undefined
     let frame = 0
@@ -703,7 +735,7 @@ function QiduCase({ onPreview }) {
           </div>
         </div>
       </Screen>
-      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title">一个年轻家庭的<br />滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
+      <Screen number="02" label="CONTEXT｜项目背景"><div className="copy-layout"><p className="screen-title qidu-context-title">一个年轻家庭的 滨水花园</p><div className="body-copy"><p>项目位于温州七都，业主是一对年轻夫妻，孩子正在读高中。</p><p>场地由南北两部分花园组成。北侧连接建筑主要入口，需要同时解决<strong>到达、停车、隐私与建筑形象</strong>；南侧面积更大，并直接面向河道，是一家人真正长时间停留、游泳、吃饭、喝茶与休息的生活花园。</p><p>两部分空间承担着不同的任务，但又需要通过连续动线形成一个完整的家。</p><p>前期沟通中，业主并没有提出非常具体的风格或功能要求，整体需求相对模糊。因此，我们结合家庭结构、场地条件和滨水环境，主动提出了一个方向：</p><p className="bold-line">有生活情调，也有艺术感。</p></div></div></Screen>
       <Screen number="03" label="CONCEPT｜核心概念" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.concept[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="small-english">THE ART OF LIVING</p><p className="concept-word">“生活的艺术家”</p></div><div className="body-copy qidu-editorial-copy"><p>“生活的艺术家”是结合家庭结构、场地条件与生活场景，为项目建立的主题方向。</p><p>艺术感来自材料、尺度、构图和植物；生活感则来自人在这些空间里真正会发生的事情。</p><div className="life-moments"><span>Arrival</span><span>Reading on the Lawn</span><span>Swimming</span><span>Drinking by the Water</span><span>Tea by the Riverside</span></div></div></div></Screen>
       <Screen number="04" label="NORTH / ARRIVAL GARDEN｜北侧入户花园" className="qidu-editorial-screen case-template-three-screen"><CaseTemplateThree items={qiduChapterImages.arrival} onPreview={onPreview} eyebrow="ARRIVAL GARDEN" title={<>隐私也是<br />景观的一部分</>}><p>北侧入户花园直接面向社区道路。设计通过一组具有雕塑感的几何景墙建立第一层边界。墙体采用错落关系，而不是连续封闭的实墙；植物从墙与墙之间的缝隙中生长出来，让界面保持遮挡，也保留一定的呼吸感。</p><p>在材料上，小块叠石与体量更大的几何岩石并置，两种尺度形成明显对比，让入户空间在相对克制的基础上拥有更强的视觉识别。</p><p className="accent-label">RAISED PLANTING｜抬高种植</p><p className="bold-line">北侧植物区域整体抬高约40cm，使植物更接近视线，也进一步削弱道路对住宅内部的直接视线。</p></CaseTemplateThree></Screen>
       <Screen number="05" label="SOUTH / SUNKEN GARDEN｜南侧高差" className="qidu-editorial-screen"><QiduEditorialImage item={qiduChapterImages.sunken[0]} onPreview={onPreview} /><div className="qidu-editorial-aside"><div className="qidu-editorial-heading"><p className="accent-label">SUNKEN GARDEN</p><p className="screen-title">通过高差<br />改变花园的使用方式</p></div><div className="body-copy qidu-editorial-copy"><p><strong>隐私</strong><br />泳池设置在下沉庭院，阻隔园外视线。</p><p><strong>空间层次</strong><br />栈桥悬于泳池上方，提供了空中俯瞰下沉庭院的新体验。</p><p><strong>连接</strong><br />楼梯与跨越泳池的悬空步道连接不同标高。步道承担交通功能，也提供一个短暂的高处视角。</p></div></div></Screen>
@@ -1023,7 +1055,7 @@ function OutsideSection() {
 }
 
 function ExperienceSection() {
-  return <section className="experience-section texture-section" id="experience"><div className="experience-heading"><span>05 / EXPERIENCE</span><h2>工作经历</h2></div><div className="timeline"><article><div className="timeline-date">2021.08 — 2023.03</div><h3>中国美术学院风景建筑设计研究院</h3><p className="timeline-sub">参与项目类型：</p><div className="inline-list">展馆 · 美术馆 · 口袋公园 · 公共空间 · 文旅相关空间</div><p className="timeline-sub">重点能力：</p>{tags(['空间设计', '视觉表达', '公共体验'])}</article><article><div className="timeline-date">2023.03 — 2026.03</div><h3>米人工作室<br /><small>浙江华坤建筑设计院</small></h3><p>参与项目从高端私宅延伸到大型度假酒店、市政公园，并逐渐承担主创设计与项目推进职责。</p><p className="timeline-sub">重点能力：</p>{tags(['主创设计', '客户沟通', '方案汇报', '施工跟进', '落地交付'])}</article><article className="now-entry"><div className="timeline-date">NOW｜现在</div><h3>希望进入文旅内容与运营现场</h3><Quote>我希望把过去在空间项目中积累的体验策划、视觉表达、客户沟通与落地能力，带进更加开放的文旅场景中。</Quote></article></div></section>
+  return <section className="experience-section texture-section" id="experience"><div className="experience-heading"><span>05 / EXPERIENCE</span><h2>工作经历</h2></div><div className="timeline"><article><div className="timeline-date">2021.08 — 2023.03</div><h3>中国美术学院风景建筑设计研究院</h3><p className="timeline-sub">参与项目类型：</p><div className="inline-list">展馆 · 美术馆 · 口袋公园 · 公共空间 · 文旅相关空间</div><p className="timeline-sub">重点能力：</p>{tags(['空间设计', '视觉表达', '公共体验'])}</article><article><div className="timeline-date">2023.03 — 2026.03</div><h3>米人工作室<br /><small>浙江华坤建筑设计院</small></h3><p>参与项目从高端私宅延伸到大型度假酒店、市政公园，并逐渐承担主创设计与项目推进职责。</p><p className="timeline-sub">重点能力：</p>{tags(['主创设计', '客户沟通', '方案汇报', '施工跟进', '落地交付'])}</article><article className="now-entry"><div className="timeline-date">NOW｜现在</div><h3>希望进入策划领域</h3><Quote>我希望把过去在空间项目中积累的体验策划、视觉表达、客户沟通与落地能力，带进更加开放的活动场景中。</Quote></article></div></section>
 }
 
 function AboutSection() {
@@ -1172,13 +1204,15 @@ function MotionDirector() {
     })
 
     const caseScreens = [...document.querySelectorAll('.case-page .screen')]
-    const caseTargetSelector = '.screen-index, .screen-title, .display-note, .concept-word, .small-english, .accent-label, .body-copy > p, .body-copy > blockquote, .meta-list > div, .role-detail-grid, .binrong-text-motion-screen .terrace-grid > div > *, .qidu-overview-plan, .qidu-overview-meta, .qidu-overview-areas figure, .case-template-media, .case-template-four .idea-card, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card, .closing-layout > div'
+    const caseTargetSelector = '.screen-index, .screen-title, .display-note, .concept-word, .small-english, .accent-label, .body-copy > p, .body-copy > blockquote, .body-copy > ul, .meta-list > div, .role-block, .role-detail-grid > *, .terrace-grid > div > *, .qidu-overview-plan, .qidu-overview-areas figure, .case-template-media, .case-template-four .idea-card, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card, .closing-layout > div'
+    const waterfallTargetSelector = '#qidu .qidu-overview-plan, #qidu .qidu-overview-areas figure, #qidu .qidu-editorial-screen .case-template-media, #qidu .qidu-editorial-media, #qidu .qidu-gallery-card, #binrongfu .screen:nth-of-type(3) .case-template-media, #binrongfu .screen:nth-of-type(4) .case-template-media, #daye .daye-context-screen .daye-editorial-media, #daye .daye-light-screen .case-template-media'
     caseScreens.forEach((screen) => {
       screen.classList.add('case-reveal-screen')
       screen.querySelectorAll(caseTargetSelector).forEach((target, index) => {
         target.classList.add('case-reveal-target')
         target.style.setProperty('--case-reveal-index', Math.min(index, 9))
         if (target.matches('.gallery-placeholder, .case-template-media, .qidu-overview-plan, .qidu-overview-areas figure, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card')) target.classList.add('case-reveal-media')
+        if (target.matches(waterfallTargetSelector)) target.classList.add('waterfall-reveal-media')
       })
     })
     const screenObserver = new IntersectionObserver((entries) => {
@@ -1286,7 +1320,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<YangmingCasePage />} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<YangmingCasePage />} /><Route path="/cases/yuelongwan" element={<YuelongCasePage />} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
