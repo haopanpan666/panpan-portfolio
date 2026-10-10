@@ -3794,3 +3794,142 @@ html.motion-enabled .case-reveal-screen .qidu-gallery-card {
   .case-template-three-card:hover img,
   .case-template-three-card:focus-visible img { transform: none; }
 }
+
+/* V15: case-specific media updates, frosted transitions, and final browser annotations. */
+#yangming {
+  --yangming-scene-blur: 0px;
+}
+
+#yangming .yangming-scene-backdrop::after {
+  z-index: 2;
+  background: rgba(3, 6, 4, .42);
+  transition: background-color .35s ease;
+}
+
+#yangming .yangming-scene-layer {
+  z-index: 1;
+  opacity: 0;
+  transform: scale(1.055);
+  filter: brightness(.62) blur(var(--yangming-scene-blur));
+  transition: opacity .9s cubic-bezier(.22, .75, .28, 1), filter .18s linear;
+  will-change: opacity, filter;
+}
+
+#yangming .yangming-scene-layer.is-active { opacity: 1; }
+#yangming .yangming-scene-layer[data-scene="04"] { filter: brightness(.54) blur(var(--yangming-scene-blur)); }
+#yangming .yangming-scene-layer[data-scene="05"] { filter: brightness(.5) blur(var(--yangming-scene-blur)); }
+
+.theme-dark #yangming .project-intro,
+.theme-dark #yangming .screen {
+  background: rgba(7, 9, 7, .2);
+  backdrop-filter: blur(var(--yangming-scene-blur)) saturate(108%);
+  -webkit-backdrop-filter: blur(var(--yangming-scene-blur)) saturate(108%);
+}
+
+.theme-dark #yangming .screen:nth-of-type(4) { background: rgba(5, 8, 6, .3); }
+.theme-dark #yangming .screen:nth-of-type(5) { background: rgba(5, 7, 5, .36); }
+.theme-dark #yangming .ideas-screen {
+  background: rgba(5, 7, 6, .24);
+  backdrop-filter: blur(16px) saturate(112%);
+  -webkit-backdrop-filter: blur(16px) saturate(112%);
+}
+
+#yangming .yangming-plan-media {
+  aspect-ratio: 16 / 10;
+  background: rgba(242, 240, 234, .94);
+}
+
+#yangming .yangming-plan-media img {
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+#binrongfu .case-template-media img { border-radius: 10px; }
+#binrongfu .binrong-load-limit-media img { filter: brightness(.9); }
+
+.theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7) {
+  background: rgba(8, 8, 8, .22);
+  backdrop-filter: blur(14px) saturate(108%);
+  -webkit-backdrop-filter: blur(14px) saturate(108%);
+}
+
+html.motion-enabled #binrongfu .case-reveal-screen .binrong-entry-media {
+  opacity: 0;
+  transform: translate3d(-72px, 24px, 0) scale(.965);
+  filter: blur(9px);
+  transition-duration: .95s;
+}
+
+html.motion-enabled #binrongfu .case-reveal-screen.is-case-active .binrong-entry-media {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+html.motion-enabled #binrongfu .binrong-text-motion-screen .terrace-grid > div:first-child > .case-reveal-target {
+  transform: translate3d(-32px, 18px, 0);
+}
+
+html.motion-enabled #binrongfu .binrong-text-motion-screen .terrace-grid > div:last-child > .case-reveal-target {
+  transform: translate3d(32px, 18px, 0);
+}
+
+html.motion-enabled #binrongfu .binrong-text-motion-screen.is-case-active .terrace-grid > div > .case-reveal-target {
+  transform: translate3d(0, 0, 0);
+}
+
+@media (min-width: 901px) {
+  #qidu .qidu-overview-plan img { margin-left: 260px; }
+
+  #binrongfu .binrong-site-adjustment-screen .screen-body {
+    grid-template-columns: minmax(0, 1fr) 820.88px;
+    column-gap: clamp(48px, 4vw, 72px);
+  }
+
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-aside {
+    grid-column: 1;
+    grid-row: 1;
+    width: min(100%, 620px);
+    margin-left: 260px;
+  }
+
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-media {
+    grid-column: 2;
+    grid-row: 1;
+    width: 820.88px;
+    height: 461.745px;
+    aspect-ratio: auto;
+  }
+
+  #yangming .case-template-four--screen { padding: 0; }
+  #yangming .case-template-four--screen .idea-card-row {
+    box-sizing: border-box;
+    height: 820px;
+    padding-top: 185px;
+    padding-bottom: 40px;
+    align-items: flex-start;
+  }
+
+  #yangming .case-template-four--screen .idea-card,
+  #yangming .case-template-four--screen .idea-card-copy {
+    min-height: 0;
+    height: auto;
+  }
+
+  #yangming .case-template-four--screen .idea-card-media {
+    min-height: 0;
+    height: 390px;
+  }
+}
+
+@media (max-width: 900px) {
+  #qidu .qidu-overview-plan img { margin-left: 0; }
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-aside { order: 1; margin-left: 0; }
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-media { order: 2; }
+  #yangming .case-template-four--screen .idea-card-row { height: auto; padding-top: 64px; }
+  #yangming .case-template-four--screen .idea-card-media { min-height: 300px; height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #yangming .yangming-scene-layer { transition: none; }
+}

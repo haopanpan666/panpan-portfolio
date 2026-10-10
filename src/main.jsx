@@ -439,6 +439,22 @@ const yangmingKeyIdeas = [
   { number: '03', location: 'MINGYIXUAN｜明逸轩', title: '明逸轩的功能再利用', body: '一层被设想为向外打开的食养就餐空间；二层拥有更高、更安静、可以远眺茶山的视野。', image: '/assets/projects/yangming/06-3.jpg' },
 ]
 
+const yangmingBackdropScenes = [
+  { key: 'base', src: '/assets/projects/01-yangming-bg.jpg' },
+  { key: '01-02', src: '/assets/projects/yangming/bg-01-02.jpg' },
+  { key: '03', src: '/assets/projects/yangming/bg-03.jpg' },
+  { key: '04', src: '/assets/projects/yangming/bg-04.jpg' },
+  { key: '05', src: '/assets/projects/yangming/bg-05.jpg' },
+]
+
+const yangmingPlanItem = {
+  id: 'yangming-master-plan',
+  label: 'YANGMING / MASTER PLAN',
+  src: '/assets/projects/yangming/03-plan.jpg',
+}
+
+const yangmingGalleryItems = [yangmingPlanItem]
+
 const binrongGalleryItems = [
   { id: 'binrong-east-terrace', label: 'BINRONGFU / EAST TERRACE', src: '/assets/projects/binrong/03.jpg' },
   { id: 'binrong-west-terrace', label: 'BINRONGFU / WEST TERRACE', src: '/assets/projects/binrong/04.jpg' },
@@ -450,10 +466,64 @@ const binrongGalleryItems = [
   { id: 'binrong-process-04', label: 'BINRONGFU / PROCESS 04', src: '/assets/projects/binrong/07-4.jpg' },
 ]
 
-function YangmingCase() {
+function YangmingCase({ onPreview }) {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return undefined
+
+    const scenes = [...section.querySelectorAll(':scope > .project-intro, :scope > .screen')]
+    const layers = [...section.querySelectorAll('.yangming-scene-layer')]
+    const sceneKeys = ['base', '01-02', '01-02', '03', '04', '05', 'base', 'base']
+    let frame = 0
+
+    const updateScene = () => {
+      frame = 0
+      const focusLine = window.innerHeight * .5
+      let activeIndex = 0
+      let closestDistance = Number.POSITIVE_INFINITY
+
+      scenes.forEach((scene, index) => {
+        const rect = scene.getBoundingClientRect()
+        const center = rect.top + rect.height / 2
+        const distance = Math.abs(center - focusLine)
+        if (distance < closestDistance) {
+          closestDistance = distance
+          activeIndex = index
+        }
+      })
+
+      const activeRect = scenes[activeIndex]?.getBoundingClientRect()
+      const localProgress = activeRect ? Math.min(1, Math.max(0, (focusLine - activeRect.top) / Math.max(activeRect.height, 1))) : .5
+      const edgeDistance = Math.min(localProgress, 1 - localProgress)
+      const blurProgress = Math.min(1, Math.max(0, (.16 - edgeDistance) / .16))
+      const activeKey = sceneKeys[activeIndex] || 'base'
+
+      section.style.setProperty('--yangming-scene-blur', `${(blurProgress * 16).toFixed(2)}px`)
+      layers.forEach((layer) => layer.classList.toggle('is-active', layer.dataset.scene === activeKey))
+    }
+
+    const requestUpdate = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(updateScene)
+    }
+
+    updateScene()
+    window.addEventListener('scroll', requestUpdate, { passive: true })
+    window.addEventListener('resize', requestUpdate)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', requestUpdate)
+      window.removeEventListener('resize', requestUpdate)
+    }
+  }, [])
+
   return (
-    <section className="case-section texture-section" id="yangming">
-      <CaseBackdrop src="/assets/projects/01-yangming-bg.jpg" />
+    <section className="case-section texture-section" id="yangming" ref={sectionRef}>
+      <div className="case-scene-backdrop yangming-scene-backdrop" aria-hidden="true">
+        {yangmingBackdropScenes.map((scene, index) => <img className={`yangming-scene-layer ${index === 0 ? 'is-active' : ''}`} data-scene={scene.key} src={scene.src} alt="" loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'auto'} decoding="async" key={scene.key} />)}
+      </div>
       <ProjectIntro number="01" name="余姚阳明温泉山庄" title="一个让人慢下来的地方" english="A Place to Slow Down" summary="通过疗愈体验与既有资源的重新激活，想象一座运营十五年的温泉度假酒店，还可以如何重新变得值得到访。" tags={['文旅策划 Destination Planning', '体验策划 Experience Planning', '概念设计 Concept Development']} />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen">
         <div className="screen-columns two-col">
@@ -469,8 +539,8 @@ function YangmingCase() {
       <Screen number="02" label="PROJECT BACKGROUND｜项目背景">
         <div className="copy-layout"><div><p className="screen-title">一座逐渐老去的温泉酒店，怎样重新变得值得到访？</p></div><div className="body-copy"><p>阳明温泉山庄已经营业十五年。</p><p>建筑与基础设施仍维护得较为完整，但部分核心空间与体验已经逐渐难以匹配新的度假需求。</p><p>温泉设施逐渐落后，原有水乐园与独栋私汤长期闲置，明逸轩也失去了用途；从室内更衣区通往户外温泉的距离过长，在冬季尤其影响体验。</p><p>甲方最初的诉求很明确：</p><p className="bold-line">更新温泉与水乐园，重新利用闲置设施，并以此带动周边景观与整体度假体验的升级。</p></div></div>
       </Screen>
-      <Screen number="03" label="CORE INSIGHT｜核心洞察">
-        <div className="insight-layout"><p className="screen-title">重新看见<br />这里已经拥有的东西</p><div className="body-copy"><p>当视线从温泉区域向外打开，我们重新看见了场地中原本就存在的资源：</p><p className="bold-line">茶山、溪流、山林、温泉、茶园，以及周边文化资源。</p><p>它们并不需要被重新制造，而是需要被重新组织。</p><p>因此，我们以温泉、水乐园与明逸轩为核心，通过更开放的视线与动线，把体验向周边自然与文化环境延伸。</p><p>项目问题也从：</p><p className="question-line">“温泉和水乐园应该怎样改？”</p><p>逐渐转向：</p><p className="question-line">“这些已经存在的资源，能否共同组成一种新的度假理由？”</p></div></div>
+      <Screen number="03" label="CORE INSIGHT｜核心洞察" className="case-template-one-screen yangming-plan-screen">
+        <CaseTemplateOne item={yangmingPlanItem} onPreview={onPreview} mediaClassName="yangming-plan-media" eyebrow="CORE INSIGHT" title={<>重新看见<br />这里已经拥有的东西</>}><p>当视线从温泉区域向外打开，我们重新看见了场地中原本就存在的资源：</p><p className="bold-line">茶山、溪流、山林、温泉、茶园，以及周边文化资源。</p><p>它们并不需要被重新制造，而是需要被重新组织。</p><p>因此，我们以温泉、水乐园与明逸轩为核心，通过更开放的视线与动线，把体验向周边自然与文化环境延伸。</p><p>项目问题也从：</p><p className="question-line">“温泉和水乐园应该怎样改？”</p><p>逐渐转向：</p><p className="question-line">“这些已经存在的资源，能否共同组成一种新的度假理由？”</p></CaseTemplateOne>
       </Screen>
       <Screen number="04" label="CORE CONCEPT｜核心概念" className="concept-screen">
         <div className="concept-layout"><div /><div><p className="concept-lead">不是用更多内容填满一段旅程，而是创造一种让人逐渐慢下来、重新感受身体与自然的状态。</p><div className="four-points"><div><b>RETURN｜回归</b><span>回到自然，也回到身体本身。</span></div><div><b>RESTORE｜恢复</b><span>暂时退出日常，重新获得能量。</span></div><div><b>CONNECT｜连接</b><span>与家人、同行者和自然重新发生关系。</span></div><div><b>SENSE｜感知</b><span>重新听见风、闻到香、看见星空和日落。</span></div></div></div></div>
@@ -488,6 +558,13 @@ function YangmingCase() {
   )
 }
 
+function YangmingCasePage() {
+  const [previewId, setPreviewId] = useState(null)
+  const previewIndex = yangmingGalleryItems.findIndex((item) => item.id === previewId)
+  const preview = previewIndex >= 0 ? yangmingGalleryItems[previewIndex] : null
+  return <CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={yangmingGalleryItems.length} onClose={() => setPreviewId(null)} onMove={() => {}} /></CasePage>
+}
+
 function BinrongCase({ onPreview }) {
   return (
     <section className="case-section texture-section" id="binrongfu">
@@ -496,11 +573,11 @@ function BinrongCase({ onPreview }) {
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">两个露台<br />两种生活</p></div><div><MetaList items={[
         ['项目名称｜PROJECT', '杭州滨融府'], ['项目类型｜TYPE', '高端住宅屋顶露台 / 私宅花园'], ['项目时间｜YEAR', '2024'], ['项目面积｜AREA', '约140㎡'], ['项目状态｜STATUS', <>已交付<br /><i>Completed</i></>],
       ]} /><div className="role-block"><span>我的角色｜ROLE</span><p>主创设计 / 方案深化 / 视觉表达 / 植物设计 / 施工跟进 / 客户沟通</p></div></div></div></Screen>
-      <Screen number="02" label="TWO TERRACES｜两个露台，两种生活场景"><div className="terrace-grid"><div><p className="accent-label">EAST｜东侧</p><h3>两个露台，对应两种生活场景。</h3><p>东侧露台连接客厅，空间狭长、呈 L 形，更安静，也更接近一个人的日常。</p><p>西侧露台连接茶室，面积更大，承担喝茶、聊天与聚会，更开放，也更适合共同停留。</p></div><div><p className="accent-label">WEST｜西侧</p><h3>从不同的室内空间出发，建立不同的花园关系。</h3><p>两个露台没有被处理成同一种花园，而是分别回应窗景、停留、私密与相聚。</p><Quote>两个露台从不同的室内空间出发，也对应两种不同的生活状态。</Quote></div></div></Screen>
-      <Screen number="03" label="EAST TERRACE｜东侧露台" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[0]} onPreview={onPreview} eyebrow="EAST TERRACE" title="东露台——独处"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></CaseTemplateOne></Screen>
-      <Screen number="04" label="WEST TERRACE｜西侧露台" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[1]} onPreview={onPreview} eyebrow="WEST TERRACE" title="西露台——聚会"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></CaseTemplateOne></Screen>
-      <Screen number="05" label="LOAD LIMIT｜现实限制" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[2]} onPreview={onPreview} eyebrow="PROBLEM / ADJUSTMENT" title={<>屋顶花园<span className="nowrap-title-unit">首先</span>要解决重量</>}><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></CaseTemplateOne></Screen>
-      <Screen number="06" label="SITE ADJUSTMENT｜现场调整" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[3]} onPreview={onPreview} eyebrow="SITE ADJUSTMENT" title="一个不能移动的排风口"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></CaseTemplateOne></Screen>
+      <Screen number="02" label="TWO TERRACES｜两个露台，两种生活场景" className="binrong-text-motion-screen"><div className="terrace-grid"><div><p className="accent-label">EAST｜东侧</p><h3>两个露台，对应两种生活场景。</h3><p>东侧露台连接客厅，空间狭长、呈 L 形，更安静，也更接近一个人的日常。</p><p>西侧露台连接茶室，面积更大，承担喝茶、聊天与聚会，更开放，也更适合共同停留。</p></div><div><p className="accent-label">WEST｜西侧</p><h3>从不同的室内空间出发，建立不同的花园关系。</h3><p>两个露台没有被处理成同一种花园，而是分别回应窗景、停留、私密与相聚。</p><Quote>两个露台从不同的室内空间出发，也对应两种不同的生活状态。</Quote></div></div></Screen>
+      <Screen number="03" label="EAST TERRACE｜东侧露台" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[0]} onPreview={onPreview} mediaClassName="binrong-entry-media" eyebrow="EAST TERRACE" title="东露台——独处"><p>东侧露台对应客厅。由于空间狭长，地面能够展开的内容有限，因此设计重点被放到立面与纵向空间。</p><p>一组层叠的雕塑感水景与景墙成为主要视觉中心，盆景、折叠小吧台与植物共同组织在其周围。植物以球形灌木与较自然的杂木感搭配，在有限空间里增加层次。</p><Quote>从客厅里，它是一幅窗景；走出去以后，也可以成为一个人坐下来喝一杯的地方。</Quote></CaseTemplateOne></Screen>
+      <Screen number="04" label="WEST TERRACE｜西侧露台" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[1]} onPreview={onPreview} mediaClassName="binrong-entry-media" eyebrow="WEST TERRACE" title="西露台——聚会"><p>西侧露台连接茶室，面积更大，承担家人喝茶、朋友聊天与几个人一起停留的场景。</p><p>设计通过竹篱 / 屏风建立边界与私密感，并布置遮阳伞、沙发卡座等更适合多人使用的家具。露台既是可以真正走出去使用的空间，也需要在茶室内部形成稳定的框景。</p><Quote>与东侧的安静相比，这里承担的是更开放、更松弛的相聚场景。</Quote></CaseTemplateOne></Screen>
+      <Screen number="05" label="LOAD LIMIT｜现实限制" className="case-template-one-screen binrong-editorial-screen"><CaseTemplateOne item={binrongGalleryItems[2]} onPreview={onPreview} mediaClassName="binrong-entry-media binrong-load-limit-media" eyebrow="PROBLEM / ADJUSTMENT" title={<>屋顶花园<span className="nowrap-title-unit">首先</span>要解决重量</>}><p><strong>问题</strong><br />屋顶荷载有限，但设计需要景石、覆土与植物层次。</p><p><strong>调整</strong></p><ul className="editorial-list"><li><strong>景观石掏空</strong>：仅保留外部壳体，降低整体重量。</li><li><strong>减少覆土</strong>：减少不必要的大面积覆土。</li><li><strong>调整种植</strong>：根据实际覆土条件重新选择植物。</li></ul><p>这些变化没有改变空间关系，而是让方案在真实结构条件下继续成立。</p></CaseTemplateOne></Screen>
+      <Screen number="06" label="SITE ADJUSTMENT｜现场调整" className="case-template-one-screen binrong-editorial-screen binrong-site-adjustment-screen"><CaseTemplateOne item={binrongGalleryItems[3]} onPreview={onPreview} eyebrow="SITE ADJUSTMENT" title="一个不能移动的排风口"><p>建筑原有排风口无法移动，但又处于主要视觉界面中。</p><p>最终通过景墙、水景与植物之间的组合，把设备纳入整体构图，同时保留正常排风功能。</p><Quote>现场条件变化后，设计仍需要继续成立。</Quote></CaseTemplateOne></Screen>
       <Screen number="07" label="FROM DRAWING TO REALITY｜从方案到落地" className="case-template-three-screen binrong-gallery-screen"><CaseTemplateThree items={binrongGalleryItems.slice(4)} onPreview={onPreview} eyebrow="FROM DRAWING TO REALITY" title="方案 → 深化 → 现场 → 调整 → 落地"><p>效果图中的空间关系，在施工过程中经历了荷载、设备、材料与植物条件的不断校正。</p><p>最终完成后的花园与最初概念仍保持一致，但它已经经过现实条件的重新筛选。</p></CaseTemplateThree></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="accent-label">TAKEAWAY</p><p className="screen-title">执行力是让一个<span className="nowrap-title-unit">想法</span>经历真实条件<span className="nowrap-title-unit">之后，</span>仍然能够成立。</p></div><div className="body-copy"><p>设计进入现场以后，需要在结构、设备、材料、施工与使用之间不断调整，让最初的空间关系和体验尽可能完整地保留下来。</p></div></div></Screen>
     </section>
@@ -929,7 +1006,7 @@ function GalleryLightbox({ item, index, count, onClose, onMove }) {
     onClose()
   }
 
-  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={handleBackdropClick} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><img className="gallery-lightbox-image" src={item.src} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button><div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div></div>
+  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={handleBackdropClick} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><img className="gallery-lightbox-image" src={item.src} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button>{count > 1 && <div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div>}</div>
 }
 
 function OutsideSection() {
@@ -1095,7 +1172,7 @@ function MotionDirector() {
     })
 
     const caseScreens = [...document.querySelectorAll('.case-page .screen')]
-    const caseTargetSelector = '.screen-index, .screen-title, .display-note, .concept-word, .small-english, .accent-label, .body-copy > p, .body-copy > blockquote, .meta-list > div, .role-detail-grid, .qidu-overview-plan, .qidu-overview-meta, .qidu-overview-areas figure, .case-template-media, .case-template-four .idea-card, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card, .closing-layout > div'
+    const caseTargetSelector = '.screen-index, .screen-title, .display-note, .concept-word, .small-english, .accent-label, .body-copy > p, .body-copy > blockquote, .meta-list > div, .role-detail-grid, .binrong-text-motion-screen .terrace-grid > div > *, .qidu-overview-plan, .qidu-overview-meta, .qidu-overview-areas figure, .case-template-media, .case-template-four .idea-card, .daye-editorial-media, .qidu-editorial-media, .qidu-gallery-card, .closing-layout > div'
     caseScreens.forEach((screen) => {
       screen.classList.add('case-reveal-screen')
       screen.querySelectorAll(caseTargetSelector).forEach((target, index) => {
@@ -1209,7 +1286,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase /></CasePage>} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<YangmingCasePage />} /><Route path="/cases/yuelongwan" element={<CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase /></CasePage>} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
