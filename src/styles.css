@@ -4125,3 +4125,122 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
     transition: none;
   }
 }
+
+/* V17: repeatable reveals, corrected case positioning, and final annotation refinements. */
+.experience-heading {
+  box-sizing: border-box;
+  padding-right: 6px;
+}
+
+.theme-dark #yangming .ideas-screen {
+  background: rgba(5, 7, 6, .28);
+  backdrop-filter: blur(18px) saturate(112%);
+  -webkit-backdrop-filter: blur(18px) saturate(112%);
+}
+
+#yangming .concept-system-layout .concept-lead {
+  max-width: none;
+  font-size: clamp(44px, 3.25vw, 58px);
+  line-height: 1.04;
+}
+
+#yangming .concept-system-grid {
+  margin-top: 0;
+}
+
+.theme-dark #yuelongwan .screen:nth-of-type(4) {
+  background: rgba(7, 7, 7, .18);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.theme-dark #yuelongwan .screen:nth-of-type(5) {
+  background: rgba(8, 10, 9, .22);
+  backdrop-filter: blur(14px) saturate(108%);
+  -webkit-backdrop-filter: blur(14px) saturate(108%);
+}
+
+.theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7) {
+  background: rgba(8, 8, 8, .22);
+  backdrop-filter: blur(14px) saturate(108%);
+  -webkit-backdrop-filter: blur(14px) saturate(108%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case-template-three-gallery {
+    transition: gap .72s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .case-template-three-gallery:has(.case-template-three-card:hover),
+  .case-template-three-gallery:has(.case-template-three-card:focus-visible) {
+    gap: 0;
+  }
+
+  .case-template-three-gallery:has(.case-template-three-card:hover) .case-template-three-card:not(:hover),
+  .case-template-three-gallery:has(.case-template-three-card:focus-visible) .case-template-three-card:not(:focus-visible) {
+    flex: 0 1 0;
+    opacity: 0;
+    transform: scale(.9);
+  }
+
+  .case-template-three-card:hover,
+  .case-template-three-card:focus-visible {
+    flex: 1 0 100%;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    transform: translateY(-12px) scale(1.015);
+  }
+}
+
+@media (min-width: 901px) {
+  #yangming .yangming-plan-screen {
+    --yangming-plan-offset: clamp(220px, calc(100vw - 810px), 1000px);
+  }
+
+  #yangming .yangming-plan-media {
+    margin-left: var(--yangming-plan-offset);
+  }
+
+  #yangming .yangming-plan-media img {
+    margin-left: 0;
+  }
+
+  #yangming .yangming-plan-screen .case-template-one-aside {
+    width: clamp(620px, 46.663vw, 844.6px);
+    margin-left: clamp(-500px, calc(113px - 33.87vw), -265px);
+  }
+
+  #yuelongwan .yuelong-context-screen .case-template-one-aside,
+  #yuelongwan .screen:nth-of-type(6) .case-template-three-aside {
+    width: 440.712px;
+  }
+
+  #yuelongwan .yuelong-arrival-screen .case-template-one-aside {
+    width: 429.712px;
+  }
+
+  #qidu .qidu-overview-plan img {
+    margin-left: 0;
+  }
+
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-media img {
+    width: calc(100% + 71px);
+    max-width: none;
+    margin-left: -71px;
+  }
+}
+
+@media (max-width: 900px) {
+  #yangming .yangming-plan-screen .case-template-one-aside,
+  #yuelongwan .yuelong-context-screen .case-template-one-aside,
+  #yuelongwan .yuelong-arrival-screen .case-template-one-aside,
+  #yuelongwan .screen:nth-of-type(6) .case-template-three-aside {
+    width: 100%;
+  }
+
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-media img {
+    width: 100%;
+    margin-left: 0;
+  }
+}

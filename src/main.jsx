@@ -537,13 +537,13 @@ function YangmingCase({ onPreview }) {
         <Quote>面对一座运营十五年的温泉度假酒店，从既有自然与文化资源出发，提出「松弛之境」概念，并参与建立温泉、食养、疗愈森林、自驾停留等体验体系。</Quote>
       </Screen>
       <Screen number="02" label="PROJECT BACKGROUND｜项目背景">
-        <div className="copy-layout"><div><p className="screen-title">一座逐渐老去的温泉酒店，怎样重新变得值得到访？</p></div><div className="body-copy"><p>阳明温泉山庄已经营业十五年。</p><p>建筑与基础设施仍维护得较为完整，但部分核心空间与体验已经逐渐难以匹配新的度假需求。</p><p>温泉设施逐渐落后，原有水乐园与独栋私汤长期闲置，明逸轩也失去了用途；从室内更衣区通往户外温泉的距离过长，在冬季尤其影响体验。</p><p>甲方最初的诉求很明确：</p><p className="bold-line">更新温泉与水乐园，重新利用闲置设施，并以此带动周边景观与整体度假体验的升级。</p></div></div>
+        <div className="copy-layout"><div><p className="screen-title">一座逐渐老去的温泉酒店，怎样重新变得值得到访？</p></div><div className="body-copy"><p>阳明温泉山庄已经营业十五年。</p><p>建筑与基础设施仍维护得较为完整，但部分核心空间与体验已经逐渐难以匹配新的度假需求。</p><p>温泉设施逐渐落后，原有水乐园与独栋私汤长期闲置，一栋名为明逸轩的二层建筑也失去了用途；从室内更衣区通往户外温泉的距离过长，在冬季尤其影响体验。</p><p>甲方最初的诉求很明确：</p><p className="bold-line">更新温泉与水乐园，重新利用闲置设施，并以此带动周边景观与整体度假体验的升级。</p></div></div>
       </Screen>
       <Screen number="03" label="CORE INSIGHT｜核心洞察" className="case-template-one-screen yangming-plan-screen">
-        <CaseTemplateOne item={yangmingPlanItem} onPreview={onPreview} mediaClassName="yangming-plan-media" eyebrow="CORE INSIGHT" title={<>重新看见<br />这里已经拥有的东西</>}><p>当视线从温泉区域向外打开，我们重新看见了场地中原本就存在的资源：</p><p className="bold-line">茶山、溪流、山林、温泉、茶园，以及周边文化资源。</p><p>它们并不需要被重新制造，而是需要被重新组织。</p><p>因此，我们以温泉、水乐园与明逸轩为核心，通过更开放的视线与动线，把体验向周边自然与文化环境延伸。</p><p>项目问题也从：</p><p className="question-line">“温泉和水乐园应该怎样改？”</p><p>逐渐转向：</p><p className="question-line">“这些已经存在的资源，能否共同组成一种新的度假理由？”</p></CaseTemplateOne>
+        <CaseTemplateOne item={yangmingPlanItem} onPreview={onPreview} mediaClassName="yangming-plan-media" eyebrow="CORE INSIGHT" title={<>重新看见<br />这里已经拥有的东西</>}><p>当视线从温泉区域向外打开，我们重新看见了场地中原本就存在的资源：</p><p className="bold-line">茶山、溪流、山林、温泉、茶园，以及周边文化资源。</p><p>资源并不需要重新制造，而是需要重新组织。</p><p>因此，我们以温泉、水乐园与明逸轩为核心，通过更开放的视线与动线，把体验向周边自然与文化环境延伸。</p><p>项目问题也从：</p><p className="question-line">“温泉和水乐园应该怎样改”</p><p>变成了：</p><p className="question-line">“这些已经存在的资源，能否共同组成一种新的度假场景”</p></CaseTemplateOne>
       </Screen>
       <Screen number="04" label="CORE CONCEPT｜核心概念" className="concept-screen">
-        <div className="concept-layout"><div /><div><p className="concept-lead">不是用更多内容填满一段旅程，而是创造一种让人逐渐慢下来、重新感受身体与自然的状态。</p><div className="four-points"><div><b>RETURN｜回归</b><span>回到自然，也回到身体本身。</span></div><div><b>RESTORE｜恢复</b><span>暂时退出日常，重新获得能量。</span></div><div><b>CONNECT｜连接</b><span>与家人、同行者和自然重新发生关系。</span></div><div><b>SENSE｜感知</b><span>重新听见风、闻到香、看见星空和日落。</span></div></div></div></div>
+        <div className="system-layout concept-system-layout"><p className="screen-title concept-lead">不是用更多内容填满一段旅程，而是创造一种让人逐渐慢下来、重新感受身体与自然的状态。</p><div className="system-grid concept-system-grid"><div><b>RETURN｜回归</b><span>回到自然，也回到身体本身。</span></div><div><b>RESTORE｜恢复</b><span>暂时退出日常，重新获得能量。</span></div><div><b>CONNECT｜连接</b><span>与家人、同行者和自然重新发生关系。</span></div><div><b>SENSE｜感知</b><span>重新听见风、闻到香、看见星空和日落。</span></div></div></div>
       </Screen>
       <Screen number="05" label="EXPERIENCE SYSTEM｜体验体系">
         <div className="system-layout"><p className="screen-title">从概念，变成一种完整的度假方式</p><div className="system-grid"><div><b>WATER｜水</b><span>温泉 · 私汤 · 漂浮 · 亲水</span></div><div><b>NATURE｜自然</b><span>疗愈森林 · 芳香花圃 · 茶山</span></div><div><b>NOURISH｜滋养</b><span>采摘 · 食养 · 茶咖</span></div><div><b>STAY &amp; CONNECT｜停留与连接</b><span>露营 · 观星 · 家庭 · 自然社交</span></div></div></div>
@@ -628,8 +628,8 @@ function YuelongCase({ onPreview }) {
       </Screen>
       <Screen number="02" label="CONTEXT｜项目背景" className="case-template-one-screen yuelong-editorial-screen yuelong-context-screen"><CaseTemplateOne item={yuelongMedia.site} onPreview={onPreview} eyebrow="CONTEXT" title={<>两栋相邻的房子，<br /><span className="context-question-line">需要一个怎样的花园？</span></>}><p>业主是一对从事制造行业的中年企业家夫妻。由于日常生活之外还有一定的商务与社交接待需求，他们先后购入两栋相邻别墅，并希望将原本彼此独立的庭院合并成一个整体花园。</p><p>其中一栋更偏向<strong>接待、聚会与会所式使用</strong>，另一栋主要服务于<strong>家庭日常起居</strong>。场地还必须满足车辆进入、到达、停车，以及两栋建筑之间的连续通行。</p><Quote>如何让行车入户与花园生活彼此连接却互不干扰，同时让不同的空间功能与风格自然地过渡？</Quote></CaseTemplateOne></Screen>
       <Screen number="03" label="SPATIAL SYSTEM｜三个花园，一套系统" className="case-template-four-screen yuelong-ideas-screen"><CaseTemplateFour stories={yuelongGardenStories} className="case-template-four--screen yuelong-garden-system" /></Screen>
-      <Screen number="04" label="ARRIVAL & PARKING｜让车进入花园，但不让车主导花园" className="case-template-one-screen yuelong-editorial-screen"><CaseTemplateOne item={yuelongMedia.arrival} onPreview={onPreview} eyebrow="ARRIVAL & PARKING" title={<>让车进入花园，<br />但不让车主导花园</>}><p>两栋建筑之间的连接空间尺度有限，却同时需要承担进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。车辆离开后，它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></CaseTemplateOne></Screen>
-      <Screen number="05" label="THREE IN-BETWEENS｜三个“之间”"><div className="three-in-betweens"><p className="screen-title">几个不同状态之间<br />如何发生转换</p><div className="three-in-between-grid"><div><b>01 到达与停车之间</b><p>停车只在车辆出现时成为这里的主要功能；其余时间，空间仍然保持完整的入户秩序。</p></div><div><b>02 室内与室外之间</b><p>挑空客厅、落地玻璃、镜面水景、休闲花园与河岸形成连续的视线和行走关系。</p></div><div><b>03 现代与日式之间</b><p>让人从理性、正式的入户花园，自然进入更加自然、松弛的生活花园。</p></div></div></div></Screen>
+      <Screen number="04" label="THREE IN-BETWEENS｜三个“之间”"><div className="three-in-betweens"><p className="screen-title">几个不同状态之间<br />如何发生转换</p><div className="three-in-between-grid"><div><b>01 到达与停车之间</b><p>停车只在车辆出现时成为这里的主要功能；其余时间，空间仍然保持完整的入户秩序。</p></div><div><b>02 室内与室外之间</b><p>挑空客厅、落地玻璃、镜面水景、休闲花园与河岸形成连续的视线和行走关系。</p></div><div><b>03 现代与日式之间</b><p>让人从理性、正式的入户花园，自然进入更加自然、松弛的生活花园。</p></div></div></div></Screen>
+      <Screen number="05" label="ARRIVAL & PARKING｜停车与到达之间" className="case-template-one-screen yuelong-editorial-screen yuelong-arrival-screen"><CaseTemplateOne item={yuelongMedia.arrival} onPreview={onPreview} eyebrow="ARRIVAL & PARKING" title="停车与到达之间"><p>两栋建筑之间的连接空间尺度有限，却同时需要承担进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。车辆离开后，它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></CaseTemplateOne></Screen>
       <Screen number="06" label="INSIDE & OUTSIDE｜室内与室外之间" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.insideOne, yuelongMedia.insideTwo]} onPreview={onPreview} eyebrow="INSIDE & OUTSIDE" title="室内与室外之间"><p>起居建筑南侧的大面积落地玻璃直接面向休闲花园，镜面水景贴近建筑展开，植物与河岸景观继续向外延伸。</p><p>另一处接口位于地下层采光井。在满足采光和通风的基础上，高吧家具、大型花器与棕榈把地下生活向户外延伸。</p><p className="bilingual-line">Lightwell → Semi-outdoor Lounge<br />采光井 → 半户外休闲空间</p></CaseTemplateThree></Screen>
       <Screen number="07" label="MODERN & JAPANESE｜现代与日式之间" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.modernOne, yuelongMedia.modernTwo]} onPreview={onPreview} eyebrow="MODERN & JAPANESE" title="现代与日式之间"><p>业主偏爱日式庭院，但两栋建筑本身具有明显的现代海派 / 现代法式气质。与其在两种风格之间做选择，我们更关注它们之间的<strong>过渡</strong>。</p><Quote>人怎样从一种空间状态，自然地进入另一种状态？</Quote><p className="bilingual-line">FORMAL → NATURAL<br />正式 → 自然</p></CaseTemplateThree></Screen>
       <Screen number="08" label="A DIFFERENT POINT OF VIEW｜改变观看花园的位置" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.main, yuelongMedia.viewpoint]} onPreview={onPreview} eyebrow="A DIFFERENT POINT OF VIEW" title="改变观看花园的位置"><p>在主花园最远的一角，我们设置了一座相对独立的休闲亭。它承担喝茶、棋牌与日常停留，也改变了人观看整个花园的位置。</p><p>当人穿过草坪到达亭子，观看方向第一次发生反转。</p><p className="bilingual-line">House → Garden → Pavilion → Look Back<br />建筑 → 花园 → 亭子 → 回望</p></CaseTemplateThree></Screen>
@@ -1055,11 +1055,11 @@ function OutsideSection() {
 }
 
 function ExperienceSection() {
-  return <section className="experience-section texture-section" id="experience"><div className="experience-heading"><span>05 / EXPERIENCE</span><h2>工作经历</h2></div><div className="timeline"><article><div className="timeline-date">2021.08 — 2023.03</div><h3>中国美术学院风景建筑设计研究院</h3><p className="timeline-sub">参与项目类型：</p><div className="inline-list">展馆 · 美术馆 · 口袋公园 · 公共空间 · 文旅相关空间</div><p className="timeline-sub">重点能力：</p>{tags(['空间设计', '视觉表达', '公共体验'])}</article><article><div className="timeline-date">2023.03 — 2026.03</div><h3>米人工作室<br /><small>浙江华坤建筑设计院</small></h3><p>参与项目从高端私宅延伸到大型度假酒店、市政公园，并逐渐承担主创设计与项目推进职责。</p><p className="timeline-sub">重点能力：</p>{tags(['主创设计', '客户沟通', '方案汇报', '施工跟进', '落地交付'])}</article><article className="now-entry"><div className="timeline-date">NOW｜现在</div><h3>希望进入策划领域</h3><Quote>我希望把过去在空间项目中积累的体验策划、视觉表达、客户沟通与落地能力，带进更加开放的活动场景中。</Quote></article></div></section>
+  return <section className="experience-section texture-section" id="experience"><div className="experience-heading"><span>05 / EXPERIENCE</span><h2>工作经历</h2></div><div className="timeline"><article><div className="timeline-date">2021.08 — 2023.03</div><h3>中国美术学院风景建筑设计研究院</h3><p className="timeline-sub">参与项目类型：</p><div className="inline-list">展馆 · 美术馆 · 口袋公园 · 公共空间 · 文旅相关空间</div><p className="timeline-sub">重点能力：</p>{tags(['空间设计', '视觉表达', '公共体验'])}</article><article><div className="timeline-date">2023.03 — 2026.03</div><h3>米人工作室<br /><small>浙江华坤建筑设计院</small></h3><p>参与项目从高端私宅延伸到大型度假酒店、市政公园，并逐渐承担主创设计与项目推进职责。</p><p className="timeline-sub">重点能力：</p>{tags(['主创设计', '客户沟通', '方案汇报', '施工跟进', '落地交付'])}</article><article className="now-entry"><div className="timeline-date">NOW｜现在</div><h3>希望进入策划领域</h3><Quote>我希望把过去在空间项目中积累的体验策划、视觉表达、客户沟通与落地能力，带进更加丰富灵活的活动场景中。</Quote></article></div></section>
 }
 
 function AboutSection() {
-  return <section className="about-section texture-section" id="about"><div className="about-label">06 / ABOUT</div><div className="about-content"><p>我喜欢从人的真实行为和感受开始思考，也喜欢把一个模糊的念头逐渐整理成可以被看见、参与和使用的东西。</p><p>过去几年，我主要通过空间做这件事。接下来，我希望尝试活动、内容与运营，让一个想法不只停留在方案里，而是真正在现场发生。</p></div></section>
+  return <section className="about-section texture-section" id="about"><div className="about-label">06 / ABOUT</div><div className="about-content"><p>我喜欢从人的真实行为和感受开始思考，也喜欢把一个模糊的念头逐渐整理成可以被看见、参与和使用的东西。</p><p>过去几年我主要通过空间做这件事。接下来，我希望尝试活动、内容与运营，让想法落地，变成深入人心的美好体验。</p></div></section>
 }
 
 function ContactSection() {
@@ -1193,9 +1193,7 @@ function MotionDirector() {
     const galleryItems = [...document.querySelectorAll('.gallery-placeholder, .selected-story-reveal, .idea-card-media, .profile-figure')]
     const galleryObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
-        entry.target.classList.add('is-gallery-visible')
-        galleryObserver.unobserve(entry.target)
+        entry.target.classList.toggle('is-gallery-visible', entry.isIntersecting)
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -6% 0px' })
     galleryItems.forEach((item, index) => {
@@ -1217,9 +1215,7 @@ function MotionDirector() {
     })
     const screenObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
-        entry.target.classList.add('is-case-active')
-        screenObserver.unobserve(entry.target)
+        entry.target.classList.toggle('is-case-active', entry.isIntersecting)
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -12% 0px' })
 
@@ -1230,6 +1226,8 @@ function MotionDirector() {
           if (entry.target.classList.contains('motion-body')) entry.target.classList.add('is-body-inview')
           else if (entry.target.matches('.case-page .screen .motion-item')) entry.target.classList.add('is-item-inview')
           else entry.target.classList.add('is-inview')
+        } else {
+          entry.target.classList.remove('is-body-inview', 'is-item-inview', 'is-inview')
         }
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' })
@@ -1251,20 +1249,32 @@ function MotionDirector() {
     })
     const headingObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
         const chars = headingChars.get(entry.target) || []
-        gsap.to(chars, {
-          opacity: 1,
-          yPercent: 0,
-          scaleY: 1,
-          scaleX: 1,
-          duration: .86,
-          ease: 'power3.out',
-          stagger: .022,
-          clearProps: 'willChange',
-        })
-        entry.target.classList.add('is-heading-inview')
-        headingObserver.unobserve(entry.target)
+        gsap.killTweensOf(chars)
+        if (entry.isIntersecting) {
+          gsap.to(chars, {
+            opacity: 1,
+            yPercent: 0,
+            scaleY: 1,
+            scaleX: 1,
+            duration: .86,
+            ease: 'power3.out',
+            stagger: .022,
+            overwrite: true,
+            clearProps: 'willChange',
+          })
+          entry.target.classList.add('is-heading-inview')
+        } else {
+          gsap.set(chars, {
+            willChange: 'opacity, transform',
+            opacity: 0,
+            yPercent: 112,
+            scaleY: 1.45,
+            scaleX: .9,
+            transformOrigin: '50% 0%',
+          })
+          entry.target.classList.remove('is-heading-inview')
+        }
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -5% 0px' })
     const parallaxTargets = [...document.querySelectorAll('.profile-figure img')]
