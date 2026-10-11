@@ -22,7 +22,7 @@
   --ink: #173e3e;
   --muted: rgba(23, 62, 62, .64);
   --line: rgba(232, 104, 71, .42);
-  --texture: url('/assets/paper-texture.jpg');
+  --texture: url('/assets-display/paper-texture.webp');
   --sans: 'Arial Narrow', 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --display: 'Nolluqa', 'Nanxi Chuxia Song', 'Songti SC', serif;
   color: var(--coral);
@@ -1260,7 +1260,7 @@ body { font-family: var(--sans); }
   --muted: rgba(255, 255, 255, .8);
   --line: rgba(255, 255, 255, .46);
   background-color: #191817;
-  background-image: linear-gradient(rgba(8, 8, 8, .58), rgba(8, 8, 8, .48)), url('/assets/projects/05-daye-hero.jpg');
+  background-image: linear-gradient(rgba(8, 8, 8, .58), rgba(8, 8, 8, .48)), url('/assets-optimized/projects/05-daye-hero.webp');
   background-position: center;
   background-size: cover;
 }
@@ -2438,11 +2438,11 @@ html.motion-enabled .motion-section.is-inview .idea-card-copy > p {
   background-size: cover;
 }
 #daye .daye-overview-screen {
-  background-image: linear-gradient(rgba(8, 8, 8, .58), rgba(8, 8, 8, .48)), url('/assets/projects/05-daye-hero.jpg');
+  background-image: linear-gradient(rgba(8, 8, 8, .58), rgba(8, 8, 8, .48)), url('/assets-optimized/projects/05-daye-hero.webp');
   background-attachment: fixed;
 }
 #daye .daye-direction-screen {
-  background-image: linear-gradient(rgba(8, 8, 8, .62), rgba(8, 8, 8, .52)), url('/assets/projects/05-daye-spatial.jpg');
+  background-image: linear-gradient(rgba(8, 8, 8, .62), rgba(8, 8, 8, .52)), url('/assets-optimized/projects/05-daye-spatial.webp');
 }
 
 #daye .daye-retail-screen {
@@ -2716,11 +2716,11 @@ html.motion-enabled .motion-section.is-inview .idea-card-copy > p {
 }
 #daye > .daye-scene-backdrop::before {
   opacity: 1;
-  background-image: linear-gradient(rgba(8, 8, 8, var(--daye-scene-haze, .34)), rgba(8, 8, 8, var(--daye-scene-haze, .34))), url('/assets/projects/05-daye-hero.jpg');
+  background-image: linear-gradient(rgba(8, 8, 8, var(--daye-scene-haze, .34)), rgba(8, 8, 8, var(--daye-scene-haze, .34))), url('/assets-optimized/projects/05-daye-hero.webp');
 }
 #daye > .daye-scene-backdrop::after {
   opacity: 0;
-  background-image: linear-gradient(rgba(8, 8, 8, var(--daye-scene-haze, .34)), rgba(8, 8, 8, var(--daye-scene-haze, .34))), url('/assets/projects/05-daye-spatial.jpg');
+  background-image: linear-gradient(rgba(8, 8, 8, var(--daye-scene-haze, .34)), rgba(8, 8, 8, var(--daye-scene-haze, .34))), url('/assets-optimized/projects/05-daye-spatial.webp');
 }
 #daye.daye-after-direction > .daye-scene-backdrop::before { opacity: 0; }
 #daye.daye-after-direction > .daye-scene-backdrop::after { opacity: 1; }
@@ -4466,5 +4466,71 @@ html.motion-enabled #qidu .qidu-overview-plan {
   #daye .screen:nth-of-type(4) .case-template-one-aside,
   #daye .screen:nth-of-type(7) .daye-retail-aside {
     padding-right: 0;
+  }
+}
+
+/* V22: lighter image delivery and compositor-friendly glass transitions. */
+#qidu.is-glass-active {
+  --qidu-scene-blur: 22px;
+}
+
+#binrongfu.is-glass-active,
+#yuelongwan.is-glass-active,
+#yangming.is-glass-active {
+  --requested-scene-blur: 22px;
+}
+
+#daye {
+  --daye-scene-blur: 0px;
+}
+
+#daye.is-glass-active {
+  --daye-scene-blur: 14px;
+}
+
+#small-ideas.is-glass-active {
+  --small-ideas-blur: 26px;
+}
+
+#qidu .case-scene-backdrop img,
+#binrongfu .case-scene-backdrop img,
+#yuelongwan .case-scene-backdrop img,
+#small-ideas .case-scene-backdrop img,
+#yangming .yangming-scene-layer,
+#daye .daye-scene-image {
+  transition-duration: .48s;
+  transition-timing-function: cubic-bezier(.22, .75, .28, 1);
+  backface-visibility: hidden;
+}
+
+.case-scene-backdrop,
+#daye > .daye-scene-backdrop {
+  contain: paint;
+}
+
+/* The only layer behind these panels is the fixed scene image, so blurring that
+   composited layer produces the same glass appearance without repainting each
+   viewport-sized panel on every scroll frame. */
+.theme-dark #qidu .qidu-overview-screen,
+.theme-dark #qidu .qidu-editorial-screen,
+.theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7),
+.theme-dark #yuelongwan .screen:nth-of-type(2),
+.theme-dark #yuelongwan .screen:nth-of-type(3),
+.theme-dark #yuelongwan .screen:nth-of-type(n + 5):nth-of-type(-n + 8),
+.theme-dark #yangming .screen:nth-of-type(6),
+#small-ideas .idea-card-stage {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html.motion-enabled .case-page .case-reveal-screen .case-reveal-target:not(.case-reveal-media):not(.waterfall-reveal-media) {
+  filter: none;
+  will-change: opacity, transform;
+}
+
+@supports (content-visibility: auto) {
+  .case-page .case-section > .screen {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 100svh;
   }
 }
