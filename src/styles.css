@@ -3489,22 +3489,18 @@ html.motion-enabled #qidu .qidu-overview-screen .qidu-overview-layout { transfor
 html.motion-enabled .case-reveal-screen .case-reveal-target:not(.qidu-gallery-card) {
   opacity: 0;
   transform: translate3d(0, 30px, 0);
-  filter: blur(4px);
   transition:
-    opacity .82s var(--motion-ease),
-    transform .92s var(--motion-ease),
-    filter .82s var(--motion-ease);
+  opacity .82s var(--motion-ease),
+  transform .92s var(--motion-ease);
   transition-delay: calc(var(--case-reveal-index, 0) * 54ms);
-  will-change: opacity, transform, filter;
+ will-change: opacity, transform;
 }
 html.motion-enabled .case-reveal-screen .case-reveal-media {
   transform: translate3d(0, 48px, 0) scale(.965);
-  filter: blur(8px);
 }
 html.motion-enabled .case-reveal-screen.is-case-active .case-reveal-target {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
-  filter: blur(0);
 }
 html.motion-enabled .case-reveal-screen .qidu-gallery-card {
   opacity: 0;
