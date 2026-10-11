@@ -441,6 +441,7 @@ function CaseBackdrop({ src }) {
 
 function useRequestedCaseGlass(sectionRef, screenSelector) {
   useEffect(() => {
+    return undefined
     const section = sectionRef.current
     const glassScreens = [...(section?.querySelectorAll(screenSelector) || [])]
     if (!section || !glassScreens.length) return undefined
