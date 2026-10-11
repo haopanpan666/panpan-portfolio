@@ -1,6 +1,7 @@
 node_modules
 .pnpm-store
 dist
+site-deploy.tar
 .sites-runtime
 .DS_Store
 /source-images/
