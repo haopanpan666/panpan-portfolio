@@ -4299,6 +4299,22 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
 }
 
 /* V20: requested glass chapters, readable plan image slot, and 13:9 hover cards. */
+.theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7)::before,
+.theme-dark #yuelongwan .screen:nth-of-type(2)::before,
+.theme-dark #yuelongwan .screen:nth-of-type(3)::before,
+.theme-dark #yuelongwan .screen:nth-of-type(n + 5):nth-of-type(-n + 8)::before,
+.theme-dark #yangming .screen:nth-of-type(6)::before,
+.theme-dark #yangming .ideas-screen::before {
+  position: absolute;
+  z-index: 0;
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  background: rgba(8, 9, 9, .12);
+  backdrop-filter: blur(24px) saturate(115%);
+  -webkit-backdrop-filter: blur(24px) saturate(115%);
+}
+
 .theme-dark #yuelongwan .screen:nth-of-type(2),
 .theme-dark #yuelongwan .screen:nth-of-type(3),
 .theme-dark #yuelongwan .screen:nth-of-type(n + 5):nth-of-type(-n + 8) {
