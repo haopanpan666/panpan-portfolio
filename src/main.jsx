@@ -5,14 +5,11 @@ import { gsap } from 'gsap'
 import '@fontsource-variable/inter'
 import './styles.css'
 
-function assetVariant(src, directory) {
+function optimizedAsset(src) {
   return typeof src === 'string'
-    ? src.replace(/^\/assets\//, `/${directory}/`).replace(/\.(jpe?g|png)$/i, '.webp')
+    ? src.replace(/^\/assets\//, '/assets-optimized/').replace(/\.(jpe?g|png)$/i, '.webp')
     : src
 }
-
-const optimizedAsset = (src) => assetVariant(src, 'assets-optimized')
-const displayAsset = (src) => assetVariant(src, 'assets-display')
 
 const navItems = [
   ['STORIES', '/#work'],
@@ -74,7 +71,7 @@ function MetaList({ items }) {
 function ProjectIntro({ number, name, title, english, summary, tags: projectTags, id, imageSrc, imageAlt = '' }) {
   return (
     <div className="project-intro" id={id}>
-      {imageSrc && <img className="project-intro-image" src={displayAsset(imageSrc)} alt={imageAlt} loading="lazy" fetchPriority="low" decoding="async" />}
+      {imageSrc && <img className="project-intro-image" src={optimizedAsset(imageSrc)} alt={imageAlt} loading="eager" fetchPriority="high" decoding="async" />}
       <div className="project-intro-top">
         <span className="project-no">CASE {number}</span>
         {tags(projectTags)}
@@ -92,7 +89,7 @@ function Quote({ children, className = '' }) {
 }
 
 function CaseTemplateMedia({ item, onPreview, className = '', priority = false }) {
-  return <button className={`gallery-placeholder case-template-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={displayAsset(item.src)} alt={item.label} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'low'} decoding="async" /></button>
+  return <button className={`gallery-placeholder case-template-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={optimizedAsset(item.src)} alt={item.label} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></button>
 }
 
 function CaseTemplateOne({ item, onPreview, eyebrow, title, children, mediaClassName = '', priority = false }) {
@@ -108,7 +105,7 @@ function CaseTemplateThree({ items, onPreview, eyebrow, title, children }) {
 }
 
 function CaseTemplateFour({ stories, className = '' }) {
-  return <div className={`case-template-four ${className}`.trim()}><div className="idea-card-row">{stories.map((story) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={displayAsset(story.image)} alt="" loading="lazy" fetchPriority="low" decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div>
+  return <div className={`case-template-four ${className}`.trim()}><div className="idea-card-row">{stories.map((story, index) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={optimizedAsset(story.image)} alt="" loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'auto' : 'low'} decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div>
 }
 
 function Hero() {
@@ -137,7 +134,7 @@ function QuickInfo() {
       <div className="section-marker"><span>01</span><i />QUICK INFO｜基本信息</div>
       <div className="info-grid">
         <figure className="profile-figure">
-          <img src={displayAsset('/assets/profile.jpg')} alt="个人形象照" loading="lazy" decoding="async" />
+          <img src={optimizedAsset('/assets/profile.jpg')} alt="个人形象照" />
         </figure>
         <div className="info-content">
           <div className="info-headline"><span>ABOUT ME</span><strong>27</strong></div>
@@ -178,7 +175,7 @@ function SelectedStoryCard({ story, clone = false }) {
     <Link className="selected-story" to={story.to} tabIndex={clone ? -1 : undefined} draggable="false">
       <div className="selected-story-reveal">
         <div className="selected-story-media" aria-hidden="true">
-          <img src={displayAsset(story.cover)} alt="" draggable="false" loading="lazy" fetchPriority="low" decoding="async" onError={(event) => event.currentTarget.remove()} />
+          <img src={optimizedAsset(story.cover)} alt="" draggable="false" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} />
           <span>{story.number}</span><small>{story.english}</small>
         </div>
         <div className="selected-story-copy"><div className="selected-story-kicker"><span>{story.number}</span><strong>{story.name}</strong></div><b>{story.title}</b><small>{story.english}</small><i>{story.tags}</i></div>
@@ -442,26 +439,30 @@ function CaseBackdrop({ src }) {
   return <div className="case-scene-backdrop" aria-hidden="true"><img src={optimizedAsset(src)} alt="" loading="eager" fetchPriority="high" decoding="async" /></div>
 }
 
-function useCaseGlassState(sectionRef, screenSelector) {
+function useRequestedCaseGlass(sectionRef, screenSelector) {
   useEffect(() => {
     const section = sectionRef.current
     const glassScreens = [...(section?.querySelectorAll(screenSelector) || [])]
     if (!section || !glassScreens.length) return undefined
 
     let frame = 0
-    let active = false
+    const clamp = (value) => Math.min(1, Math.max(0, value))
+    const screenProgress = (rect, viewportHeight) => {
+      const enter = viewportHeight * .92
+      const full = viewportHeight * .58
+      const leaveFull = viewportHeight * .78
+      if (rect.bottom <= 0 || rect.top >= enter) return 0
+      if (rect.top > full) return clamp((enter - rect.top) / (enter - full))
+      if (rect.bottom < leaveFull) return clamp(rect.bottom / leaveFull)
+      return 1
+    }
     const updateGlass = () => {
-      if (frame) return
+      cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        frame = 0
-        const focusLine = window.innerHeight * .5
-        const nextActive = glassScreens.some((screen) => {
-          const rect = screen.getBoundingClientRect()
-          return rect.top <= focusLine && rect.bottom >= focusLine
-        })
-        if (nextActive === active) return
-        active = nextActive
-        section.classList.toggle('is-glass-active', active)
+        const viewportHeight = window.innerHeight
+        const progress = Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
+        section.style.setProperty('--requested-scene-blur', `${Math.round(progress * 14)}px`)
+        section.style.setProperty('--requested-glass-blur', `${Math.round(progress * 18)}px`)
       })
     }
 
@@ -472,7 +473,6 @@ function useCaseGlassState(sectionRef, screenSelector) {
       cancelAnimationFrame(frame)
       window.removeEventListener('scroll', updateGlass)
       window.removeEventListener('resize', updateGlass)
-      section.classList.remove('is-glass-active')
     }
   }, [screenSelector, sectionRef])
 }
@@ -513,7 +513,7 @@ const binrongGalleryItems = [
 function YangmingCase({ onPreview }) {
   const sectionRef = useRef(null)
 
-  useCaseGlassState(sectionRef, '.screen:nth-of-type(6)')
+  useRequestedCaseGlass(sectionRef, '.screen:nth-of-type(6)')
 
   useEffect(() => {
     const section = sectionRef.current
@@ -523,12 +523,11 @@ function YangmingCase({ onPreview }) {
     const layers = [...section.querySelectorAll('.yangming-scene-layer')]
     const sceneKeys = ['base', '01-02', '01-02', '03', '04', '05', 'base', 'base']
     let frame = 0
-    let currentIndex = -1
 
     const updateScene = () => {
       frame = 0
       const focusLine = window.innerHeight * .5
-      let nextIndex = 0
+      let activeIndex = 0
       let closestDistance = Number.POSITIVE_INFINITY
 
       scenes.forEach((scene, index) => {
@@ -537,13 +536,17 @@ function YangmingCase({ onPreview }) {
         const distance = Math.abs(center - focusLine)
         if (distance < closestDistance) {
           closestDistance = distance
-          nextIndex = index
+          activeIndex = index
         }
       })
 
-      if (nextIndex === currentIndex) return
-      currentIndex = nextIndex
-      const activeKey = sceneKeys[currentIndex] || 'base'
+      const activeRect = scenes[activeIndex]?.getBoundingClientRect()
+      const localProgress = activeRect ? Math.min(1, Math.max(0, (focusLine - activeRect.top) / Math.max(activeRect.height, 1))) : .5
+      const edgeDistance = Math.min(localProgress, 1 - localProgress)
+      const blurProgress = Math.min(1, Math.max(0, (.16 - edgeDistance) / .16))
+      const activeKey = sceneKeys[activeIndex] || 'base'
+
+      section.style.setProperty('--yangming-scene-blur', `${(blurProgress * 16).toFixed(2)}px`)
       layers.forEach((layer) => layer.classList.toggle('is-active', layer.dataset.scene === activeKey))
     }
 
@@ -611,7 +614,7 @@ function YangmingCasePage() {
 function BinrongCase({ onPreview }) {
   const sectionRef = useRef(null)
 
-  useCaseGlassState(sectionRef, '.screen:nth-of-type(n + 3):nth-of-type(-n + 7)')
+  useRequestedCaseGlass(sectionRef, '.screen:nth-of-type(n + 3):nth-of-type(-n + 7)')
 
   return (
     <section className="case-section texture-section" id="binrongfu" ref={sectionRef}>
@@ -666,7 +669,7 @@ const yuelongGardenStories = [
 function YuelongCase({ onPreview }) {
   const sectionRef = useRef(null)
 
-  useCaseGlassState(sectionRef, '.screen:nth-of-type(2), .screen:nth-of-type(3), .screen:nth-of-type(n + 5):nth-of-type(-n + 8)')
+  useRequestedCaseGlass(sectionRef, '.screen:nth-of-type(2), .screen:nth-of-type(3), .screen:nth-of-type(n + 5):nth-of-type(-n + 8)')
 
   return (
     <section className="case-section texture-section" id="yuelongwan" ref={sectionRef}>
@@ -725,27 +728,64 @@ function QiduEditorialImage({ item, onPreview }) {
 }
 
 function QiduEditorialGallery({ items, onPreview }) {
-  return <div className="qidu-editorial-gallery">{items.map((item) => <button className="gallery-placeholder qidu-gallery-card" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)} key={item.id}><img src={displayAsset(item.src)} alt={item.label} loading="lazy" fetchPriority="low" decoding="async" /></button>)}</div>
+  return <div className="qidu-editorial-gallery">{items.map((item) => <button className="gallery-placeholder qidu-gallery-card" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)} key={item.id}><img src={optimizedAsset(item.src)} alt={item.label} loading="lazy" decoding="async" /></button>)}</div>
 }
 
 function QiduCase({ onPreview }) {
-  const sectionRef = useRef(null)
-
-  useCaseGlassState(sectionRef, '.qidu-overview-screen, .qidu-editorial-screen')
+  useEffect(() => {
+    const qidu = document.querySelector('#qidu')
+    const glassScreens = [...(qidu?.querySelectorAll('.qidu-overview-screen, .qidu-editorial-screen') || [])]
+    const clearScreens = [...(qidu?.querySelectorAll('.project-intro, .screen:nth-of-type(2)') || [])]
+    if (!qidu || !glassScreens.length) return undefined
+    let frame = 0
+    const clamp = (value) => Math.min(1, Math.max(0, value))
+    const screenProgress = (rect, viewportHeight) => {
+      const enter = viewportHeight * .92
+      const full = viewportHeight * .58
+      const leaveFull = viewportHeight * .78
+      if (rect.bottom <= 0 || rect.top >= enter) return 0
+      if (rect.top > full) return clamp((enter - rect.top) / (enter - full))
+      if (rect.bottom < leaveFull) return clamp(rect.bottom / leaveFull)
+      return 1
+    }
+    const updateBackdrop = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const viewportHeight = window.innerHeight
+        const center = viewportHeight * .5
+        const clearScreenIsCurrent = clearScreens.some((screen) => {
+          const rect = screen.getBoundingClientRect()
+          return rect.top <= center && rect.bottom >= center
+        })
+        const progress = clearScreenIsCurrent ? 0 : Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
+        qidu.style.setProperty('--qidu-glass-progress', progress.toFixed(3))
+        qidu.style.setProperty('--qidu-scene-blur', `${Math.round(progress * 14)}px`)
+        qidu.style.setProperty('--qidu-glass-blur', `${Math.round(progress * 18)}px`)
+      })
+    }
+    updateBackdrop()
+    window.addEventListener('scroll', updateBackdrop, { passive: true })
+    window.addEventListener('resize', updateBackdrop)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateBackdrop)
+      window.removeEventListener('resize', updateBackdrop)
+    }
+  }, [])
 
   return (
-    <section className="case-section texture-section" id="qidu" ref={sectionRef}>
+    <section className="case-section texture-section" id="qidu">
       <CaseBackdrop src={qiduBackdropAsset} />
       <ProjectIntro number="03" name="温州七都华侨花园" title="生活的艺术家" english="The Art of Living" summary="通过艺术化空间、强烈高差、下沉泳池、悬空步道和热带植物，组织一套更自由的年轻家庭生活场景。" tags={['Art & Lifestyle', 'Level Design', 'Landscape Experience']} />
       <Screen number="01" label="PROJECT INFO｜项目概览" className="overview-screen qidu-overview-screen">
         <div className="qidu-overview-layout">
-          <figure className="qidu-overview-plan"><img className="qidu-overview-plan-image" src={displayAsset('/assets/projects/qidu/01-plan.png')} alt="七都华侨花园总平面图" loading="lazy" fetchPriority="low" decoding="async" /></figure>
+          <figure className="qidu-overview-plan"><img className="qidu-overview-plan-image" src={optimizedAsset('/assets/projects/qidu/01-plan.png')} alt="七都华侨花园总平面图" loading="eager" decoding="async" /></figure>
           <div className="qidu-overview-meta"><MetaList items={[
             ['项目类型｜TYPE', '私宅庭院 / 滨水住宅景观'], ['项目时间｜YEAR', '2026'], ['项目面积｜AREA', '约1200㎡'], ['项目状态｜STATUS', <>准备施工<br /><i>Preparing for Construction</i></>],
           ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计 Lead Design<br />方案深化 Design Development<br />视觉表达 Visualization<br />植物设计 Planting Design<br />动画表现 Animation Visualization<br />客户沟通 Client Communication</p></div></div>
           <div className="qidu-overview-areas">
-            <figure><img src={displayAsset('/assets/projects/qidu/01-north.jpg')} alt="七都华侨花园北侧入户花园鸟瞰" loading="lazy" fetchPriority="low" decoding="async" /><figcaption>NORTH / 北侧<br />ARRIVAL GARDEN</figcaption></figure>
-            <figure><img src={displayAsset('/assets/projects/qidu/01-south.jpg')} alt="七都华侨花园南侧生活花园鸟瞰" loading="lazy" fetchPriority="low" decoding="async" /><figcaption>SOUTH / 南侧<br />LIVING GARDEN</figcaption></figure>
+            <figure><img src={optimizedAsset('/assets/projects/qidu/01-north.jpg')} alt="七都华侨花园北侧入户花园鸟瞰" loading="eager" decoding="async" /><figcaption>NORTH / 北侧<br />ARRIVAL GARDEN</figcaption></figure>
+            <figure><img src={optimizedAsset('/assets/projects/qidu/01-south.jpg')} alt="七都华侨花园南侧生活花园鸟瞰" loading="eager" decoding="async" /><figcaption>SOUTH / 南侧<br />LIVING GARDEN</figcaption></figure>
           </div>
         </div>
       </Screen>
@@ -790,24 +830,39 @@ function DayeEditorialImage({ item, onPreview, className = '', priority = false 
 }
 
 function DayeCase({ onPreview }) {
-  const sectionRef = useRef(null)
-
-  useCaseGlassState(sectionRef, '.daye-context-screen, .daye-spatial-screen, .daye-light-screen, .daye-retail-screen:not(.daye-context-screen):not(.daye-spatial-screen)')
-
   useEffect(() => {
-    const daye = sectionRef.current
+    const daye = document.querySelector('#daye')
     const directionScreen = daye?.querySelector('.daye-direction-screen')
+    const glassScreens = [...(daye?.querySelectorAll('.daye-context-screen, .daye-spatial-screen, .daye-light-screen, .daye-retail-screen:not(.daye-context-screen):not(.daye-spatial-screen)') || [])]
     if (!daye || !directionScreen) return undefined
     let frame = 0
-    let afterDirection = false
+    const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value))
+    const screenProgress = (rect, viewportHeight) => {
+      const enter = viewportHeight * .92
+      const full = viewportHeight * .58
+      const leaveFull = viewportHeight * .78
+      const leave = 0
+      if (rect.bottom <= leave || rect.top >= enter) return 0
+      if (rect.top > full) return clamp((enter - rect.top) / (enter - full))
+      if (rect.bottom < leaveFull) return clamp((rect.bottom - leave) / (leaveFull - leave))
+      return 1
+    }
     const updateBackdropState = () => {
-      if (frame) return
+      cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        frame = 0
-        const nextAfterDirection = directionScreen.getBoundingClientRect().top <= window.innerHeight * .88
-        if (nextAfterDirection === afterDirection) return
-        afterDirection = nextAfterDirection
-        daye.classList.toggle('daye-after-direction', afterDirection)
+        const viewportHeight = window.innerHeight
+        const directionTop = directionScreen.getBoundingClientRect().top
+        const directionProgress = directionTop >= viewportHeight * .92 || directionTop <= viewportHeight * .12
+          ? 0
+          : clamp((directionTop - viewportHeight * .12) / (viewportHeight * .8))
+        const inDirectionTransition = directionTop < viewportHeight * .92 && directionTop > -viewportHeight * .18
+        const glassProgress = inDirectionTransition
+          ? directionProgress
+          : Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
+        daye.classList.toggle('daye-after-direction', directionTop <= viewportHeight * .88)
+        daye.style.setProperty('--daye-glass-progress', glassProgress.toFixed(3))
+        daye.style.setProperty('--daye-scene-blur', `${Math.round(glassProgress * 14)}px`)
+        daye.style.setProperty('--daye-scene-haze', (0.28 + glassProgress * .22).toFixed(3))
       })
     }
     updateBackdropState()
@@ -821,7 +876,7 @@ function DayeCase({ onPreview }) {
   }, [])
 
   return (
-    <section className="case-section texture-section daye-case" id="daye" ref={sectionRef}>
+    <section className="case-section texture-section daye-case" id="daye">
       <div className="daye-scene-backdrop" aria-hidden="true">
         <img className="daye-scene-image daye-scene-image-primary" src={optimizedAsset(dayeHeroAsset)} alt="" loading="eager" fetchPriority="high" decoding="async" />
         <img className="daye-scene-image daye-scene-image-secondary" src={optimizedAsset(dayeSpatialAsset)} alt="" loading="eager" fetchPriority="low" decoding="async" />
@@ -835,7 +890,7 @@ function DayeCase({ onPreview }) {
       <Screen number="04" label="SPATIAL LANGUAGE｜空间语言" className="daye-retail-screen daye-spatial-screen case-template-one-screen"><CaseTemplateOne item={dayeGalleryItems[1]} onPreview={onPreview} eyebrow="SPATIAL LANGUAGE" title="一条连续的感知路径" mediaClassName="daye-editorial-media"><p>整个展馆以曲线作为主要空间语言。</p><p>曲线弱化了传统展陈空间中明确的“房间—走廊—房间”关系，让参观路径更像一段连续发生的体验。</p><p>它没有明确边界，却会随着人的靠近、经过与停留逐渐被感知。</p></CaseTemplateOne></Screen>
       <Screen number="05" label="LIGHT / HAZE / TRANSPARENCY｜光、雾与透明" className="daye-retail-screen daye-light-screen case-template-two-screen"><CaseTemplateTwo title="让空间成为“香”的容器" items={dayeGalleryItems.slice(2, 4)} onPreview={onPreview}><div className="three-in-between-grid"><div><b>LIGHT｜光</b><p>渐变灯带与动态投影让空间界面保持变化。</p></div><div><b>HAZE｜雾</b><p>雾化效果营造氤氲氛围。</p></div><div><b>TRANSPARENCY｜透明</b><p>磨砂玻璃与透明构件削弱实体边界。</p></div></div></CaseTemplateTwo></Screen>
       <Screen number="06" label="SENSORY EXPERIENCE｜从观看到参与"><div className="copy-layout"><div><p className="accent-label">SENSORY EXPERIENCE</p><p className="screen-title">从观看到参与</p></div><div className="body-copy"><p><strong>视觉</strong><br />曲线、光影、透明与渐变。</p><p><strong>嗅觉</strong><br />芳香本身成为展陈内容的一部分。</p><p><strong>移动</strong><br />连续动线让气味与画面在行走中不断变化。</p><p><strong>停留</strong><br />局部节点提供更近距离的观察与体验。</p><Quote><strong>展馆不是一组静态信息的排列，而是一条由不同感官共同完成的参观路径。</strong></Quote></div></div></Screen>
-      <Screen number="07" label="RETAIL ENDING｜体验的最后" className="daye-retail-screen"><DayeEditorialImage item={dayeGalleryItems[4]} onPreview={onPreview} className="daye-retail-media" /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识<br />走向产品接触</p></div><div className="body-copy daye-retail-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></div></Screen>
+      <Screen number="07" label="RETAIL ENDING｜体验的最后" className="daye-retail-screen"><DayeEditorialImage item={dayeGalleryItems[4]} onPreview={onPreview} className="daye-retail-media" priority /><div className="daye-retail-aside"><div className="daye-retail-heading"><p className="accent-label">FROM EXPERIENCE TO PRODUCT</p><p className="screen-title">从文化认识<br />走向产品接触</p></div><div className="body-copy daye-retail-copy"><p>参观体验最终进入产品展示与零售区域。</p><p>当观众已经通过空间理解芳香产业、植物与气味之间的关系，再接触具体产品时，产品不再只是货架上的商品，而拥有了前面体验所建立的背景。</p><p className="bilingual-line">认识 → 感知 → 体验 → 接触产品<br />Learn → Sense → Experience → Product</p></div></div></Screen>
       <Screen number="08" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">“香”没有固定形状。</p></div><div><p>这个项目最重要的尝试，是寻找一种方法，把原本无法被直接看见的内容转成空间语言。</p><p>因此，空间也不需要替它制造一个明确符号。</p><Quote><strong>当展陈对象本身不可见，空间就成为感知它的媒介。</strong></Quote><p className="status-line">概念方案 / 未建成</p></div></div></Screen>
     </section>
   )
@@ -867,15 +922,16 @@ function SmallIdeasCase() {
     const stage = section?.querySelector('.idea-card-stage')
     if (!section || !stage) return undefined
     let frame = 0
-    let active = false
+    const clamp = (value) => Math.min(1, Math.max(0, value))
     const updateBackdrop = () => {
-      if (frame) return
+      cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        frame = 0
-        const nextActive = stage.getBoundingClientRect().top <= window.innerHeight * .55
-        if (nextActive === active) return
-        active = nextActive
-        section.classList.toggle('is-glass-active', active)
+        const top = stage.getBoundingClientRect().top
+        const progress = clamp((window.innerHeight * .55 - top) / (window.innerHeight * .55))
+        section.style.setProperty('--small-ideas-progress', progress.toFixed(3))
+        section.style.setProperty('--small-ideas-blur', `${Math.round(progress * 15)}px`)
+        section.style.setProperty('--small-ideas-haze', '0.24')
+        section.style.setProperty('--small-ideas-glass', `${Math.round(progress * 22)}px`)
       })
     }
     updateBackdrop()
@@ -885,7 +941,6 @@ function SmallIdeasCase() {
       cancelAnimationFrame(frame)
       window.removeEventListener('scroll', updateBackdrop)
       window.removeEventListener('resize', updateBackdrop)
-      section.classList.remove('is-glass-active')
     }
   }, [])
 
@@ -937,7 +992,7 @@ function GalleryPlaceholder({ item, onPreview }) {
     const image = event.currentTarget
     if (image.naturalWidth && image.naturalHeight) image.parentElement.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`
   }
-  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={displayAsset(item.src)} alt="" loading="lazy" fetchPriority="low" decoding="async" onLoad={matchImageRatio} onError={(event) => event.currentTarget.remove()} /></button>
+  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={optimizedAsset(item.src)} alt="" loading="lazy" onLoad={matchImageRatio} onError={(event) => event.currentTarget.remove()} /></button>
 }
 
 function MasonryGrid({ ratios, prefix, onPreview }) {
@@ -994,7 +1049,7 @@ function BeforeAfterComparison() {
     if (event.key === 'ArrowRight') setReveal((value) => Math.min(100, value + 5))
   }
 
-  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src={displayAsset('/assets/gallery/room/before.jpg')} alt="" draggable="false" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src={displayAsset('/assets/gallery/room/after.jpg')} alt="" draggable="false" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
+  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src={optimizedAsset('/assets/gallery/room/before.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src={optimizedAsset('/assets/gallery/room/after.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
 }
 
 function RoomMakeoverSection({ onPreview }) {
@@ -1037,7 +1092,7 @@ function GalleryLightbox({ item, index, count, onClose, onMove }) {
     onClose()
   }
 
-  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={handleBackdropClick} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><img className="gallery-lightbox-image" src={optimizedAsset(item.src)} alt={item.label} decoding="async" fetchPriority="high" onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button>{count > 1 && <div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div>}</div>
+  return <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label={`${item.label}图片预览`} onClick={handleBackdropClick} onWheel={handleWheel}><div className="gallery-lightbox-stage" onClick={(event) => event.stopPropagation()}><img className="gallery-lightbox-image" src={optimizedAsset(item.src)} alt={item.label} onError={(event) => event.currentTarget.remove()} /></div><div className="gallery-lightbox-caption">{item.label} <i>{index + 1} / {count}</i></div><button className="gallery-lightbox-close" type="button" onClick={onClose} aria-label="退出预览">×</button>{count > 1 && <div className="gallery-lightbox-controls"><button type="button" onClick={() => onMove(-1)} aria-label="上一张">上一张</button><button type="button" onClick={() => onMove(1)} aria-label="下一张">下一张</button></div>}</div>
 }
 
 function OutsideSection() {
@@ -1198,9 +1253,7 @@ function MotionDirector() {
     const galleryItems = [...document.querySelectorAll('.gallery-placeholder, .selected-story-reveal, .idea-card-media, .profile-figure')]
     const galleryObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
-        entry.target.classList.add('is-gallery-visible')
-        galleryObserver.unobserve(entry.target)
+        entry.target.classList.toggle('is-gallery-visible', entry.isIntersecting)
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -6% 0px' })
     galleryItems.forEach((item, index) => {
@@ -1222,20 +1275,20 @@ function MotionDirector() {
     })
     const screenObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
-        entry.target.classList.add('is-case-active')
-        screenObserver.unobserve(entry.target)
+        entry.target.classList.toggle('is-case-active', entry.isIntersecting)
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -12% 0px' })
 
     const caseItems = [...document.querySelectorAll('.case-page .screen .motion-item')]
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
-        if (entry.target.classList.contains('motion-body')) entry.target.classList.add('is-body-inview')
-        else if (entry.target.matches('.case-page .screen .motion-item')) entry.target.classList.add('is-item-inview')
-        else entry.target.classList.add('is-inview')
-        observer.unobserve(entry.target)
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains('motion-body')) entry.target.classList.add('is-body-inview')
+          else if (entry.target.matches('.case-page .screen .motion-item')) entry.target.classList.add('is-item-inview')
+          else entry.target.classList.add('is-inview')
+        } else {
+          entry.target.classList.remove('is-body-inview', 'is-item-inview', 'is-inview')
+        }
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' })
     const headingOriginals = []
@@ -1256,22 +1309,32 @@ function MotionDirector() {
     })
     const headingObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return
         const chars = headingChars.get(entry.target) || []
         gsap.killTweensOf(chars)
-        gsap.to(chars, {
-          opacity: 1,
-          yPercent: 0,
-          scaleY: 1,
-          scaleX: 1,
-          duration: .86,
-          ease: 'power3.out',
-          stagger: .022,
-          overwrite: true,
-          clearProps: 'willChange',
-        })
-        entry.target.classList.add('is-heading-inview')
-        headingObserver.unobserve(entry.target)
+        if (entry.isIntersecting) {
+          gsap.to(chars, {
+            opacity: 1,
+            yPercent: 0,
+            scaleY: 1,
+            scaleX: 1,
+            duration: .86,
+            ease: 'power3.out',
+            stagger: .022,
+            overwrite: true,
+            clearProps: 'willChange',
+          })
+          entry.target.classList.add('is-heading-inview')
+        } else {
+          gsap.set(chars, {
+            willChange: 'opacity, transform',
+            opacity: 0,
+            yPercent: 112,
+            scaleY: 1.45,
+            scaleX: .9,
+            transformOrigin: '50% 0%',
+          })
+          entry.target.classList.remove('is-heading-inview')
+        }
       })
     }, { threshold: 0.01, rootMargin: '0px 0px -5% 0px' })
     const parallaxTargets = [...document.querySelectorAll('.profile-figure img')]
