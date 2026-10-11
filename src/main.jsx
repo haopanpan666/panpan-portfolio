@@ -445,34 +445,25 @@ function useRequestedCaseGlass(sectionRef, screenSelector) {
     const glassScreens = [...(section?.querySelectorAll(screenSelector) || [])]
     if (!section || !glassScreens.length) return undefined
 
-    let frame = 0
-    const clamp = (value) => Math.min(1, Math.max(0, value))
-    const screenProgress = (rect, viewportHeight) => {
-      const enter = viewportHeight * .92
-      const full = viewportHeight * .58
-      const leaveFull = viewportHeight * .78
-      if (rect.bottom <= 0 || rect.top >= enter) return 0
-      if (rect.top > full) return clamp((enter - rect.top) / (enter - full))
-      if (rect.bottom < leaveFull) return clamp(rect.bottom / leaveFull)
-      return 1
+    const activeScreens = new Set()
+    const setGlassState = (active) => {
+      section.classList.toggle('is-requested-glass-active', active)
+      section.style.setProperty('--requested-scene-blur', active ? '14px' : '0px')
+      section.style.setProperty('--requested-glass-blur', active ? '18px' : '0px')
     }
-    const updateGlass = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        const viewportHeight = window.innerHeight
-        const progress = Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
-        section.style.setProperty('--requested-scene-blur', `${Math.round(progress * 14)}px`)
-        section.style.setProperty('--requested-glass-blur', `${Math.round(progress * 18)}px`)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) activeScreens.add(entry.target)
+        else activeScreens.delete(entry.target)
       })
-    }
+      setGlassState(activeScreens.size > 0)
+    }, { threshold: 0.01, rootMargin: '-20% 0px -30% 0px' })
 
-    updateGlass()
-    window.addEventListener('scroll', updateGlass, { passive: true })
-    window.addEventListener('resize', updateGlass)
+    glassScreens.forEach((screen) => observer.observe(screen))
     return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener('scroll', updateGlass)
-      window.removeEventListener('resize', updateGlass)
+      observer.disconnect()
+      activeScreens.clear()
+      setGlassState(false)
     }
   }, [screenSelector, sectionRef])
 }
