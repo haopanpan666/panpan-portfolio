@@ -446,29 +446,74 @@ function useRequestedCaseGlass(sectionRef, screenSelector) {
     if (!section || !glassScreens.length) return undefined
 
     let frame = 0
+    let lastSceneBlur = -1
+    let lastGlassBlur = -1
+
     const clamp = (value) => Math.min(1, Math.max(0, value))
+
     const screenProgress = (rect, viewportHeight) => {
       const enter = viewportHeight * .92
       const full = viewportHeight * .58
       const leaveFull = viewportHeight * .78
+
       if (rect.bottom <= 0 || rect.top >= enter) return 0
-      if (rect.top > full) return clamp((enter - rect.top) / (enter - full))
-      if (rect.bottom < leaveFull) return clamp(rect.bottom / leaveFull)
+      if (rect.top > full) {
+        return clamp((enter - rect.top) / (enter - full))
+      }
+      if (rect.bottom < leaveFull) {
+        return clamp(rect.bottom / leaveFull)
+      }
       return 1
     }
+
+    const renderGlass = () => {
+      frame = 0
+
+      const viewportHeight = window.innerHeight
+      let progress = 0
+
+      for (const screen of glassScreens) {
+        const rect = screen.getBoundingClientRect()
+        const current = screenProgress(rect, viewportHeight)
+
+        if (current > progress) progress = current
+
+        // 已经达到最大值，就不用继续测后面的元素了
+        if (progress >= 1) break
+      }
+
+      const sceneBlur = Math.round(progress * 14)
+      const glassBlur = Math.round(progress * 18)
+
+      // 值没变化就不再写 style，避免无意义的样式失效
+      if (sceneBlur !== lastSceneBlur) {
+        section.style.setProperty(
+          '--requested-scene-blur',
+          `${sceneBlur}px`
+        )
+        lastSceneBlur = sceneBlur
+      }
+
+      if (glassBlur !== lastGlassBlur) {
+        section.style.setProperty(
+          '--requested-glass-blur',
+          `${glassBlur}px`
+        )
+        lastGlassBlur = glassBlur
+      }
+    }
+
     const updateGlass = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        const viewportHeight = window.innerHeight
-        const progress = Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
-        section.style.setProperty('--requested-scene-blur', `${Math.round(progress * 14)}px`)
-        section.style.setProperty('--requested-glass-blur', `${Math.round(progress * 18)}px`)
-      })
+      // 一帧已经排队，就不重复创建
+      if (frame) return
+      frame = requestAnimationFrame(renderGlass)
     }
 
     updateGlass()
+
     window.addEventListener('scroll', updateGlass, { passive: true })
     window.addEventListener('resize', updateGlass)
+
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener('scroll', updateGlass)
