@@ -5,6 +5,12 @@ import { gsap } from 'gsap'
 import '@fontsource-variable/inter'
 import './styles.css'
 
+function optimizedAsset(src) {
+  return typeof src === 'string'
+    ? src.replace(/^\/assets\//, '/assets-optimized/').replace(/\.(jpe?g|png)$/i, '.webp')
+    : src
+}
+
 const navItems = [
   ['STORIES', '/#work'],
   ['THINK', '/#think'],
@@ -65,7 +71,7 @@ function MetaList({ items }) {
 function ProjectIntro({ number, name, title, english, summary, tags: projectTags, id, imageSrc, imageAlt = '' }) {
   return (
     <div className="project-intro" id={id}>
-      {imageSrc && <img className="project-intro-image" src={imageSrc} alt={imageAlt} loading="eager" fetchPriority="high" decoding="async" />}
+      {imageSrc && <img className="project-intro-image" src={optimizedAsset(imageSrc)} alt={imageAlt} loading="eager" fetchPriority="high" decoding="async" />}
       <div className="project-intro-top">
         <span className="project-no">CASE {number}</span>
         {tags(projectTags)}
@@ -83,7 +89,7 @@ function Quote({ children, className = '' }) {
 }
 
 function CaseTemplateMedia({ item, onPreview, className = '', priority = false }) {
-  return <button className={`gallery-placeholder case-template-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt={item.label} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></button>
+  return <button className={`gallery-placeholder case-template-media ${className}`.trim()} type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={optimizedAsset(item.src)} alt={item.label} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" /></button>
 }
 
 function CaseTemplateOne({ item, onPreview, eyebrow, title, children, mediaClassName = '', priority = false }) {
@@ -99,7 +105,7 @@ function CaseTemplateThree({ items, onPreview, eyebrow, title, children }) {
 }
 
 function CaseTemplateFour({ stories, className = '' }) {
-  return <div className={`case-template-four ${className}`.trim()}><div className="idea-card-row">{stories.map((story, index) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={story.image} alt="" loading="eager" fetchPriority={index === 0 ? 'auto' : 'low'} decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div>
+  return <div className={`case-template-four ${className}`.trim()}><div className="idea-card-row">{stories.map((story, index) => <article className="idea-card" tabIndex="0" key={story.number}><div className="idea-card-media" role="img" aria-label={`${story.title}图片`}><img src={optimizedAsset(story.image)} alt="" loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'auto' : 'low'} decoding="async" onError={(event) => event.currentTarget.remove()} /><span>{story.number}</span></div><div className="idea-card-copy"><div className="idea-card-meta"><span>{story.number}</span><span>{story.location}</span></div><h2>{story.title}</h2><p>{story.body}</p></div></article>)}</div></div>
 }
 
 function Hero() {
@@ -128,7 +134,7 @@ function QuickInfo() {
       <div className="section-marker"><span>01</span><i />QUICK INFO｜基本信息</div>
       <div className="info-grid">
         <figure className="profile-figure">
-          <img src="/assets/profile.jpg" alt="个人形象照" />
+          <img src={optimizedAsset('/assets/profile.jpg')} alt="个人形象照" />
         </figure>
         <div className="info-content">
           <div className="info-headline"><span>ABOUT ME</span><strong>27</strong></div>
@@ -169,7 +175,7 @@ function SelectedStoryCard({ story, clone = false }) {
     <Link className="selected-story" to={story.to} tabIndex={clone ? -1 : undefined} draggable="false">
       <div className="selected-story-reveal">
         <div className="selected-story-media" aria-hidden="true">
-          <img src={story.cover} alt="" draggable="false" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} />
+          <img src={optimizedAsset(story.cover)} alt="" draggable="false" loading="lazy" decoding="async" onError={(event) => event.currentTarget.remove()} />
           <span>{story.number}</span><small>{story.english}</small>
         </div>
         <div className="selected-story-copy"><div className="selected-story-kicker"><span>{story.number}</span><strong>{story.name}</strong></div><b>{story.title}</b><small>{story.english}</small><i>{story.tags}</i></div>
@@ -430,7 +436,7 @@ function SelectedWorks() {
 }
 
 function CaseBackdrop({ src }) {
-  return <div className="case-scene-backdrop" aria-hidden="true"><img src={src} alt="" loading="eager" fetchPriority="high" decoding="async" /></div>
+  return <div className="case-scene-backdrop" aria-hidden="true"><img src={optimizedAsset(src)} alt="" loading="eager" fetchPriority="high" decoding="async" /></div>
 }
 
 function useRequestedCaseGlass(sectionRef, screenSelector) {
@@ -562,7 +568,7 @@ function YangmingCase({ onPreview }) {
   return (
     <section className="case-section texture-section" id="yangming" ref={sectionRef}>
       <div className="case-scene-backdrop yangming-scene-backdrop" aria-hidden="true">
-        {yangmingBackdropScenes.map((scene, index) => <img className={`yangming-scene-layer ${index === 0 ? 'is-active' : ''}`} data-scene={scene.key} src={scene.src} alt="" loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'auto'} decoding="async" key={scene.key} />)}
+        {yangmingBackdropScenes.map((scene, index) => <img className={`yangming-scene-layer ${index === 0 ? 'is-active' : ''}`} data-scene={scene.key} src={optimizedAsset(scene.src)} alt="" loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'auto'} decoding="async" key={scene.key} />)}
       </div>
       <ProjectIntro number="01" name="余姚阳明温泉山庄" title="一个让人慢下来的地方" english="A Place to Slow Down" summary="通过疗愈体验与既有资源的重新激活，想象一座运营十五年的温泉度假酒店，还可以如何重新变得值得到访。" tags={['文旅策划 Destination Planning', '体验策划 Experience Planning', '概念设计 Concept Development']} />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen">
@@ -722,7 +728,7 @@ function QiduEditorialImage({ item, onPreview }) {
 }
 
 function QiduEditorialGallery({ items, onPreview }) {
-  return <div className="qidu-editorial-gallery">{items.map((item) => <button className="gallery-placeholder qidu-gallery-card" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)} key={item.id}><img src={item.src} alt={item.label} loading="lazy" decoding="async" /></button>)}</div>
+  return <div className="qidu-editorial-gallery">{items.map((item) => <button className="gallery-placeholder qidu-gallery-card" type="button" data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)} key={item.id}><img src={optimizedAsset(item.src)} alt={item.label} loading="lazy" decoding="async" /></button>)}</div>
 }
 
 function QiduCase({ onPreview }) {
@@ -773,13 +779,13 @@ function QiduCase({ onPreview }) {
       <ProjectIntro number="03" name="温州七都华侨花园" title="生活的艺术家" english="The Art of Living" summary="通过艺术化空间、强烈高差、下沉泳池、悬空步道和热带植物，组织一套更自由的年轻家庭生活场景。" tags={['Art & Lifestyle', 'Level Design', 'Landscape Experience']} />
       <Screen number="01" label="PROJECT INFO｜项目概览" className="overview-screen qidu-overview-screen">
         <div className="qidu-overview-layout">
-          <figure className="qidu-overview-plan"><img className="qidu-overview-plan-image" src="/assets/projects/qidu/01-plan.png" alt="七都华侨花园总平面图" loading="eager" decoding="async" /></figure>
+          <figure className="qidu-overview-plan"><img className="qidu-overview-plan-image" src={optimizedAsset('/assets/projects/qidu/01-plan.png')} alt="七都华侨花园总平面图" loading="eager" decoding="async" /></figure>
           <div className="qidu-overview-meta"><MetaList items={[
             ['项目类型｜TYPE', '私宅庭院 / 滨水住宅景观'], ['项目时间｜YEAR', '2026'], ['项目面积｜AREA', '约1200㎡'], ['项目状态｜STATUS', <>准备施工<br /><i>Preparing for Construction</i></>],
           ]} /><div className="role-detail-grid"><span>我的角色｜MY ROLE</span><p>主创设计 Lead Design<br />方案深化 Design Development<br />视觉表达 Visualization<br />植物设计 Planting Design<br />动画表现 Animation Visualization<br />客户沟通 Client Communication</p></div></div>
           <div className="qidu-overview-areas">
-            <figure><img src="/assets/projects/qidu/01-north.jpg" alt="七都华侨花园北侧入户花园鸟瞰" loading="eager" decoding="async" /><figcaption>NORTH / 北侧<br />ARRIVAL GARDEN</figcaption></figure>
-            <figure><img src="/assets/projects/qidu/01-south.jpg" alt="七都华侨花园南侧生活花园鸟瞰" loading="eager" decoding="async" /><figcaption>SOUTH / 南侧<br />LIVING GARDEN</figcaption></figure>
+            <figure><img src={optimizedAsset('/assets/projects/qidu/01-north.jpg')} alt="七都华侨花园北侧入户花园鸟瞰" loading="eager" decoding="async" /><figcaption>NORTH / 北侧<br />ARRIVAL GARDEN</figcaption></figure>
+            <figure><img src={optimizedAsset('/assets/projects/qidu/01-south.jpg')} alt="七都华侨花园南侧生活花园鸟瞰" loading="eager" decoding="async" /><figcaption>SOUTH / 南侧<br />LIVING GARDEN</figcaption></figure>
           </div>
         </div>
       </Screen>
@@ -872,8 +878,8 @@ function DayeCase({ onPreview }) {
   return (
     <section className="case-section texture-section daye-case" id="daye">
       <div className="daye-scene-backdrop" aria-hidden="true">
-        <img className="daye-scene-image daye-scene-image-primary" src={dayeHeroAsset} alt="" loading="eager" fetchPriority="high" decoding="async" />
-        <img className="daye-scene-image daye-scene-image-secondary" src={dayeSpatialAsset} alt="" loading="eager" fetchPriority="low" decoding="async" />
+        <img className="daye-scene-image daye-scene-image-primary" src={optimizedAsset(dayeHeroAsset)} alt="" loading="eager" fetchPriority="high" decoding="async" />
+        <img className="daye-scene-image daye-scene-image-secondary" src={optimizedAsset(dayeSpatialAsset)} alt="" loading="eager" fetchPriority="low" decoding="async" />
       </div>
       <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} imageSrc={dayeHeroAsset} imageAlt="芳香展馆空间效果图" />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen daye-overview-screen"><div className="screen-columns two-col"><div><p className="display-note">让无形的香气被感知</p><p className="small-english">MAKING THE INVISIBLE PERCEPTIBLE</p></div><div><MetaList items={[
@@ -899,7 +905,7 @@ function DayeCasePage() {
     const nextIndex = (previewIndex + direction + dayeGalleryItems.length) % dayeGalleryItems.length
     setPreviewId(dayeGalleryItems[nextIndex].id)
   }
-  return <><CasePage theme="dark" next={{ to: '/', label: '返回首页', eyebrow: 'BACK HOME' }}><DayeCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={dayeGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage></>
+  return <><CasePage theme="dark" next={{ to: '/cases/small-ideas', label: '方案中的小想法', eyebrow: 'NEXT CASE' }}><DayeCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={dayeGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage></>
 }
 
 const smallIdeaStories = [
@@ -986,7 +992,7 @@ function GalleryPlaceholder({ item, onPreview }) {
     const image = event.currentTarget
     if (image.naturalWidth && image.naturalHeight) image.parentElement.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`
   }
-  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={item.src} alt="" loading="lazy" onLoad={matchImageRatio} onError={(event) => event.currentTarget.remove()} /></button>
+  return <button className="gallery-placeholder" type="button" style={{ aspectRatio: item.ratio }} data-gallery-id={item.id} aria-label={`查看${item.label}`} onClick={() => onPreview?.(item)}><img src={optimizedAsset(item.src)} alt="" loading="lazy" onLoad={matchImageRatio} onError={(event) => event.currentTarget.remove()} /></button>
 }
 
 function MasonryGrid({ ratios, prefix, onPreview }) {
@@ -1043,7 +1049,7 @@ function BeforeAfterComparison() {
     if (event.key === 'ArrowRight') setReveal((value) => Math.min(100, value + 5))
   }
 
-  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src="/assets/gallery/room/before.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src="/assets/gallery/room/after.jpg" alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
+  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src={optimizedAsset('/assets/gallery/room/before.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src={optimizedAsset('/assets/gallery/room/after.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
 }
 
 function RoomMakeoverSection({ onPreview }) {
