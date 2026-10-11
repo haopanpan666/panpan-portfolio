@@ -433,6 +433,44 @@ function CaseBackdrop({ src }) {
   return <div className="case-scene-backdrop" aria-hidden="true"><img src={src} alt="" loading="eager" fetchPriority="high" decoding="async" /></div>
 }
 
+function useRequestedCaseGlass(sectionRef, screenSelector) {
+  useEffect(() => {
+    const section = sectionRef.current
+    const glassScreens = [...(section?.querySelectorAll(screenSelector) || [])]
+    if (!section || !glassScreens.length) return undefined
+
+    let frame = 0
+    const clamp = (value) => Math.min(1, Math.max(0, value))
+    const screenProgress = (rect, viewportHeight) => {
+      const enter = viewportHeight * .92
+      const full = viewportHeight * .58
+      const leaveFull = viewportHeight * .78
+      if (rect.bottom <= 0 || rect.top >= enter) return 0
+      if (rect.top > full) return clamp((enter - rect.top) / (enter - full))
+      if (rect.bottom < leaveFull) return clamp(rect.bottom / leaveFull)
+      return 1
+    }
+    const updateGlass = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        const viewportHeight = window.innerHeight
+        const progress = Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
+        section.style.setProperty('--requested-scene-blur', `${Math.round(progress * 14)}px`)
+        section.style.setProperty('--requested-glass-blur', `${Math.round(progress * 18)}px`)
+      })
+    }
+
+    updateGlass()
+    window.addEventListener('scroll', updateGlass, { passive: true })
+    window.addEventListener('resize', updateGlass)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateGlass)
+      window.removeEventListener('resize', updateGlass)
+    }
+  }, [screenSelector, sectionRef])
+}
+
 const yangmingKeyIdeas = [
   { number: '01', location: 'WATER PARK｜水乐园', title: '水乐园的淡季功能转换', body: '夏季是嬉水空间，淡季则转换为更安静的漂浮冥想、桨板等水上体验场所。', image: '/assets/projects/yangming/06-1.jpg' },
   { number: '02', location: 'NEW ARRIVAL｜新的入住方式', title: '一种新的入住方式', body: '为车尾露营提供充电、盥洗与安全等基础配套，并加入观星与自然社交体验。', image: '/assets/projects/yangming/06-2.jpg' },
@@ -468,6 +506,8 @@ const binrongGalleryItems = [
 
 function YangmingCase({ onPreview }) {
   const sectionRef = useRef(null)
+
+  useRequestedCaseGlass(sectionRef, '.screen:nth-of-type(6)')
 
   useEffect(() => {
     const section = sectionRef.current
@@ -566,8 +606,12 @@ function YangmingCasePage() {
 }
 
 function BinrongCase({ onPreview }) {
+  const sectionRef = useRef(null)
+
+  useRequestedCaseGlass(sectionRef, '.screen:nth-of-type(n + 3):nth-of-type(-n + 7)')
+
   return (
-    <section className="case-section texture-section" id="binrongfu">
+    <section className="case-section texture-section" id="binrongfu" ref={sectionRef}>
       <CaseBackdrop src="/assets/projects/04-binrongfu-bg.jpg" />
       <ProjectIntro number="04" name="杭州滨融府" title="两个露台，两种生活" english="Two Terraces, Two Ways of Living" summary="在两个与室内生活紧密相连的屋顶露台中，分别回应独处与相聚的日常场景，并在施工阶段面对荷载、设备、材料与植物条件持续调整，最终完成落地。" tags={['Built & Delivery', 'Roof Terrace', 'Full-process Design']} />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen"><div className="screen-columns two-col"><div><p className="display-note">两个露台<br />两种生活</p></div><div><MetaList items={[
@@ -617,8 +661,12 @@ const yuelongGardenStories = [
 ]
 
 function YuelongCase({ onPreview }) {
+  const sectionRef = useRef(null)
+
+  useRequestedCaseGlass(sectionRef, '.screen:nth-of-type(2), .screen:nth-of-type(3), .screen:nth-of-type(n + 5):nth-of-type(-n + 8)')
+
   return (
-    <section className="case-section texture-section" id="yuelongwan">
+    <section className="case-section texture-section" id="yuelongwan" ref={sectionRef}>
       <CaseBackdrop src="/assets/projects/yuelong/backdrop-optimized.jpg" />
       <ProjectIntro number="02" name="余姚悦龙湾" title="两栋房子之间" english="Designing the In-Between" summary="在接待与起居、车行与花园、现代与日式之间，为两栋用途不同的别墅建立一个完整而自然的空间系统。" tags={['私宅景观 Residential Landscape', '空间系统 Spatial System', '体验组织 Experience Planning']} />
       <Screen number="01" label="PROJECT INFO｜项目信息" className="overview-screen">
