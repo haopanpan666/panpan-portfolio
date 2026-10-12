@@ -435,11 +435,11 @@ function SelectedWorks() {
   )
 }
 
-function CaseBackdrop({ src, layered = false }) {
+function CaseBackdrop({ src, layered = true }) {
   const asset = optimizedAsset(src)
   return <div className={`case-scene-backdrop${layered ? ' case-scene-backdrop--layered' : ''}`} aria-hidden="true">
     <img className={layered ? 'case-scene-image case-scene-image--clear' : undefined} src={asset} alt="" loading="eager" fetchPriority="high" decoding="async" />
-    {layered && <img className="case-scene-image case-scene-image--blurred" src={asset} alt="" loading="eager" fetchPriority="high" decoding="async" />}
+    {layered && <img className="case-scene-image case-scene-image--blurred" src={asset} alt="" loading="lazy" fetchPriority="low" decoding="async" />}
   </div>
 }
 
@@ -452,8 +452,7 @@ function useRequestedCaseGlass(sectionRef, screenSelector) {
     const activeScreens = new Set()
     const setGlassState = (active) => {
       section.classList.toggle('is-requested-glass-active', active)
-      section.style.setProperty('--requested-scene-blur', active ? '14px' : '0px')
-      section.style.setProperty('--requested-glass-blur', active ? '18px' : '0px')
+      section.style.setProperty('--requested-glass-progress', active ? '1' : '0')
     }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -541,7 +540,7 @@ function YangmingCase({ onPreview }) {
       const blurProgress = Math.min(1, Math.max(0, (.16 - edgeDistance) / .16))
       const activeKey = sceneKeys[activeIndex] || 'base'
 
-      section.style.setProperty('--yangming-scene-blur', `${(blurProgress * 16).toFixed(2)}px`)
+      section.style.setProperty('--yangming-blur-progress', blurProgress.toFixed(3))
       layers.forEach((layer) => layer.classList.toggle('is-active', layer.dataset.scene === activeKey))
     }
 
@@ -563,7 +562,10 @@ function YangmingCase({ onPreview }) {
   return (
     <section className="case-section texture-section" id="yangming" ref={sectionRef}>
       <div className="case-scene-backdrop yangming-scene-backdrop" aria-hidden="true">
-        {yangmingBackdropScenes.map((scene, index) => <img className={`yangming-scene-layer ${index === 0 ? 'is-active' : ''}`} data-scene={scene.key} src={optimizedAsset(scene.src)} alt="" loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'auto'} decoding="async" key={scene.key} />)}
+        {yangmingBackdropScenes.map((scene, index) => <div className={`yangming-scene-layer ${index === 0 ? 'is-active' : ''}`} data-scene={scene.key} key={scene.key}>
+          <img className="yangming-scene-image yangming-scene-image--clear" src={optimizedAsset(scene.src)} alt="" loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : 'auto'} decoding="async" />
+          <img className="yangming-scene-image yangming-scene-image--blurred" src={optimizedAsset(scene.src)} alt="" loading="lazy" fetchPriority="low" decoding="async" />
+        </div>)}
       </div>
       <ProjectIntro number="01" name="余姚阳明温泉山庄" title="一个让人慢下来的地方" english="A Place to Slow Down" summary="通过疗愈体验与既有资源的重新激活，想象一座运营十五年的温泉度假酒店，还可以如何重新变得值得到访。" tags={['文旅策划 Destination Planning', '体验策划 Experience Planning', '概念设计 Concept Development']} />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen">
@@ -754,8 +756,6 @@ function QiduCase({ onPreview }) {
         })
         const progress = clearScreenIsCurrent ? 0 : Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
         qidu.style.setProperty('--qidu-glass-progress', progress.toFixed(3))
-        qidu.style.setProperty('--qidu-scene-blur', `${Math.round(progress * 14)}px`)
-        qidu.style.setProperty('--qidu-glass-blur', `${Math.round(progress * 18)}px`)
       })
     }
     updateBackdrop()
@@ -856,8 +856,7 @@ function DayeCase({ onPreview }) {
           : Math.max(0, ...glassScreens.map((screen) => screenProgress(screen.getBoundingClientRect(), viewportHeight)))
         daye.classList.toggle('daye-after-direction', directionTop <= viewportHeight * .88)
         daye.style.setProperty('--daye-glass-progress', glassProgress.toFixed(3))
-        daye.style.setProperty('--daye-scene-blur', `${Math.round(glassProgress * 14)}px`)
-        daye.style.setProperty('--daye-scene-haze', (0.28 + glassProgress * .22).toFixed(3))
+        daye.style.setProperty('--daye-glass-progress', glassProgress.toFixed(3))
       })
     }
     updateBackdropState()
@@ -873,8 +872,14 @@ function DayeCase({ onPreview }) {
   return (
     <section className="case-section texture-section daye-case" id="daye">
       <div className="daye-scene-backdrop" aria-hidden="true">
-        <img className="daye-scene-image daye-scene-image-primary" src={optimizedAsset(dayeHeroAsset)} alt="" loading="eager" fetchPriority="high" decoding="async" />
-        <img className="daye-scene-image daye-scene-image-secondary" src={optimizedAsset(dayeSpatialAsset)} alt="" loading="eager" fetchPriority="low" decoding="async" />
+        <div className="daye-scene-layer daye-scene-layer-primary">
+          <img className="daye-scene-image daye-scene-image--clear" src={optimizedAsset(dayeHeroAsset)} alt="" loading="eager" fetchPriority="high" decoding="async" />
+          <img className="daye-scene-image daye-scene-image--blurred" src={optimizedAsset(dayeHeroAsset)} alt="" loading="lazy" fetchPriority="low" decoding="async" />
+        </div>
+        <div className="daye-scene-layer daye-scene-layer-secondary">
+          <img className="daye-scene-image daye-scene-image--clear" src={optimizedAsset(dayeSpatialAsset)} alt="" loading="eager" fetchPriority="low" decoding="async" />
+          <img className="daye-scene-image daye-scene-image--blurred" src={optimizedAsset(dayeSpatialAsset)} alt="" loading="lazy" fetchPriority="low" decoding="async" />
+        </div>
       </div>
       <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} imageSrc={dayeHeroAsset} imageAlt="芳香展馆空间效果图" />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen daye-overview-screen"><div className="screen-columns two-col"><div><p className="display-note">让无形的香气被感知</p><p className="small-english">MAKING THE INVISIBLE PERCEPTIBLE</p></div><div><MetaList items={[
@@ -924,9 +929,7 @@ function SmallIdeasCase() {
         const top = stage.getBoundingClientRect().top
         const progress = clamp((window.innerHeight * .55 - top) / (window.innerHeight * .55))
         section.style.setProperty('--small-ideas-progress', progress.toFixed(3))
-        section.style.setProperty('--small-ideas-blur', `${Math.round(progress * 15)}px`)
         section.style.setProperty('--small-ideas-haze', '0.24')
-        section.style.setProperty('--small-ideas-glass', `${Math.round(progress * 22)}px`)
       })
     }
     updateBackdrop()

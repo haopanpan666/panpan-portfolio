@@ -2708,9 +2708,9 @@ html.motion-enabled .motion-section.is-inview .idea-card-copy > p {
   background-repeat: no-repeat;
   background-size: cover;
   transform: scale(1.055);
-  filter: brightness(.92) blur(var(--daye-scene-blur, 0px));
-  transition: opacity .9s var(--motion-ease), filter .18s linear;
-  will-change: opacity, filter;
+  filter: brightness(.92);
+  transition: opacity .9s var(--motion-ease);
+  will-change: opacity;
 }
 #daye > .daye-scene-backdrop::before {
   opacity: 1;
@@ -3003,9 +3003,9 @@ html.motion-enabled .motion-media.is-gallery-visible {
   object-fit: cover;
   object-position: center;
   transform: scale(1.055);
-  filter: brightness(.72) blur(var(--daye-scene-blur, 0px));
-  transition: opacity .9s var(--motion-ease), filter .18s linear;
-  will-change: opacity, filter;
+  filter: brightness(.72);
+  transition: opacity .9s var(--motion-ease);
+  will-change: opacity;
 }
 #daye .daye-scene-image-primary { opacity: 1; }
 #daye .daye-scene-image-secondary { opacity: 0; }
@@ -3022,9 +3022,9 @@ html.motion-enabled .motion-media.is-gallery-visible {
 
 #small-ideas .case-scene-backdrop img {
   transform: scale(1.055);
-  filter: brightness(.82) blur(var(--small-ideas-blur));
-  transition: filter .18s linear;
-  will-change: filter;
+  filter: brightness(.82);
+  transition: opacity .62s var(--motion-ease);
+  will-change: opacity;
 }
 
 #small-ideas .case-scene-backdrop::after {
@@ -3035,8 +3035,8 @@ html.motion-enabled .motion-media.is-gallery-visible {
 #small-ideas .small-ideas-case-hero { border-bottom: 0; }
 #small-ideas .idea-card-stage {
   background: rgba(8, 8, 8, .22);
-  backdrop-filter: blur(var(--small-ideas-glass)) saturate(112%);
-  -webkit-backdrop-filter: blur(var(--small-ideas-glass)) saturate(112%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 #small-ideas .idea-card { color: #fff; }
 #small-ideas .idea-card-media {
@@ -3139,8 +3139,8 @@ html.motion-enabled .case-page .screen .motion-item.is-item-inview {
 }
 #small-ideas .idea-card-stage {
   background: transparent;
-  backdrop-filter: blur(var(--small-ideas-glass));
-  -webkit-backdrop-filter: blur(var(--small-ideas-glass));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .hero-subtitle { padding-top: 4px; }
@@ -3179,9 +3179,9 @@ html.motion-enabled .case-page .screen .motion-item.is-item-inview {
 }
 #qidu .case-scene-backdrop img {
   transform: scale(1.055);
-  filter: brightness(.7) blur(var(--qidu-scene-blur));
-  transition: filter .18s linear;
-  will-change: filter;
+  filter: brightness(.7);
+  transition: opacity .62s var(--motion-ease);
+  will-change: opacity;
 }
 #qidu .case-scene-backdrop::after { background: rgba(4, 4, 4, .48); }
 .theme-dark #qidu .project-intro,
@@ -3189,8 +3189,8 @@ html.motion-enabled .case-page .screen .motion-item.is-item-inview {
 .theme-dark #qidu .qidu-overview-screen,
 .theme-dark #qidu .qidu-editorial-screen {
   background: rgba(7, 7, 7, .12);
-  backdrop-filter: blur(var(--qidu-glass-blur)) saturate(106%);
-  -webkit-backdrop-filter: blur(var(--qidu-glass-blur)) saturate(106%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 #qidu .qidu-overview-layout {
@@ -3639,8 +3639,8 @@ html.motion-enabled .case-reveal-screen.is-case-active .qidu-gallery-card {
 .theme-dark #qidu .qidu-editorial-screen,
 .theme-dark #qidu .closing-screen {
   background: rgba(7, 7, 7, .12);
-  backdrop-filter: blur(var(--qidu-glass-blur)) saturate(106%);
-  -webkit-backdrop-filter: blur(var(--qidu-glass-blur)) saturate(106%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Requested title baselines. */
@@ -3804,28 +3804,28 @@ html.motion-enabled .case-reveal-screen.is-case-active .qidu-gallery-card {
   z-index: 1;
   opacity: 0;
   transform: scale(1.055);
-  filter: brightness(.62) blur(var(--yangming-scene-blur));
-  transition: opacity .9s cubic-bezier(.22, .75, .28, 1), filter .62s var(--motion-ease);
-  will-change: opacity, filter;
+  filter: none;
+  transition: opacity .9s cubic-bezier(.22, .75, .28, 1);
+  will-change: opacity;
 }
 
 #yangming .yangming-scene-layer.is-active { opacity: 1; }
-#yangming .yangming-scene-layer[data-scene="04"] { filter: brightness(.54) blur(var(--yangming-scene-blur)); }
-#yangming .yangming-scene-layer[data-scene="05"] { filter: brightness(.5) blur(var(--yangming-scene-blur)); }
+#yangming .yangming-scene-layer[data-scene="04"] { filter: none; }
+#yangming .yangming-scene-layer[data-scene="05"] { filter: none; }
 
 .theme-dark #yangming .project-intro,
 .theme-dark #yangming .screen {
   background: rgba(7, 9, 7, .2);
-  backdrop-filter: blur(var(--yangming-scene-blur)) saturate(108%);
-  -webkit-backdrop-filter: blur(var(--yangming-scene-blur)) saturate(108%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .theme-dark #yangming .screen:nth-of-type(4) { background: rgba(5, 8, 6, .3); }
 .theme-dark #yangming .screen:nth-of-type(5) { background: rgba(5, 7, 5, .36); }
 .theme-dark #yangming .ideas-screen {
   background: rgba(5, 7, 6, .24);
-  backdrop-filter: blur(16px) saturate(112%);
-  -webkit-backdrop-filter: blur(16px) saturate(112%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 #yangming .yangming-plan-media {
@@ -3843,8 +3843,8 @@ html.motion-enabled .case-reveal-screen.is-case-active .qidu-gallery-card {
 
 .theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7) {
   background: rgba(8, 8, 8, .22);
-  backdrop-filter: blur(14px) saturate(108%);
-  -webkit-backdrop-filter: blur(14px) saturate(108%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 html.motion-enabled #binrongfu .case-reveal-screen .binrong-entry-media {
@@ -3928,7 +3928,7 @@ html.motion-enabled #binrongfu .binrong-text-motion-screen.is-case-active .terra
 
 /* V16: final annotation pass — precise case layouts, glass chapters, and waterfall reveals. */
 #yangming .yangming-scene-layer[data-scene="04"] {
-  filter: brightness(.65) blur(var(--yangming-scene-blur));
+  filter: none;
 }
 
 #yangming .case-template-four--screen .idea-card:nth-child(3) .idea-card-copy {
@@ -3948,8 +3948,8 @@ html.motion-enabled #binrongfu .binrong-text-motion-screen.is-case-active .terra
 .theme-dark #yuelongwan .screen:nth-of-type(7),
 .theme-dark #yuelongwan .screen:nth-of-type(8) {
   background: rgba(8, 10, 9, .22);
-  backdrop-filter: blur(14px) saturate(108%);
-  -webkit-backdrop-filter: blur(14px) saturate(108%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .theme-dark #qidu .closing-screen {
@@ -4123,8 +4123,8 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
 
 .theme-dark #yangming .ideas-screen {
   background: rgba(5, 7, 6, .28);
-  backdrop-filter: blur(18px) saturate(112%);
-  -webkit-backdrop-filter: blur(18px) saturate(112%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 #yangming .concept-system-layout .concept-lead {
@@ -4145,14 +4145,14 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
 
 .theme-dark #yuelongwan .screen:nth-of-type(5) {
   background: rgba(8, 10, 9, .22);
-  backdrop-filter: blur(14px) saturate(108%);
-  -webkit-backdrop-filter: blur(14px) saturate(108%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7) {
   background: rgba(8, 8, 8, .22);
-  backdrop-filter: blur(14px) saturate(108%);
-  -webkit-backdrop-filter: blur(14px) saturate(108%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -4298,45 +4298,45 @@ html.motion-enabled .case-page .case-reveal-screen.is-case-active .waterfall-rev
 #binrongfu .case-scene-backdrop img,
 #yuelongwan .case-scene-backdrop img {
   transform: scale(1.055);
-  transition: filter .62s var(--motion-ease);
-  will-change: filter;
+  transition: opacity .62s var(--motion-ease);
+  will-change: opacity;
 }
 
 #binrongfu .case-scene-backdrop img {
-  filter: brightness(.7) blur(var(--requested-scene-blur));
+  filter: brightness(.7);
 }
 
 #yuelongwan .case-scene-backdrop img {
-  filter: brightness(.72) blur(var(--requested-scene-blur));
+  filter: brightness(.72);
 }
 
 #yangming .yangming-scene-layer {
-  filter: brightness(.62) blur(calc(var(--yangming-scene-blur) + var(--requested-scene-blur)));
+  filter: none;
 }
 
 #yangming .yangming-scene-layer[data-scene="04"] {
-  filter: brightness(.65) blur(calc(var(--yangming-scene-blur) + var(--requested-scene-blur)));
+  filter: none;
 }
 
 #yangming .yangming-scene-layer[data-scene="05"] {
-  filter: brightness(.5) blur(calc(var(--yangming-scene-blur) + var(--requested-scene-blur)));
+  filter: none;
 }
 
 .theme-dark #yuelongwan .screen:nth-of-type(2),
 .theme-dark #yuelongwan .screen:nth-of-type(3),
 .theme-dark #yuelongwan .screen:nth-of-type(n + 5):nth-of-type(-n + 8) {
   background: rgba(7, 7, 7, .12);
-  backdrop-filter: blur(var(--requested-glass-blur)) saturate(106%);
-  -webkit-backdrop-filter: blur(var(--requested-glass-blur)) saturate(106%);
-  transition: backdrop-filter .62s var(--motion-ease), -webkit-backdrop-filter .62s var(--motion-ease);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: none;
 }
 
 .theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7),
 .theme-dark #yangming .screen:nth-of-type(6) {
   background: rgba(7, 7, 7, .12);
-  backdrop-filter: blur(var(--requested-glass-blur)) saturate(106%);
-  -webkit-backdrop-filter: blur(var(--requested-glass-blur)) saturate(106%);
-  transition: backdrop-filter .62s var(--motion-ease), -webkit-backdrop-filter .62s var(--motion-ease);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: none;
 }
 
 #qidu .qidu-overview-plan,
@@ -4525,5 +4525,174 @@ html.motion-enabled #qidu .qidu-overview-plan {
     flex-grow: 1.65;
     opacity: 1;
     transform: translateY(-16px) scale(1.02);
+  }
+}
+
+/* V22: extend YueLongWan's compositor-friendly glass treatment to the other case pages.
+   Each case keeps a clear image and a separately rasterized, fixed-strength blur image.
+   Scroll only changes opacity; content never sits inside a filtered ancestor. */
+#yangming,
+#qidu,
+#binrongfu,
+#daye,
+#small-ideas {
+  --case-glass-progress: 0;
+}
+
+.case-scene-backdrop--layered .case-scene-image {
+  transform: scale(1.055);
+  transition: opacity .62s var(--motion-ease);
+  will-change: opacity;
+}
+
+#binrongfu .case-scene-backdrop--layered .case-scene-image--clear,
+#qidu .case-scene-backdrop--layered .case-scene-image--clear,
+#small-ideas .case-scene-backdrop--layered .case-scene-image--clear {
+  opacity: calc(1 - var(--requested-glass-progress, 0));
+}
+
+#binrongfu .case-scene-backdrop--layered .case-scene-image--blurred,
+#qidu .case-scene-backdrop--layered .case-scene-image--blurred,
+#small-ideas .case-scene-backdrop--layered .case-scene-image--blurred {
+  opacity: var(--requested-glass-progress, 0);
+}
+
+#binrongfu .case-scene-backdrop--layered .case-scene-image--clear { filter: brightness(.7); }
+#binrongfu .case-scene-backdrop--layered .case-scene-image--blurred { filter: brightness(.7) blur(14px); }
+#qidu .case-scene-backdrop--layered .case-scene-image--clear { filter: brightness(.7); }
+#qidu .case-scene-backdrop--layered .case-scene-image--blurred { filter: brightness(.7) blur(14px); }
+
+#qidu .case-scene-backdrop--layered .case-scene-image--clear {
+  opacity: calc(1 - var(--qidu-glass-progress, 0));
+}
+
+#qidu .case-scene-backdrop--layered .case-scene-image--blurred {
+  opacity: var(--qidu-glass-progress, 0);
+}
+
+#small-ideas {
+  --small-ideas-progress: 0;
+}
+
+#small-ideas .case-scene-backdrop--layered .case-scene-image--clear {
+  filter: brightness(.82);
+  opacity: calc(1 - var(--small-ideas-progress, 0));
+}
+
+#small-ideas .case-scene-backdrop--layered .case-scene-image--blurred {
+  filter: brightness(.82) blur(14px);
+  opacity: var(--small-ideas-progress, 0);
+}
+
+#yangming .yangming-scene-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.055);
+  filter: none;
+  transition: opacity .9s cubic-bezier(.22, .75, .28, 1);
+  will-change: opacity;
+}
+
+#yangming .yangming-scene-layer.is-active { opacity: 1; }
+#yangming .yangming-scene-layer[data-scene] { filter: none; }
+
+#yangming .yangming-scene-image {
+  position: absolute;
+  inset: -24px;
+  display: block;
+  width: calc(100% + 48px);
+  height: calc(100% + 48px);
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.025);
+  transition: opacity .22s var(--motion-ease);
+  will-change: opacity;
+}
+
+#yangming .yangming-scene-image--clear {
+  opacity: calc(1 - max(var(--yangming-blur-progress, 0), var(--requested-glass-progress, 0)));
+  filter: brightness(.62);
+}
+
+#yangming .yangming-scene-image--blurred {
+  opacity: max(var(--yangming-blur-progress, 0), var(--requested-glass-progress, 0));
+  filter: brightness(.62) blur(14px);
+}
+
+#yangming .yangming-scene-layer[data-scene="04"] .yangming-scene-image--clear { filter: brightness(.54); }
+#yangming .yangming-scene-layer[data-scene="04"] .yangming-scene-image--blurred { filter: brightness(.54) blur(14px); }
+#yangming .yangming-scene-layer[data-scene="05"] .yangming-scene-image--clear { filter: brightness(.5); }
+#yangming .yangming-scene-layer[data-scene="05"] .yangming-scene-image--blurred { filter: brightness(.5) blur(14px); }
+
+#daye {
+  --daye-glass-progress: 0;
+}
+
+#daye > .daye-scene-backdrop::before,
+#daye > .daye-scene-backdrop::after {
+  display: none;
+}
+
+#daye > .daye-scene-backdrop::after {
+  display: block;
+  z-index: 2;
+  background: rgba(8, 8, 8, .34);
+  transform: none;
+  filter: none;
+  transition: none;
+}
+
+#daye .daye-scene-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .9s var(--motion-ease);
+  will-change: opacity;
+}
+
+#daye .daye-scene-layer-primary { opacity: 1; }
+#daye.daye-after-direction .daye-scene-layer-primary { opacity: 0; }
+#daye.daye-after-direction .daye-scene-layer-secondary { opacity: 1; }
+
+#daye .daye-scene-image {
+  position: absolute;
+  inset: -30px;
+  display: block;
+  width: calc(100% + 60px);
+  height: calc(100% + 60px);
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.055);
+  transition: opacity .22s var(--motion-ease);
+  will-change: opacity;
+}
+
+#daye .daye-scene-image--clear {
+  opacity: calc(1 - var(--daye-glass-progress, 0));
+  filter: brightness(.72);
+}
+
+#daye .daye-scene-image--blurred {
+  opacity: var(--daye-glass-progress, 0);
+  filter: brightness(.72) blur(14px);
+}
+
+#small-ideas .idea-card-stage,
+.theme-dark #yangming .project-intro,
+.theme-dark #yangming .screen,
+.theme-dark #qidu .project-intro,
+.theme-dark #qidu .screen,
+.theme-dark #binrongfu .screen:nth-of-type(n + 3):nth-of-type(-n + 7) {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: none;
+}
+
+@media (max-width: 900px) {
+  .case-scene-backdrop--layered .case-scene-image,
+  #yangming .yangming-scene-image,
+  #daye .daye-scene-image {
+    transition-duration: .38s;
   }
 }
