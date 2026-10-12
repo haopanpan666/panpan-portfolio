@@ -435,8 +435,12 @@ function SelectedWorks() {
   )
 }
 
-function CaseBackdrop({ src }) {
-  return <div className="case-scene-backdrop" aria-hidden="true"><img src={optimizedAsset(src)} alt="" loading="eager" fetchPriority="high" decoding="async" /></div>
+function CaseBackdrop({ src, layered = false }) {
+  const asset = optimizedAsset(src)
+  return <div className={`case-scene-backdrop${layered ? ' case-scene-backdrop--layered' : ''}`} aria-hidden="true">
+    <img className={layered ? 'case-scene-image case-scene-image--clear' : undefined} src={asset} alt="" loading="eager" fetchPriority="high" decoding="async" />
+    {layered && <img className="case-scene-image case-scene-image--blurred" src={asset} alt="" loading="eager" fetchPriority="high" decoding="async" />}
+  </div>
 }
 
 function useRequestedCaseGlass(sectionRef, screenSelector) {
@@ -664,7 +668,7 @@ function YuelongCase({ onPreview }) {
 
   return (
     <section className="case-section texture-section" id="yuelongwan" ref={sectionRef}>
-      <CaseBackdrop src="/assets/projects/yuelong/backdrop-optimized.jpg" />
+      <CaseBackdrop src="/assets/projects/yuelong/backdrop-optimized.jpg" layered />
       <ProjectIntro number="02" name="余姚悦龙湾" title="两栋房子之间" english="Designing the In-Between" summary="在接待与起居、车行与花园、现代与日式之间，为两栋用途不同的别墅建立一个完整而自然的空间系统。" tags={['私宅景观 Residential Landscape', '空间系统 Spatial System', '体验组织 Experience Planning']} />
       <Screen number="01" label="PROJECT INFO｜项目信息" className="overview-screen">
         <div className="screen-columns two-col"><div><p className="display-note">两栋房子之间</p><p className="small-english">DESIGNING THE IN-BETWEEN</p></div><div><MetaList items={[
@@ -677,7 +681,7 @@ function YuelongCase({ onPreview }) {
       <Screen number="05" label="ARRIVAL & PARKING｜停车与到达之间" className="case-template-one-screen yuelong-editorial-screen yuelong-arrival-screen"><CaseTemplateOne item={yuelongMedia.arrival} onPreview={onPreview} eyebrow="ARRIVAL & PARKING" title="停车与到达之间"><p>两栋建筑之间的连接空间尺度有限，却同时需要承担进入、到达、停车、转向，以及继续前往另一栋建筑。</p><p>设计将停车功能直接整合进入户花园，让两栋建筑前的空间同时承担<strong>到达与临时停车</strong>。车辆离开后，它重新成为完整的建筑入户空间。</p><p className="bilingual-line">Arrival Garden ↔ Parking<br />入户空间 ↔ 停车空间</p><Quote>面对不同需求，不一定需要不断增加空间；合理的复合使用同样可以给出答案。</Quote></CaseTemplateOne></Screen>
       <Screen number="06" label="INSIDE & OUTSIDE｜室内与室外之间" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.insideOne, yuelongMedia.insideTwo]} onPreview={onPreview} eyebrow="INSIDE & OUTSIDE" title="室内与室外之间"><p>起居建筑南侧的大面积落地玻璃直接面向休闲花园，镜面水景贴近建筑展开，植物与河岸景观继续向外延伸。</p><p>另一处接口位于地下层采光井。在满足采光和通风的基础上，高吧家具、大型花器与棕榈把地下生活向户外延伸。</p><p className="bilingual-line">Lightwell → Semi-outdoor Lounge<br />采光井 → 半户外休闲空间</p></CaseTemplateThree></Screen>
       <Screen number="07" label="MODERN & JAPANESE｜现代与日式之间" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.modernOne, yuelongMedia.modernTwo]} onPreview={onPreview} eyebrow="MODERN & JAPANESE" title="现代与日式之间"><p>业主偏爱日式庭院，但两栋建筑本身具有明显的现代海派 / 现代法式气质。与其在两种风格之间做选择，我们更关注它们之间的<strong>过渡</strong>。</p><Quote>人怎样从一种空间状态，自然地进入另一种状态？</Quote><p className="bilingual-line">FORMAL → NATURAL<br />正式 → 自然</p></CaseTemplateThree></Screen>
-      <Screen number="08" label="A DIFFERENT POINT OF VIEW｜改变观看花园的位置" className="case-template-three-screen yuelong-gallery-screen"><CaseTemplateThree items={[yuelongMedia.main, yuelongMedia.viewpoint]} onPreview={onPreview} eyebrow="A DIFFERENT POINT OF VIEW" title="改变观看花园的位置"><p>在主花园最远的一角，我们设置了一座相对独立的休闲亭。它承担喝茶、棋牌与日常停留，也改变了人观看整个花园的位置。</p><p>当人穿过草坪到达亭子，观看方向第一次发生反转。</p><p className="bilingual-line">House → Garden → Pavilion → Look Back<br />建筑 → 花园 → 亭子 → 回望</p></CaseTemplateThree></Screen>
+      <Screen number="08" label="A DIFFERENT POINT OF VIEW｜改变观看花园的位置" className="case-template-one-screen yuelong-editorial-screen yuelong-viewpoint-screen"><CaseTemplateOne item={yuelongMedia.main} onPreview={onPreview} eyebrow="A DIFFERENT POINT OF VIEW" title="改变观看花园的位置"><p>在主花园最远的一角，我们设置了一座相对独立的休闲亭。它承担喝茶、棋牌与日常停留，也改变了人观看整个花园的位置。</p><p>当人穿过草坪到达亭子，观看方向第一次发生反转。</p><p className="bilingual-line">House → Garden → Pavilion → Look Back<br />建筑 → 花园 → 亭子 → 回望</p></CaseTemplateOne></Screen>
       <Screen number="09" label="TAKEAWAY｜项目之后" className="closing-screen"><div className="closing-layout"><div><p className="screen-title">回到人与<span className="nowrap-title-unit">空间</span>的关系</p><p>这个项目最终需要处理的，是几组必须<strong>同时成立的关系</strong>：</p><p className="relation-stack">接待与起居——车行与花园——正式与松弛——室内与室外——现代与日式</p></div><div><Quote><strong>设计的价值，也可以来自对人与空间关系的重新安排。</strong></Quote><p className="italic-line">Designing relationships, not just spaces.</p><p className="bilingual-line">设计关系，而不只是空间。</p></div></div></Screen>
     </section>
   )
