@@ -933,7 +933,6 @@ body { font-family: var(--sans); }
   z-index: 1;
   color: var(--paper);
   background: var(--coral);
-  transition: clip-path 70ms linear;
 }
 .comparison-after small { color: rgba(243, 240, 232, .75); }
 .comparison-divider {
@@ -944,7 +943,6 @@ body { font-family: var(--sans); }
   width: 1px;
   background: var(--paper);
   transform: translateX(-50%);
-  transition: left 70ms linear;
   pointer-events: none;
 }
 .comparison-divider i {
@@ -4694,5 +4692,609 @@ html.motion-enabled #qidu .qidu-overview-plan {
   #yangming .yangming-scene-image,
   #daye .daye-scene-image {
     transition-duration: .38s;
+  }
+}
+
+/* Local review pass: typography, alignment, and viewport-stable editorial layout. */
+:root {
+  --ui-sans: 'Inter Variable', Inter, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.wordmark-subtitle {
+  font-family: var(--ui-sans);
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+
+.hero-english-title {
+  font-family: var(--ui-sans);
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+
+.screen-index small,
+.accent-label {
+  max-width: none;
+  white-space: nowrap;
+}
+
+.role-detail-grid > span,
+.role-detail-grid > p,
+.timeline article,
+.timeline .inline-list,
+.timeline .tag-list {
+  text-align: left;
+}
+
+.role-detail-grid > p { margin: 0; }
+.tag-list { justify-content: flex-start; align-items: flex-start; }
+
+.steps-grid > div { position: relative; }
+.steps-grid > div:not(:last-child)::after {
+  position: absolute;
+  z-index: 1;
+  top: 43px;
+  right: -22px;
+  color: var(--coral);
+  content: '→';
+  font-family: var(--ui-sans);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.outside-gallery-heading nav a {
+  white-space: nowrap;
+}
+
+@media (min-width: 901px) {
+  /* The image and the screen number now share the same left edge. The body width
+     is kept viewport-relative, but the offset is derived from the grid columns
+     instead of the former extra fixed 56px correction. */
+  .case-template-one-screen .screen-body {
+    width: calc(100% + 200px + clamp(42px, 6vw, 108px));
+    margin-left: calc(-200px - clamp(42px, 6vw, 108px));
+  }
+
+  #daye .daye-retail-screen:not(.daye-light-screen) .screen-body {
+    width: calc(100% + 200px + clamp(42px, 6vw, 108px));
+    margin-left: calc(-200px - clamp(42px, 6vw, 108px));
+  }
+
+  .case-template-one-screen .case-template-one-media {
+    margin-left: 0;
+  }
+
+  /* These two custom pages previously added independent pixel offsets, which
+     caused the layout to drift on different desktop widths. */
+  #yangming .yangming-plan-screen .screen-body,
+  #binrongfu .binrong-site-adjustment-screen .screen-body {
+    grid-template-columns: minmax(0, 1.7fr) minmax(320px, .7fr);
+  }
+
+  #yangming .yangming-plan-screen .case-template-one-media,
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-media {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  #yangming .yangming-plan-screen .case-template-one-aside,
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-aside {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    margin: 0;
+  }
+
+  #binrongfu .binrong-site-adjustment-screen .case-template-one-media img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  /* Keep the Yangming card copy inside the expanded hover area. */
+  #yangming .case-template-four--screen .idea-card-copy {
+    min-width: 0;
+    overflow: visible;
+  }
+
+  #yangming .case-template-four--screen .idea-card:hover .idea-card-copy > p,
+  #yangming .case-template-four--screen .idea-card:focus-visible .idea-card-copy > p {
+    max-height: 320px;
+    overflow: visible;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 900px) {
+  .steps-grid > div:not(:last-child)::after {
+    right: -18px;
+    font-size: 26px;
+  }
+
+  #yangming .case-template-four--screen .idea-card-copy {
+    min-width: 0;
+  }
+}
+
+/* Local review pass: typography, bilingual quick info, and desktop case grids. */
+.meta-english {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-family: var(--ui-sans);
+  font-size: .88em;
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.hero-english-title {
+  font-size: clamp(24px, 1.94vw, 35px);
+  font-weight: 300;
+}
+
+.steps-grid > div:not(:last-child)::after {
+  top: 43px;
+  right: -214px;
+  width: 200px;
+  height: 12px;
+  background:
+    linear-gradient(var(--coral), var(--coral)) left center / 100% 1px no-repeat,
+    linear-gradient(45deg, transparent 45%, var(--coral) 46%, var(--coral) 58%, transparent 59%) right center / 10px 10px no-repeat;
+  content: '';
+  font-size: 0;
+}
+
+@media (min-width: 901px) {
+  /* Browser review annotations specify a consistent 400px index rail. */
+  .case-page .screen,
+  .case-page .case-template-one-screen,
+  .case-page .case-template-three-screen {
+    grid-template-columns: 400px minmax(0, 1fr);
+  }
+
+  .case-page .screen-index,
+  .case-page .case-template-one-screen .screen-index,
+  .case-page .case-template-three-screen .screen-index {
+    width: 400px;
+  }
+
+  .case-page .case-template-one-screen .screen-body,
+  .case-page .case-template-three-screen .screen-body,
+  #daye .daye-retail-screen:not(.daye-light-screen) .screen-body {
+    width: calc(100% + 400px + clamp(42px, 6vw, 108px));
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+  }
+
+  /* Yuelong 03: three equal 370px cards, with the row sharing the index edge. */
+  #yuelongwan .yuelong-ideas-screen .screen-body {
+    width: 1130px;
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+  }
+
+  #yuelongwan .yuelong-ideas-screen .idea-card-row {
+    display: grid;
+    grid-template-columns: repeat(3, 370px);
+    gap: 10px;
+    width: 1130px;
+    height: auto;
+    min-height: 636px;
+    padding: 0;
+    align-items: start;
+  }
+
+  #yuelongwan .yuelong-ideas-screen .idea-card,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(1),
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(2),
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(3) {
+    width: 370px;
+    min-width: 370px;
+    margin-left: 0;
+    flex: none;
+  }
+
+  #yuelongwan .yuelong-ideas-screen .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(1) .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(2) .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(3) .idea-card-media {
+    width: 370px;
+    height: 636px;
+    min-height: 636px;
+    aspect-ratio: 370 / 636;
+  }
+
+  /* Keep the centered 1130px Yuelong row at equal page margins on wide screens. */
+  #yuelongwan .yuelong-ideas-screen {
+    padding-left: max(6.7vw, calc((100vw - 1130px) / 2));
+    padding-right: max(6.7vw, calc((100vw - 1130px) / 2));
+  }
+
+  /* Binrong 04–07 use the requested 1131 × 630 media frame. */
+  #binrongfu .screen:nth-of-type(4) .screen-body,
+  #binrongfu .screen:nth-of-type(5) .screen-body,
+  #binrongfu .screen:nth-of-type(6) .screen-body,
+  #binrongfu .screen:nth-of-type(7) .screen-body {
+    grid-template-columns: 1131px minmax(320px, 1fr);
+  }
+
+  #binrongfu .screen:nth-of-type(4) .case-template-one-media,
+  #binrongfu .screen:nth-of-type(5) .case-template-one-media,
+  #binrongfu .screen:nth-of-type(6) .case-template-one-media {
+    width: 1131px;
+    height: 630px;
+    max-width: none;
+    aspect-ratio: 1131 / 630;
+    margin-left: 0;
+  }
+
+  #binrongfu .screen:nth-of-type(4) .case-template-one-media img,
+  #binrongfu .screen:nth-of-type(5) .case-template-one-media img,
+  #binrongfu .screen:nth-of-type(6) .case-template-one-media img {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: cover;
+  }
+
+  #binrongfu .screen:nth-of-type(7) .case-template-three-gallery {
+    width: 1131px;
+    height: 630px;
+    max-width: none;
+    aspect-ratio: 1131 / 630;
+  }
+
+  #binrongfu .screen:nth-of-type(7) .case-template-three-card,
+  #binrongfu .screen:nth-of-type(7) .case-template-three-card img {
+    height: 630px;
+  }
+
+  #yuelongwan .yuelong-arrival-screen .case-template-one-copy > p:first-child {
+    padding-right: 14px;
+  }
+}
+
+@media (min-width: 901px) {
+  /* Page-specific ID rules above this block carry higher specificity; repeat
+     the shared offset here so every expanded case body meets its 400px rail. */
+  #yangming .case-template-one-screen .screen-body,
+  #yangming .case-template-three-screen .screen-body,
+  #yuelongwan .case-template-one-screen .screen-body,
+  #yuelongwan .case-template-three-screen .screen-body,
+  #qidu .case-template-one-screen .screen-body,
+  #qidu .case-template-three-screen .screen-body,
+  #binrongfu .case-template-one-screen .screen-body,
+  #binrongfu .case-template-three-screen .screen-body,
+  #daye .case-template-one-screen .screen-body,
+  #daye .case-template-three-screen .screen-body,
+  #daye .daye-retail-screen:not(.daye-light-screen) .screen-body {
+    width: calc(100% + 400px + clamp(42px, 6vw, 108px));
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+  }
+
+  /* Apply the 400px index rail to the exact annotated screens, including the
+     pages that retain their own 200px editorial grid elsewhere in the sheet. */
+  #yangming .screen:nth-of-type(-n + 7),
+  #yuelongwan .screen:nth-of-type(1),
+  #yuelongwan .screen:nth-of-type(3),
+  #yuelongwan .screen:nth-of-type(4),
+  #yuelongwan .screen:nth-of-type(5),
+  #yuelongwan .screen:nth-of-type(6),
+  #yuelongwan .screen:nth-of-type(7),
+  #yuelongwan .screen:nth-of-type(8),
+  #qidu .screen:nth-of-type(1),
+  #qidu .screen:nth-of-type(4),
+  #qidu .screen:nth-of-type(5),
+  #qidu .screen:nth-of-type(6),
+  #qidu .screen:nth-of-type(8),
+  #binrongfu .screen:nth-of-type(1),
+  #binrongfu .screen:nth-of-type(2),
+  #binrongfu .screen:nth-of-type(7),
+  #daye .screen:nth-of-type(1),
+  #daye .screen:nth-of-type(5),
+  #daye .screen:nth-of-type(6) {
+    grid-template-columns: 400px minmax(0, 1fr);
+  }
+
+  #yangming .screen:nth-of-type(-n + 7) .screen-index,
+  #yuelongwan .screen:nth-of-type(1) .screen-index,
+  #yuelongwan .screen:nth-of-type(3) .screen-index,
+  #yuelongwan .screen:nth-of-type(4) .screen-index,
+  #yuelongwan .screen:nth-of-type(5) .screen-index,
+  #yuelongwan .screen:nth-of-type(6) .screen-index,
+  #yuelongwan .screen:nth-of-type(7) .screen-index,
+  #yuelongwan .screen:nth-of-type(8) .screen-index,
+  #qidu .screen:nth-of-type(1) .screen-index,
+  #qidu .screen:nth-of-type(4) .screen-index,
+  #qidu .screen:nth-of-type(5) .screen-index,
+  #qidu .screen:nth-of-type(6) .screen-index,
+  #qidu .screen:nth-of-type(8) .screen-index,
+  #binrongfu .screen:nth-of-type(1) .screen-index,
+  #binrongfu .screen:nth-of-type(2) .screen-index,
+  #binrongfu .screen:nth-of-type(7) .screen-index,
+  #daye .screen:nth-of-type(1) .screen-index,
+  #daye .screen:nth-of-type(5) .screen-index,
+  #daye .screen:nth-of-type(6) .screen-index {
+    width: 400px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1499px) {
+  #yuelongwan .yuelong-ideas-screen {
+    padding-left: 6.7vw;
+    padding-right: 6.7vw;
+  }
+
+  #yuelongwan .yuelong-ideas-screen .screen-body,
+  #yuelongwan .yuelong-ideas-screen .idea-card-row {
+    width: min(1130px, calc(100vw - 13.4vw));
+  }
+
+  #yuelongwan .yuelong-ideas-screen .idea-card,
+  #yuelongwan .yuelong-ideas-screen .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(1) .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(2) .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(3) .idea-card-media {
+    width: calc((100% - 20px) / 3);
+    min-width: 0;
+  }
+
+  #yuelongwan .yuelong-ideas-screen .idea-card-media {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 370 / 636;
+  }
+
+  #binrongfu .screen:nth-of-type(4) .case-template-one-media,
+  #binrongfu .screen:nth-of-type(5) .case-template-one-media,
+  #binrongfu .screen:nth-of-type(6) .case-template-one-media,
+  #binrongfu .screen:nth-of-type(7) .case-template-three-gallery {
+    width: 100%;
+    max-width: 1131px;
+    height: auto;
+    aspect-ratio: 1131 / 630;
+  }
+
+  #binrongfu .screen:nth-of-type(4) .case-template-one-media img,
+  #binrongfu .screen:nth-of-type(5) .case-template-one-media img,
+  #binrongfu .screen:nth-of-type(6) .case-template-one-media img,
+  #binrongfu .screen:nth-of-type(7) .case-template-three-card,
+  #binrongfu .screen:nth-of-type(7) .case-template-three-card img {
+    height: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-english-title { font-size: clamp(20px, 8vw, 34px); }
+
+  .steps-grid > div:not(:last-child)::after {
+    right: -102px;
+    width: 96px;
+  }
+
+  .meta-english { font-size: .9em; }
+}
+
+/* Browser review annotations: final desktop alignment pass. */
+@media (min-width: 901px) {
+  /* ABOUT ME keeps the annotated 22px label box without changing the mobile rhythm. */
+  #quick-info .info-headline > span {
+    height: 22px;
+    padding-top: 6px;
+    box-sizing: border-box;
+  }
+
+  /* Yangming 06: the three cards share the 400px index edge and the requested
+     539.2px content width. The 20.2px gap is the exact remainder for a
+     1668px border-box row after the 10px left inset. */
+  #yangming .ideas-screen .screen-body {
+    width: calc(100% + 400px + clamp(42px, 6vw, 108px));
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+  }
+  #yangming .ideas-screen .idea-card-row {
+    width: 1668px;
+    padding-left: 10px;
+    gap: 20.2px;
+    box-sizing: border-box;
+  }
+  #yangming .ideas-screen .idea-card,
+  #yangming .ideas-screen .idea-card:nth-child(1),
+  #yangming .ideas-screen .idea-card:nth-child(2),
+  #yangming .ideas-screen .idea-card:nth-child(3) {
+    width: 539.2px;
+    min-width: 539.2px;
+    flex: 0 0 539.2px;
+  }
+  #yangming .ideas-screen .idea-card-media,
+  #yangming .ideas-screen .idea-card-copy {
+    width: 539.2px;
+  }
+
+  #yangming .overview-screen > .screen-body {
+    margin-left: -160px;
+  }
+  #yangming .overview-screen .screen-columns.two-col > div:nth-child(2) {
+    margin-left: 60px;
+  }
+  #yangming .overview-screen .role-block .tag-list {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  #yangming .overview-screen .role-block .tag-list span {
+    padding: 0 18px 0 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  /* Qidu overview: keep the plan/meta group coherent while the lower image
+     strip reaches the viewport's left edge. */
+  #qidu .qidu-overview-layout {
+    margin-left: -400px;
+  }
+  #qidu .qidu-overview-areas {
+    left: calc(-1 * max(var(--page-padding), calc((100vw - var(--layout-max)) / 2)));
+    margin-left: 0;
+  }
+
+  /* Qidu 05, 06 and 08 inherit the same expanded editorial grid as 07. */
+  #qidu .screen:nth-of-type(5),
+  #qidu .screen:nth-of-type(6),
+  #qidu .screen:nth-of-type(8) {
+    grid-template-columns: 400px minmax(0, 1fr);
+  }
+  #qidu .screen:nth-of-type(5) .screen-index,
+  #qidu .screen:nth-of-type(6) .screen-index,
+  #qidu .screen:nth-of-type(8) .screen-index {
+    width: 400px;
+  }
+  #qidu .screen:nth-of-type(5) .screen-body,
+  #qidu .screen:nth-of-type(6) .screen-body,
+  #qidu .screen:nth-of-type(8) .screen-body {
+    width: calc(100% + 400px + clamp(42px, 6vw, 108px));
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+  }
+
+  /* Daye 02, 04 and 07 reuse Qidu 07's image-left / copy-right chapter rule. */
+  #daye .screen:nth-of-type(2),
+  #daye .screen:nth-of-type(4),
+  #daye .screen:nth-of-type(7) {
+    grid-template-columns: 400px minmax(0, 1fr);
+  }
+  #daye .screen:nth-of-type(2) .screen-index,
+  #daye .screen:nth-of-type(4) .screen-index,
+  #daye .screen:nth-of-type(7) .screen-index {
+    width: 400px;
+  }
+  #daye .screen:nth-of-type(2) .screen-body,
+  #daye .screen:nth-of-type(4) .screen-body,
+  #daye .screen:nth-of-type(7) .screen-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(320px, .7fr);
+    grid-template-rows: auto;
+    gap: clamp(32px, 3.4vw, 62px) clamp(28px, 4vw, 72px);
+    width: calc(100% + 400px + clamp(42px, 6vw, 108px));
+    margin-top: 190px;
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+    align-items: start;
+  }
+  #daye .screen:nth-of-type(2) .daye-retail-media,
+  #daye .screen:nth-of-type(4) .case-template-one-media,
+  #daye .screen:nth-of-type(7) .daye-retail-media {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    margin: 0;
+  }
+  #daye .screen:nth-of-type(2) .daye-retail-aside,
+  #daye .screen:nth-of-type(4) .case-template-one-aside,
+  #daye .screen:nth-of-type(7) .daye-retail-aside {
+    display: flex;
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: clamp(28px, 3.2vw, 52px);
+    align-self: start;
+  }
+  #daye .screen:nth-of-type(2) .daye-retail-aside > *,
+  #daye .screen:nth-of-type(4) .case-template-one-aside > *,
+  #daye .screen:nth-of-type(7) .daye-retail-aside > * {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  #daye .screen:nth-of-type(2) .daye-retail-aside .screen-title,
+  #daye .screen:nth-of-type(4) .case-template-one-aside .screen-title,
+  #daye .screen:nth-of-type(7) .daye-retail-aside .screen-title {
+    margin-top: 0;
+  }
+
+  /* Daye 05: align the light / haze module to the 400px screen-index edge. */
+  #daye .screen:nth-of-type(5) .screen-body {
+    width: calc(100% + 400px + clamp(42px, 6vw, 108px));
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+  }
+
+  /* Daye overview: the quote follows the shifted two-column content edge. */
+  #daye .overview-screen .screen-columns.two-col {
+    margin-left: -110px;
+    margin-right: 110px;
+  }
+  #daye .overview-screen > .screen-body > .editorial-quote {
+    width: auto;
+    max-width: none;
+    margin-left: -110px;
+    margin-right: 110px;
+    padding-left: 0;
+  }
+}
+
+/* Latest browser review annotations and the pointer-synchronous comparison. */
+@media (min-width: 901px) {
+  /* The overview strip now starts at the viewport edge, with its image pair
+     inset by the requested 64px. */
+  #qidu .qidu-overview-layout {
+    margin-left: -464px;
+  }
+  #qidu .qidu-overview-areas {
+    margin-left: 64px;
+  }
+
+  #yangming .overview-screen .role-block .tag-list {
+    height: 20.8px;
+  }
+  #yangming .overview-screen > .screen-body > .editorial-quote {
+    max-width: 675px;
+  }
+
+  /* Yuelong 03 follows the expanded three-card rhythm used by Yangming 06,
+     while the min() width keeps the same rule fluid below the review viewport. */
+  #yuelongwan .yuelong-ideas-screen {
+    padding-left: max(var(--page-padding), calc((100vw - var(--layout-max)) / 2));
+    padding-right: max(var(--page-padding), calc((100vw - var(--layout-max)) / 2));
+  }
+  #yuelongwan .yuelong-ideas-screen .screen-body {
+    width: min(1668px, calc(100vw - 2 * max(var(--page-padding), calc((100vw - var(--layout-max)) / 2))));
+    margin-left: calc(-400px - clamp(42px, 6vw, 108px));
+  }
+  #yuelongwan .yuelong-ideas-screen .idea-card-row {
+    display: flex;
+    width: 100%;
+    height: 820px;
+    min-height: 0;
+    padding: 185px 0 40px 10px;
+    gap: clamp(12px, 1.116vw, 20.2px);
+    box-sizing: border-box;
+    align-items: flex-start;
+  }
+  #yuelongwan .yuelong-ideas-screen .idea-card,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(1),
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(2),
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(3) {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 0;
+  }
+  #yuelongwan .yuelong-ideas-screen .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card-copy {
+    width: 100%;
+  }
+  #yuelongwan .yuelong-ideas-screen .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(1) .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(2) .idea-card-media,
+  #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(3) .idea-card-media {
+    width: 100%;
+    height: 390px;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+
+  #yuelongwan .yuelong-arrival-screen .case-template-one-copy > .editorial-quote {
+    font-size: 18px;
   }
 }

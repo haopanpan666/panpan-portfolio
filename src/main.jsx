@@ -33,7 +33,7 @@ function SiteHeader({ theme = 'light' }) {
     <header className={`site-header ${theme === 'dark' ? 'is-dark' : ''}`}>
       <Link className="wordmark" to="/" aria-label="返回首页">
         <span>PANPAN</span>
-        <small>CREATIVE PLANNING / EXPERIENCE DESIGN</small>
+        <small className="wordmark-subtitle">CREATIVE PLANNING / EXPERIENCE DESIGN</small>
       </Link>
       <nav aria-label="页面导航">
         {navItems.map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}
@@ -137,17 +137,17 @@ function QuickInfo() {
           <img src={optimizedAsset('/assets/profile.jpg')} alt="个人形象照" />
         </figure>
         <div className="info-content">
-          <div className="info-headline"><span>ABOUT ME</span><strong>27</strong></div>
+          <div className="info-headline"><span>ABOUT ME</span></div>
           <h2>QUICK<br /><em>INFO</em></h2>
           <div className="info-columns">
             <MetaList items={[
               ['AGE', '27'],
-              ['BASE', '杭州 Hangzhou'],
-              ['EDUCATION', <>浙江大学 · 艺术学学士<br />Zhejiang University · Bachelor of Arts</>],
+              ['BASE', <>杭州<br /><span className="meta-english">Hangzhou</span></>],
+              ['EDUCATION', <>浙江大学 · 艺术学学士<br /><span className="meta-english">Zhejiang University · Bachelor of Arts</span></>],
             ]} />
             <MetaList items={[
-              ['BACKGROUND', '景观 / 空间设计 · 全流程项目经验'],
-              ['CURRENT INTEREST', '体验策划 / 文旅 / 空间叙事 / 项目落地'],
+              ['BACKGROUND', <>景观 / 空间设计 · 全流程项目经验<br /><span className="meta-english">Landscape / Spatial Design · Full-process Project Experience</span></>],
+              ['CURRENT INTEREST', <>体验策划 / 文旅 / 空间叙事 / 项目落地<br /><span className="meta-english">Experience Planning / Cultural Tourism / Spatial Narrative / Project Delivery</span></>],
             ]} />
           </div>
           <div className="info-links">
@@ -881,7 +881,7 @@ function DayeCase({ onPreview }) {
           <img className="daye-scene-image daye-scene-image--blurred" src={optimizedAsset(dayeSpatialAsset)} alt="" loading="lazy" fetchPriority="low" decoding="async" />
         </div>
       </div>
-      <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['Cultural Tourism', 'Exhibition', 'Sensory Experience']} imageSrc={dayeHeroAsset} imageAlt="芳香展馆空间效果图" />
+      <ProjectIntro number="05" name="湖北大冶芳香产业文化展馆" title="让无形的香气被感知" english="Making the Invisible Perceptible" summary="尝试用曲线、透明材质、投影、雾与光，把无形的“香”转译成可被身体感知的空间体验。" tags={['文旅 / Cultural Tourism', '展陈 / Exhibition', '感官体验 / Sensory Experience']} imageSrc={dayeHeroAsset} imageAlt="芳香展馆空间效果图" />
       <Screen number="01" label="PROJECT OVERVIEW｜项目概览" className="overview-screen daye-overview-screen"><div className="screen-columns two-col"><div><p className="display-note">让无形的香气被感知</p><p className="small-english">MAKING THE INVISIBLE PERCEPTIBLE</p></div><div><MetaList items={[
         ['项目名称｜PROJECT', '湖北大冶芳香产业文化展馆'], ['项目类型｜TYPE', '产业文化展馆 / 文旅展陈空间'], ['项目时间｜YEAR', '2022'], ['项目状态｜STATUS', <>概念方案 / 未建成<br /><i>Concept Proposal / Unbuilt</i></>], ['我的角色｜ROLE', '方案设计 / 效果呈现'],
       ]} /></div></div><Quote>一种看不见、摸不到的感受，如何被转译成可以被身体感知的空间体验？</Quote></Screen>
@@ -951,10 +951,10 @@ function HowIWork() {
 }
 
 const photographyGroups = [
-  { id: 'street', label: 'STREET', title: 'Street Photography｜街头摄影', text: '城市、建筑、人和偶然出现的瞬间。', ratios: ['4 / 5', '3 / 2', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1'] },
-  { id: 'landscape', label: 'LANDSCAPE', title: 'Landscape Photography｜风光摄影', text: '自然、天气、植物、动物与安静的空间关系。', ratios: ['3 / 2', '4 / 5', '16 / 10', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '16 / 10', '2 / 3', '4 / 3', '3 / 2'] },
-  { id: 'interior', label: 'INTERIOR', title: 'Interior Photography｜室内摄影', text: '室内空间、生活细节、光线与物件。', ratios: ['4 / 5', '1 / 1', '3 / 2', '2 / 3'] },
-  { id: 'film', label: 'FILM', title: 'Film Photography｜胶片摄影', text: '以胶片记录旅行、日常观察。', ratios: ['3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3'] },
+  { id: 'street', label: 'STREET', zh: '街头', title: 'Street Photography｜街头摄影', text: '城市、建筑、人和偶然出现的瞬间。', ratios: ['4 / 5', '3 / 2', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1'] },
+  { id: 'landscape', label: 'LANDSCAPE', zh: '风光', title: 'Landscape Photography｜风光摄影', text: '自然、天气、植物、动物与安静的空间关系。', ratios: ['3 / 2', '4 / 5', '16 / 10', '1 / 1', '2 / 3', '4 / 3', '3 / 2', '4 / 5', '1 / 1', '16 / 10', '2 / 3', '4 / 3', '3 / 2'] },
+  { id: 'interior', label: 'INTERIOR', zh: '室内', title: 'Interior Photography｜室内摄影', text: '室内空间、生活细节、光线与物件。', ratios: ['4 / 5', '1 / 1', '3 / 2', '2 / 3'] },
+  { id: 'film', label: 'FILM', zh: '胶片', title: 'Film Photography｜胶片摄影', text: '以胶片记录旅行、日常观察。', ratios: ['3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3', '1 / 1', '4 / 5', '3 / 2', '2 / 3'] },
 ]
 
 const craftSlots = ['4 / 5', '1 / 1', '3 / 2', '2 / 3', '4 / 3', '4 / 5', '3 / 2', '1 / 1']
@@ -1016,7 +1016,7 @@ function PhotographySection({ onPreview }) {
     return () => observer.disconnect()
   }, [])
 
-  return <section className="outside-gallery-section texture-section" id="photography"><aside className="outside-gallery-heading"><span>OUTSIDE 01</span><h2>摄影</h2><p>Photography</p><nav aria-label="摄影分类">{photographyGroups.map((group) => <a className={activeCategory === group.id ? 'is-active' : ''} href={`#photo-${group.id}`} key={group.id}>{group.label}</a>)}</nav></aside><div className="outside-gallery-stream">{photographyGroups.map((group) => <section className="photo-category" id={`photo-${group.id}`} data-photo-category={group.id} key={group.id}><header><h3>{group.title}</h3><p>{group.text}</p></header><MasonryGrid ratios={group.ratios} prefix={group.label} onPreview={onPreview} /></section>)}</div></section>
+  return <section className="outside-gallery-section texture-section" id="photography"><aside className="outside-gallery-heading"><span>OUTSIDE 01</span><h2>摄影</h2><p>Photography</p><nav aria-label="摄影分类">{photographyGroups.map((group) => <a className={activeCategory === group.id ? 'is-active' : ''} href={`#photo-${group.id}`} key={group.id}>{group.label}｜{group.zh}</a>)}</nav></aside><div className="outside-gallery-stream">{photographyGroups.map((group) => <section className="photo-category" id={`photo-${group.id}`} data-photo-category={group.id} key={group.id}><header><h3>{group.title}</h3><p>{group.text}</p></header><MasonryGrid ratios={group.ratios} prefix={group.label} onPreview={onPreview} /></section>)}</div></section>
 }
 
 function CraftSection({ onPreview }) {
@@ -1047,7 +1047,7 @@ function BeforeAfterComparison() {
     if (event.key === 'ArrowRight') setReveal((value) => Math.min(100, value + 5))
   }
 
-  return <div className="before-after-comparison" role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src={optimizedAsset('/assets/gallery/room/before.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span></div><div className="comparison-layer comparison-after" style={{ clipPath: `inset(0 0 0 ${reveal}%)` }}><img src={optimizedAsset('/assets/gallery/room/after.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span></div><div className="comparison-divider" style={{ left: `${reveal}%` }} aria-hidden="true"><i>↔</i></div></div>
+  return <div className="before-after-comparison" style={{ '--compare-position': `${reveal}%` }} role="slider" tabIndex="0" aria-label="房间改造前后对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(reveal)} aria-valuetext={`Before ${Math.round(reveal)}%`} onKeyDown={handleKeyDown} onPointerDown={(event) => { setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); updateReveal(event) }} onPointerMove={updateReveal} onPointerUp={(event) => { setDragging(false); event.currentTarget.releasePointerCapture(event.pointerId) }} onPointerCancel={() => setDragging(false)} onPointerLeave={() => { if (!dragging) setReveal(50) }}><div className="comparison-layer comparison-before"><img src={optimizedAsset('/assets/gallery/room/before.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>BEFORE</span></div><div className="comparison-layer comparison-after" style={{ clipPath: 'inset(0 0 0 var(--compare-position))' }}><img src={optimizedAsset('/assets/gallery/room/after.jpg')} alt="" draggable="false" onError={(event) => event.currentTarget.remove()} /><span>AFTER</span></div><div className="comparison-divider" style={{ left: 'var(--compare-position)' }} aria-hidden="true"><i>↔</i></div></div>
 }
 
 function RoomMakeoverSection({ onPreview }) {
