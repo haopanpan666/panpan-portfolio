@@ -5298,3 +5298,62 @@ html.motion-enabled #qidu .qidu-overview-plan {
     font-size: 18px;
   }
 }
+
+/* Desktop hover sizing for the three-card idea systems. The existing hover
+   transform/opacity rules stay intact; flex-basis supplies the real layout
+   width so the active image is not enlarged by scale alone. */
+@media (min-width: 1200px) and (hover: hover) and (pointer: fine) {
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-row,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-row {
+    width: min(1668px, calc(100vw - 2 * max(var(--page-padding), calc((100vw - var(--layout-max)) / 2))));
+  }
+
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card,
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card:nth-child(1),
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card:nth-child(2),
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card:nth-child(3),
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(1),
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(2),
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card:nth-child(3) {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 0;
+    transition: flex-basis .72s cubic-bezier(.16, 1, .3, 1), flex-grow .72s cubic-bezier(.16, 1, .3, 1), transform .72s cubic-bezier(.16, 1, .3, 1), opacity .56s ease;
+  }
+
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-row:has(.idea-card:hover) .idea-card:not(:hover),
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-row:has(.idea-card:focus-visible) .idea-card:not(:focus-visible),
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-row:has(.idea-card:hover) .idea-card:not(:hover),
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-row:has(.idea-card:focus-visible) .idea-card:not(:focus-visible) {
+    flex: 1 1 0;
+  }
+
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-row:has(.idea-card:hover) .idea-card:hover,
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-row:has(.idea-card:focus-visible) .idea-card:focus-visible,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-row:has(.idea-card:hover) .idea-card:hover,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-row:has(.idea-card:focus-visible) .idea-card:focus-visible {
+    flex: 0 1 886px;
+  }
+
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-media,
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-copy,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-media,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-copy {
+    width: 100%;
+  }
+
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card-media,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card-media {
+    transition: height .72s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card:hover .idea-card-media,
+  html.motion-enabled .case-page #yangming .ideas-screen .idea-card:focus-visible .idea-card-media,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card:hover .idea-card-media,
+  html.motion-enabled .case-page #yuelongwan .yuelong-ideas-screen .idea-card:focus-visible .idea-card-media {
+    width: 100%;
+    min-height: 0;
+    height: 440px;
+  }
+}
