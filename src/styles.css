@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'Nanxi Chuxia Song';
-  src: url('/assets/fonts/nanxi-chuxiasong.woff2') format('woff2');
+  src: url('/assets/fonts/nanxi-chuxiasong-c79727b73cb7.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -5356,4 +5356,96 @@ html.motion-enabled #qidu .qidu-overview-plan {
     min-height: 0;
     height: 440px;
   }
+}
+
+/* Case 06: spatial aesthetics collection. It reuses the shared case templates
+   while keeping its supplied material-detail image as the atmospheric scene. */
+#spatial-aesthetics {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: transparent;
+  background-image: none;
+}
+
+#spatial-aesthetics > *:not(.case-scene-backdrop) {
+  position: relative;
+  z-index: 1;
+}
+
+#spatial-aesthetics .case-scene-backdrop::after { background: rgba(4, 4, 4, .46); }
+#spatial-aesthetics .case-scene-image--clear {
+  filter: brightness(.82);
+  opacity: calc(1 - var(--requested-glass-progress, 0));
+}
+#spatial-aesthetics .case-scene-image--blurred {
+  filter: brightness(.82) blur(14px);
+  opacity: var(--requested-glass-progress, 0);
+}
+
+.theme-dark #spatial-aesthetics .project-intro,
+.theme-dark #spatial-aesthetics .screen {
+  background: rgba(7, 7, 7, .16);
+  background-image: none;
+}
+
+#spatial-aesthetics .project-intro h2 {
+  max-width: 1240px;
+  padding-top: 20px;
+  font-size: clamp(60px, 7.4vw, 132px);
+  line-height: .9;
+  letter-spacing: -.065em;
+}
+
+#spatial-aesthetics .project-english {
+  max-width: 920px;
+  font-size: clamp(20px, 1.8vw, 31px);
+}
+
+#spatial-aesthetics .project-summary { width: 100%; max-width: 1025px; }
+#spatial-aesthetics .case-template-one-copy { max-width: 42rem; }
+#spatial-aesthetics .case-template-one-heading .screen-title { padding-top: 8px; }
+#spatial-aesthetics .spatial-aesthetics-screen--01-02 .screen-title { padding-top: 9px; }
+
+/* Keep the existing grid tracks and upper-left anchor; only the fourth media
+   frame changes shape. It scales down proportionally when its column is narrow. */
+#spatial-aesthetics .spatial-aesthetics-screen--portrait .case-template-one-media {
+  width: min(500px, 100%);
+  height: auto;
+  aspect-ratio: 500 / 650;
+  align-self: start;
+  justify-self: start;
+}
+
+@media (min-width: 901px) {
+  /* Preserve the annotation's +6px / +5px relative adjustments as the shared
+     text column resizes, rather than fixing it to the review viewport width. */
+  #spatial-aesthetics .spatial-aesthetics-screen--03-01 .case-template-one-copy > p,
+  #spatial-aesthetics .spatial-aesthetics-screen--03-03 .case-template-one-copy > p,
+  #spatial-aesthetics .spatial-aesthetics-screen--03-04 .case-template-one-copy > p {
+    width: calc(100% + 6px);
+    max-width: none;
+  }
+
+  #spatial-aesthetics .spatial-aesthetics-screen--03-02 .case-template-one-copy > p {
+    width: calc(100% + 5px);
+    max-width: none;
+  }
+}
+
+@media (max-width: 900px) {
+  #spatial-aesthetics .screen { grid-template-columns: minmax(0, 1fr); }
+  #spatial-aesthetics .screen-index { min-width: 0; max-width: 100%; }
+  #spatial-aesthetics .screen-index small { min-width: 0; flex: 1; white-space: normal; overflow-wrap: anywhere; }
+  #spatial-aesthetics .screen-body,
+  #spatial-aesthetics .case-template-one-aside { width: 100%; max-width: 100%; }
+
+  #spatial-aesthetics .project-intro h2 {
+    margin-top: 58px;
+    font-size: clamp(40px, 12vw, 58px);
+    line-height: .96;
+  }
+
+  #spatial-aesthetics .project-english { font-size: clamp(18px, 5.6vw, 24px); }
+  #spatial-aesthetics .project-summary { margin-top: 24px; }
 }

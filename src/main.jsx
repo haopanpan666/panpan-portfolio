@@ -119,7 +119,7 @@ function Hero() {
           <h1>PANPAN</h1>
           <p className="hero-english-title" lang="en">Creative Planning × Experience Design</p>
           <div className="hero-copy">
-            <p>过去几年，我参与过私宅、酒店、文旅与公共空间项目，从概念、方案、客户沟通一路跟进到施工。现在，我希望把这些积累带到活动策划与运营中，去创造更多真正会被人参与、感受和记住的体验。</p>
+            <p>过去几年，我参与过私宅、酒店、文旅与公共空间项目，从概念、方案、客户沟通一路跟进到施工。现在，我希望把这些积累带到更多场景中，去创造更多真正会被人参与、感受和记住的体验。</p>
           </div>
         </div>
         <div className="hero-bottom"><span>SCROLL TO EXPLORE</span><span>01 / 10</span></div>
@@ -167,7 +167,8 @@ const selectedStories = [
   { number: '03', to: '/cases/qidu-huaqiao-garden', name: '温州七都华侨花园', title: '生活的艺术家', english: 'The Art of Living', tags: 'Art & Lifestyle · Level Design · Landscape Experience', cover: '/assets/projects/03-qidu.jpg' },
   { number: '04', to: '/cases/binrongfu', name: '杭州滨融府', title: '两个露台，两种生活', english: 'Two Terraces, Two Ways of Living', tags: 'Built & Delivery · Roof Terrace · Full-process Design', cover: '/assets/projects/04-binrongfu.jpg' },
   { number: '05', to: '/cases/daye-fragrance-exhibition', name: '湖北大冶芳香产业文化展馆', title: '让无形的香气被感知', english: 'Making the Invisible Perceptible', tags: 'Cultural Tourism · Exhibition · Sensory Experience', cover: '/assets/projects/05-daye.jpg' },
-  { number: '06', to: '/cases/small-ideas', name: '设计亮点', title: '方案中的小想法', english: 'Small Ideas', tags: 'Design Notes · Everyday Observation · 03 Stories', cover: '/assets/projects/06-small-ideas.jpg' },
+  { number: '06', to: '/cases/spatial-aesthetics-form-design', name: '设计实践合集', title: '空间美学与形态设计', english: 'Spatial Aesthetics & Form Design', tags: 'Interior Space · Exhibition Design · Architectural Form', cover: '/assets/spatial-aesthetics/04.png' },
+  { number: '07', to: '/cases/small-ideas', name: '设计亮点', title: '方案中的小想法', english: 'Small Ideas', tags: 'Design Notes · Everyday Observation · 03 Stories', cover: '/assets/projects/06-small-ideas.jpg' },
 ]
 
 function SelectedStoryCard({ story, clone = false }) {
@@ -411,7 +412,7 @@ function SelectedWorks() {
 
   return (
     <section className="selected-works" id="work">
-      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>06 STORIES</span></div>
+      <div className="selected-top"><span>02</span><span>SELECTED STORIES｜精选案例</span><span>07 STORIES</span></div>
       <div className="selected-content selected-content-wide">
         <p className="selected-english" lang="en">Selected Stories</p>
         <h2>精选<em>案例</em></h2>
@@ -605,7 +606,7 @@ function YangmingCasePage() {
   const [previewId, setPreviewId] = useState(null)
   const previewIndex = yangmingGalleryItems.findIndex((item) => item.id === previewId)
   const preview = previewIndex >= 0 ? yangmingGalleryItems[previewIndex] : null
-  return <CasePage theme="dark" next={{ to: '/cases/yuelongwan', label: '余姚悦龙湾' }}><YangmingCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={yangmingGalleryItems.length} onClose={() => setPreviewId(null)} onMove={() => {}} /></CasePage>
+  return <CasePage theme="dark"><YangmingCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={yangmingGalleryItems.length} onClose={() => setPreviewId(null)} onMove={() => {}} /></CasePage>
 }
 
 function BinrongCase({ onPreview }) {
@@ -640,7 +641,7 @@ function BinrongCasePage() {
     const nextIndex = (previewIndex + direction + binrongGalleryItems.length) % binrongGalleryItems.length
     setPreviewId(binrongGalleryItems[nextIndex].id)
   }
-  return <CasePage theme="dark" next={{ to: '/cases/daye-fragrance-exhibition', label: '湖北大冶芳香产业文化展馆' }}><BinrongCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={binrongGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
+  return <CasePage theme="dark"><BinrongCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={binrongGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
 const yuelongMedia = {
@@ -698,7 +699,7 @@ function YuelongCasePage() {
     const nextIndex = (previewIndex + direction + yuelongGalleryItems.length) % yuelongGalleryItems.length
     setPreviewId(yuelongGalleryItems[nextIndex].id)
   }
-  return <CasePage theme="dark" next={{ to: '/cases/qidu-huaqiao-garden', label: '温州七都华侨花园' }}><YuelongCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={yuelongGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
+  return <CasePage theme="dark"><YuelongCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={yuelongGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
 const qiduBackdropAsset = '/assets/projects/03-qidu-bg.jpg'
@@ -805,7 +806,7 @@ function QiduCasePage() {
     const nextIndex = (previewIndex + direction + qiduGalleryItems.length) % qiduGalleryItems.length
     setPreviewId(qiduGalleryItems[nextIndex].id)
   }
-  return <CasePage theme="dark" next={{ to: '/cases/binrongfu', label: '杭州滨融府' }}><QiduCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={qiduGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
+  return <CasePage theme="dark"><QiduCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={qiduGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
 const dayeHeroAsset = '/assets/projects/05-daye-hero.jpg'
@@ -905,7 +906,76 @@ function DayeCasePage() {
     const nextIndex = (previewIndex + direction + dayeGalleryItems.length) % dayeGalleryItems.length
     setPreviewId(dayeGalleryItems[nextIndex].id)
   }
-  return <><CasePage theme="dark" next={{ to: '/cases/small-ideas', label: '方案中的小想法', eyebrow: 'NEXT CASE' }}><DayeCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={dayeGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage></>
+  return <><CasePage theme="dark"><DayeCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={dayeGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage></>
+}
+
+const spatialAestheticsSections = [
+  {
+    number: '01',
+    title: '家居书房与室内陈设',
+    english: 'HOME STUDY & INTERIOR DISPLAY',
+    items: [
+      { id: 'spatial-01-01', code: '01-01', label: '01-01 / 书房中的艺术陈设', title: '书房中的艺术陈设', description: '木作、书画与家具共同构成沉静的阅读与会客场景。', src: '/assets/spatial-aesthetics/01.jpg' },
+      { id: 'spatial-01-02', code: '01-02', label: '01-02 / 连续的起居会客空间', title: '连续的起居会客空间', description: '巧妙地利用动线转折来区分用餐、会客、办公、酒吧等不同功能区，中式建筑构造与现代风格的室内陈设也相得益彰。', src: '/assets/spatial-aesthetics/02.jpg' },
+      { id: 'spatial-01-03', code: '01-03', label: '01-03 / 材质与光的细部表达', title: '材质与光的细部表达', description: '透过材质肌理对比与灯光效果强化空间的层次与触感。', src: '/assets/spatial-aesthetics/03.png' },
+      { id: 'spatial-01-04', code: '01-04', label: '01-04 / 角落尺度与色彩点缀', title: '角落尺度与色彩点缀', description: '浅色木纹与红色座椅组织出清晰而克制的局部色彩对撞。', src: '/assets/spatial-aesthetics/04.png', portrait: true },
+    ],
+  },
+  {
+    number: '02',
+    title: '艺术展馆与展示设计',
+    english: 'ART EXHIBITION & DISPLAY DESIGN',
+    items: [
+      { id: 'spatial-02-01', code: '02-01', label: '02-01 / 入口与接待空间', title: '入口与接待空间', src: '/assets/spatial-aesthetics/05.jpg' },
+      { id: 'spatial-02-04', code: '02-02', label: '02-02 / 展馆开放空间的调性把握', title: '展馆开放空间的调性把握', src: '/assets/spatial-aesthetics/08.jpg' },
+      { id: 'spatial-02-02', code: '02-03', label: '02-03 / 艺术展陈与灵活的动线', title: '艺术展陈与灵活的动线', src: '/assets/spatial-aesthetics/06.jpg' },
+      { id: 'spatial-02-03', code: '02-04', label: '02-04 / 艺术展陈与灵活的动线', title: '艺术展陈与灵活的动线', src: '/assets/spatial-aesthetics/07.jpg' },
+    ],
+  },
+  {
+    number: '03',
+    title: '建筑与构件细节',
+    english: 'ARCHITECTURE & CONSTRUCTION DETAILS',
+    items: [
+      { id: 'spatial-03-01', code: '03-01', label: '03-01 / 立面比例与雨棚构件', title: '立面比例与雨棚构件', description: '石材、砖墙与金属雨棚通过比例和线条形成清晰的立面秩序。', src: '/assets/spatial-aesthetics/09.jpg' },
+      { id: 'spatial-03-02', code: '03-02', label: '03-02 / 雨棚结构细节', title: '雨棚结构细节', description: '连续支撑与弧形构件将功能性雨棚转化为立面中的视觉重点。', src: '/assets/spatial-aesthetics/10.jpg' },
+      { id: 'spatial-03-03', code: '03-03', label: '03-03 / 入口门厅几何美学', title: '入口门厅几何美学', description: '门窗分格、玻璃纹理与构件线条形成了精致独特的建筑气质。', src: '/assets/spatial-aesthetics/11.jpg' },
+      { id: 'spatial-03-04', code: '03-04', label: '03-04 / 建筑转角、立柱与围栏的细节刻画', title: '建筑转角、立柱与围栏的细节刻画', description: '建筑的层次与精致感往往需要在看似简洁的几何造型中寻找。', src: '/assets/spatial-aesthetics/12.jpg' },
+    ],
+  },
+]
+
+const spatialAestheticsGalleryItems = spatialAestheticsSections.flatMap((section) => section.items)
+
+function SpatialAestheticsCase({ onPreview }) {
+  const sectionRef = useRef(null)
+  useRequestedCaseGlass(sectionRef, '.case-template-one-screen')
+
+  return (
+    <section className="case-section texture-section spatial-aesthetics-case" id="spatial-aesthetics" ref={sectionRef}>
+      <CaseBackdrop src="/assets/spatial-aesthetics/03.png" />
+      <ProjectIntro number="06" title="空间美学与形态设计" english="Spatial Aesthetics & Form Design" summary="涵盖艺术展陈、室内空间及建筑形态等多元设计实践，关注空间、形态、材质与光影之间的关系。通过空间布局、展示陈列、构件造型及材料搭配，探索不同尺度下的视觉秩序与美学表达，营造兼具艺术性、功能性与场景体验感的空间环境。" tags={['艺术展陈 / Art Display', '室内空间 / Interior Space', '建筑形态 / Architectural Form']} id="spatial-aesthetics-intro" />
+      {spatialAestheticsSections.flatMap((section) => section.items.map((item, itemIndex) => (
+        <Screen number={section.number} label={`${section.english}｜${section.title}`} className={`case-template-one-screen spatial-aesthetics-screen spatial-aesthetics-screen--${item.code}${item.portrait ? ' spatial-aesthetics-screen--portrait' : ''}`} key={item.id}>
+          <CaseTemplateOne item={item} onPreview={onPreview} eyebrow={`${section.number} ${section.english} · ${String(itemIndex + 1).padStart(2, '0')} / 04`} title={item.title} priority={item.code === '01-01'}>
+            {item.description && <p>{item.description}</p>}
+          </CaseTemplateOne>
+        </Screen>
+      )))}
+    </section>
+  )
+}
+
+function SpatialAestheticsCasePage() {
+  const [previewId, setPreviewId] = useState(null)
+  const previewIndex = spatialAestheticsGalleryItems.findIndex((item) => item.id === previewId)
+  const preview = previewIndex >= 0 ? spatialAestheticsGalleryItems[previewIndex] : null
+  const movePreview = (direction) => {
+    if (previewIndex < 0) return
+    const nextIndex = (previewIndex + direction + spatialAestheticsGalleryItems.length) % spatialAestheticsGalleryItems.length
+    setPreviewId(spatialAestheticsGalleryItems[nextIndex].id)
+  }
+  return <CasePage theme="dark"><SpatialAestheticsCase onPreview={(item) => setPreviewId(item.id)} /><GalleryLightbox item={preview} index={previewIndex} count={spatialAestheticsGalleryItems.length} onClose={() => setPreviewId(null)} onMove={movePreview} /></CasePage>
 }
 
 const smallIdeaStories = [
@@ -942,7 +1012,7 @@ function SmallIdeasCase() {
     }
   }, [])
 
-  return <section className="case-section small-ideas-case" id="small-ideas" ref={sectionRef}><CaseBackdrop src="/assets/projects/06-small-ideas-bg.jpg" /><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 06</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><CaseTemplateFour stories={smallIdeaStories} /></div></section>
+  return <section className="case-section small-ideas-case" id="small-ideas" ref={sectionRef}><CaseBackdrop src="/assets/projects/06-small-ideas-bg.jpg" /><div className="small-ideas-case-hero"><div className="small-ideas-case-top"><span className="project-no">CASE 07</span><span>DESIGN NOTES / 03 STORIES</span></div><p className="small-ideas-case-english" lang="en">Small Ideas</p><h1>方案中的小想法</h1><p className="small-ideas-case-intro">这里是几个设计中的小故事，记录了那些很小、但与真实生活有关的想法。</p></div><div className="idea-card-stage"><CaseTemplateFour stories={smallIdeaStories} /></div></section>
 }
 
 function HowIWork() {
@@ -1111,7 +1181,7 @@ function ExperienceSection() {
 }
 
 function AboutSection() {
-  return <section className="about-section texture-section" id="about"><div className="about-label">06 / ABOUT</div><div className="about-content"><p>我喜欢从人的真实行为和感受开始思考，也喜欢把一个模糊的念头逐渐整理成可以被看见、参与和使用的东西。</p><p>过去几年我主要通过空间做这件事。接下来，我希望尝试活动、内容与运营，让想法落地，变成深入人心的美好体验。</p></div></section>
+  return <section className="about-section texture-section" id="about"><div className="about-label">06 / ABOUT</div><div className="about-content"><p>我喜欢从人的真实行为和感受开始思考，也喜欢把一个模糊的念头逐渐整理成可以被看见、参与和使用的东西。</p><p>让想法落地，创造更多深入人心的美好体验。</p></div></section>
 }
 
 function ContactSection() {
@@ -1125,6 +1195,7 @@ const pageTitles = {
   '/cases/qidu-huaqiao-garden': '温州七都华侨花园｜PANPAN',
   '/cases/daye-fragrance-exhibition': '湖北大冶芳香产业文化展馆｜PANPAN',
   '/cases/small-ideas': '方案中的小想法｜PANPAN',
+  '/cases/spatial-aesthetics-form-design': '空间美学与形态设计｜PANPAN',
 }
 
 function ScrollManager() {
@@ -1151,12 +1222,17 @@ function BackToTop() {
   return <button className="back-to-top" type="button" onClick={handleClick} aria-label="Back to top">BACK TO TOP <span aria-hidden="true">↑</span></button>
 }
 
-function CaseNext({ next }) {
-  return <nav className="case-next" aria-label="案例翻页"><Link to="/#work"><span>BACK TO STORIES</span><strong>返回精选案例</strong></Link><Link className="case-next-link" to={next.to}><span>{next.eyebrow || 'NEXT CASE'}</span><strong>{next.label}</strong><b>↗</b></Link></nav>
+function CaseNext({ previous, next }) {
+  return <nav className="case-next" aria-label="案例翻页"><Link to={previous?.to || '/#work'}><span>{previous ? 'PREVIOUS CASE｜返回上一案例' : 'BACK TO STORIES'}</span><strong>{previous ? previous.label : '返回精选案例'}</strong></Link><Link className="case-next-link" to={next?.to || '/#work'}><span>{next ? 'NEXT CASE｜前往下一个案例' : 'BACK TO STORIES'}</span><strong>{next ? next.label : '返回精选案例'}</strong><b>↗</b></Link></nav>
 }
 
-function CasePage({ theme, children, next }) {
-  return <main className={`site-shell case-page theme-${theme}`}><SiteHeader theme={theme} />{children}<CaseNext next={next} /></main>
+function CasePage({ theme, children }) {
+  const { pathname } = useLocation()
+  const index = selectedStories.findIndex((story) => story.to === pathname)
+  const linkFor = (story) => story && ({ to: story.to, label: story.to === '/cases/small-ideas' || story.to === '/cases/spatial-aesthetics-form-design' ? story.title : story.name })
+  const previous = index > 0 ? linkFor(selectedStories[index - 1]) : null
+  const next = index >= 0 ? linkFor(selectedStories[index + 1]) : null
+  return <main className={`site-shell case-page theme-${theme}`}><SiteHeader theme={theme} />{children}<CaseNext previous={previous} next={next} /></main>
 }
 
 function HomePage() {
@@ -1388,7 +1464,7 @@ function MotionDirector() {
 }
 
 function App() {
-  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<YangmingCasePage />} /><Route path="/cases/yuelongwan" element={<YuelongCasePage />} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark" next={{ to: '/#work', label: '返回精选案例' }}><SmallIdeasCase /></CasePage>} /><Route path="*" element={<NotFound />} /></Routes><BackToTop /></>
+  return <><ScrollManager /><MotionDirector /><Routes><Route path="/" element={<HomePage />} /><Route path="/cases/yangming-hot-spring" element={<YangmingCasePage />} /><Route path="/cases/yuelongwan" element={<YuelongCasePage />} /><Route path="/cases/qidu-huaqiao-garden" element={<QiduCasePage />} /><Route path="/cases/binrongfu" element={<BinrongCasePage />} /><Route path="/cases/daye-fragrance-exhibition" element={<DayeCasePage />} /><Route path="/cases/small-ideas" element={<CasePage theme="dark"><SmallIdeasCase /></CasePage>} /><Route path="/cases/spatial-aesthetics-form-design" element={<SpatialAestheticsCasePage />} /><Route path="*" element={<NotFound />} /></Routes><BackToTop /></>
 }
 
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
